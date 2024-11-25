@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "shapes")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Shape implements Cloneable{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_id_seq")

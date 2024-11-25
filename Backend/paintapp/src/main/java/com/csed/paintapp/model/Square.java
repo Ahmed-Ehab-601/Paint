@@ -12,7 +12,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@DiscriminatorValue("Circle")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Square extends Shape{
