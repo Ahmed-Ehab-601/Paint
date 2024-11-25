@@ -12,7 +12,7 @@
 	<artifactId>paintapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>paintapp</name>
-	<description>paint web application</description>
+	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
 		<license/>
