@@ -1,4 +1,7 @@
 package com.csed.paintapp.repository;
+import com.csed.paintapp.model.*;
 
-public class ShapeRepository {
+import org.springframework.data.repository.CrudRepository;
+
+public interface ShapeRepository extends CrudRepository<Shape,Long> {
 }

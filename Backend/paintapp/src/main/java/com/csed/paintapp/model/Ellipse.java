@@ -12,10 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Ellips extends Shape {
+public class Ellipse extends Shape {
     private double majorRadius;
     private double minorRadius;
-    public Ellips(ShapeDTO shapeDTO) {
+    public Ellipse(ShapeDTO shapeDTO) {
         super(shapeDTO);
         this.majorRadius = shapeDTO.getRadius();
         this.minorRadius = shapeDTO.getRadius();
@@ -32,8 +32,8 @@ public class Ellips extends Shape {
     }
 
     @Override
-    public Ellips clone() throws CloneNotSupportedException {
-        Ellips copy = (Ellips) super.clone(); // Clone inherited fields
+    public Ellipse clone() throws CloneNotSupportedException {
+        Ellipse copy = (Ellipse) super.clone(); // Clone inherited fields
         copy.majorRadius = this.majorRadius;
         copy.minorRadius=this.minorRadius;
         return copy;
