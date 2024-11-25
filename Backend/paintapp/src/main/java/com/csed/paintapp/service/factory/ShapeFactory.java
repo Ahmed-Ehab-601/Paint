@@ -1,4 +1,4 @@
-package com.csed.paintapp.service;
+package com.csed.paintapp.service.factory;
 
 import com.csed.paintapp.model.*;
 import com.csed.paintapp.model.DTO.ShapeDto;

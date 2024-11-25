@@ -3,7 +3,15 @@ package com.csed.paintapp.service;
 import com.csed.paintapp.model.DTO.ShapeDto;
 
 public interface ShapeServices {
-    public ShapeDto create (ShapeDto shapeDTO);
+    ShapeDto create (ShapeDto shapeDTO);
+
+    void delete(Long id);
+
+    ShapeDto update (ShapeDto shapeDto);
+
+    ShapeDto copy (Long id);
+
+
 
 
 
