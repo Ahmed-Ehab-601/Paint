@@ -1,6 +1,6 @@
 package com.csed.paintapp.model;
 
-import com.csed.paintapp.model.DTO.ShapeDTO;
+import com.csed.paintapp.model.DTO.ShapeDto;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import lombok.Setter;
 public class Ellipse extends Shape {
     private double majorRadius;
     private double minorRadius;
-    public Ellipse(ShapeDTO shapeDTO) {
+    public Ellipse(ShapeDto shapeDTO) {
         super(shapeDTO);
         this.majorRadius = shapeDTO.getRadius();
         this.minorRadius = shapeDTO.getRadius();
@@ -23,12 +23,12 @@ public class Ellipse extends Shape {
     }
 
     @Override
-    public ShapeDTO getDTO() {
-        ShapeDTO d = super.getDTO();
-        d.setType(String.valueOf(this.getClass()));
-        d.setMajorRadius(this.majorRadius);
-        d.setMinorRadius(this.minorRadius);
-        return d;
+    public ShapeDto getDTO() {
+        ShapeDto shapeDTO = super.getDTO();
+        shapeDTO .setType("Ellipse");
+        shapeDTO .setMajorRadius(this.majorRadius);
+        shapeDTO .setMinorRadius(this.minorRadius);
+        return shapeDTO ;
     }
 
     @Override

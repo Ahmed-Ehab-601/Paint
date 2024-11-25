@@ -1,6 +1,6 @@
 package com.csed.paintapp.model;
 
-import com.csed.paintapp.model.DTO.ShapeDTO;
+import com.csed.paintapp.model.DTO.ShapeDto;
 import jakarta.persistence.Entity;
 import lombok.*;
 
@@ -14,7 +14,7 @@ public class Rectangle extends Shape{
     private double width;
     private double height;
 
-    public Rectangle(ShapeDTO shapeDTO){
+    public Rectangle(ShapeDto shapeDTO){
         super(shapeDTO);
         this.width = shapeDTO.getWidth();
         this.height = shapeDTO.getHeight();
@@ -22,9 +22,9 @@ public class Rectangle extends Shape{
     }
 
     @Override
-    public ShapeDTO getDTO(){
-        ShapeDTO shapeDTO = super.getDTO();
-        shapeDTO.setType(String.valueOf(this.getClass()));
+    public ShapeDto getDTO(){
+        ShapeDto shapeDTO = super.getDTO();
+        shapeDTO.setType("Rectangle");
         shapeDTO.setWidth(width);
         shapeDTO.setHeight(height);
         return shapeDTO;
@@ -32,10 +32,10 @@ public class Rectangle extends Shape{
 
     @Override
      public Rectangle clone() throws CloneNotSupportedException {
-       Rectangle rectangle =(Rectangle) super.clone();
-       rectangle.setHeight(height);
-       rectangle.setWidth(width);
-       return rectangle;
+       Rectangle copy = (Rectangle) super.clone();
+       copy.setHeight(height);
+       copy.setWidth(width);
+       return copy;
      }
 
 }

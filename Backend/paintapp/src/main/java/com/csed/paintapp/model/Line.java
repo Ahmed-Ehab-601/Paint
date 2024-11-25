@@ -1,14 +1,11 @@
 package com.csed.paintapp.model;
 
-import com.csed.paintapp.model.DTO.ShapeDTO;
+import com.csed.paintapp.model.DTO.ShapeDto;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.awt.Point;
-import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -18,17 +15,17 @@ import java.util.ArrayList;
 public class Line extends Shape {
     private double [] points;
 
-    public Line(ShapeDTO shapeDTO) {
+    public Line(ShapeDto shapeDTO) {
         super(shapeDTO);
         this.points = shapeDTO.getPoints();
     }
 
     @Override
-    public ShapeDTO getDTO() {
-        ShapeDTO d = super.getDTO();
-        d.setType("Line");
-        d.setPoints(points); // Deep copy the points list
-        return d;
+    public ShapeDto getDTO() {
+        ShapeDto shapeDTO  = super.getDTO();
+        shapeDTO.setType("Line");
+        shapeDTO.setPoints(points); // Deep copy the points list
+        return shapeDTO;
     }
 
     @Override

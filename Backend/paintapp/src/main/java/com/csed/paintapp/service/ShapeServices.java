@@ -1,10 +1,9 @@
 package com.csed.paintapp.service;
 
-import com.csed.paintapp.model.DTO.ShapeDTO;
-import com.csed.paintapp.model.Shape;
+import com.csed.paintapp.model.DTO.ShapeDto;
 
 public interface ShapeServices {
-    public Shape create (ShapeDTO shapeDTO);
+    public ShapeDto create (ShapeDto shapeDTO);
 
 
 

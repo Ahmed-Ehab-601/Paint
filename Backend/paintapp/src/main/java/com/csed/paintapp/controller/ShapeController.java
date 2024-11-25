@@ -1,6 +1,6 @@
 package com.csed.paintapp.controller;
 
-import com.csed.paintapp.model.DTO.ShapeDTO;
+import com.csed.paintapp.model.DTO.ShapeDto;
 import com.csed.paintapp.service.ShapeServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +16,9 @@ public class ShapeController {
      private ShapeServices shapeServices;
 
      @PostMapping("/create")
-     public ResponseEntity<ShapeDTO> create(@RequestBody ShapeDTO shapeDTO){
-         return ResponseEntity.ok((shapeServices.create(shapeDTO)).getDTO());// return
+     public ResponseEntity<ShapeDto> create(@RequestBody ShapeDto shapeDTO){
+         ShapeDto cratedShape =  shapeServices.create(shapeDTO);
+         return ResponseEntity.ok(cratedShape);
 
 
    }

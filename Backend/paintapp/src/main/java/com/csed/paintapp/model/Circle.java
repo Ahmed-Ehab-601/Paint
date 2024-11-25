@@ -1,6 +1,6 @@
 package com.csed.paintapp.model;
 
-import com.csed.paintapp.model.DTO.ShapeDTO;
+import com.csed.paintapp.model.DTO.ShapeDto;
 import jakarta.persistence.Entity;
 import lombok.*;
 
@@ -12,17 +12,17 @@ import lombok.*;
 public class Circle extends Shape {
     private double radius;
 
-    public Circle(ShapeDTO shapeDTO) {
+    public Circle(ShapeDto shapeDTO) {
         super(shapeDTO);
         this.radius = shapeDTO.getRadius();
     }
 
     @Override
-    public ShapeDTO getDTO() {
-        ShapeDTO d = super.getDTO();
-        d.setType(String.valueOf(this.getClass()));
-        d.setRadius(this.radius);
-        return d;
+    public ShapeDto getDTO() {
+        ShapeDto shapeDTO  = super.getDTO();
+        shapeDTO .setType("Circle");
+        shapeDTO .setRadius(this.radius);
+        return shapeDTO;
     }
 
     @Override

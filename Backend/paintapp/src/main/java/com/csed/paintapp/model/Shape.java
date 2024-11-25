@@ -1,6 +1,6 @@
 package com.csed.paintapp.model;
 
-import com.csed.paintapp.model.DTO.ShapeDTO;
+import com.csed.paintapp.model.DTO.ShapeDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +23,7 @@ public abstract class Shape implements Cloneable{
     private String fillColor;
     private double rotate;
 
-    public Shape(ShapeDTO shapeDTO){
+    public Shape(ShapeDto shapeDTO){
         this.id = shapeDTO.getId();
         this.x = shapeDTO.getX();
         this.y = shapeDTO.getY();
@@ -33,8 +33,8 @@ public abstract class Shape implements Cloneable{
         this.rotate = shapeDTO.getRotate();
 
     }
-    public ShapeDTO getDTO(){
-       return ShapeDTO.builder()
+    public ShapeDto getDTO(){
+       return ShapeDto.builder()
                .id(id)
                .x(x)
                .y(y)
