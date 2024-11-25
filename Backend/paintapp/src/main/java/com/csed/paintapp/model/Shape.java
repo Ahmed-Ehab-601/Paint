@@ -34,7 +34,7 @@ public abstract class Shape implements Cloneable{
         this.rotate = shapeDTO.getRotate();
 
     }
-    ShapeDTO getDTO(){
+    public ShapeDTO getDTO(){
        return ShapeDTO.builder()
                .id(id)
                .x(x)
