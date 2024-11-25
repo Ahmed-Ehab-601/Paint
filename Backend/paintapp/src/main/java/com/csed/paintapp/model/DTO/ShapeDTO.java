@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,5 +27,6 @@ public class ShapeDTO {
     private double majorRadius;
     private double minorRadius;
     private double rotate;
+    private ArrayList<Point> points;
 
 }
