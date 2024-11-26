@@ -8,6 +8,8 @@ import com.csed.paintapp.service.factory.ShapeFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ShapeServiceImplementation implements ShapeServices {
 
@@ -24,18 +26,33 @@ public class ShapeServiceImplementation implements ShapeServices {
 
     @Override
     public void delete(Long id) {
-
+        shapeRepository.deleteById(id);
     }
 
     @Override
     public ShapeDto update(ShapeDto shapeDto) {
-        return null;
+      Shape shapeUpdated= shapeFactory.getShape(shapeDto);
+      shapeRepository.save(shapeUpdated);
+      return shapeUpdated.getDTO();
     }
 
     @Override
-    public ShapeDto copy(Long id) {
+    public ShapeDto copy(Long id) throws CloneNotSupportedException {
+
+        Optional<Shape> shapeExist = shapeRepository.findById(id);
+        if (shapeExist.isPresent()) {
+
+            Shape originalShape = shapeExist.get();
+            Shape copy = originalShape.clone();
+            copy.setX(originalShape.getX() + 7);
+            copy.setY(originalShape.getY() + 7);
+            Shape savedCopy = shapeRepository.save(copy);
+
+            return savedCopy.getDTO();
+        }
         return null;
     }
+
 
 
 }

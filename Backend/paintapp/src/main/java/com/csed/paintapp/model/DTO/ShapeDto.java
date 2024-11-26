@@ -24,5 +24,5 @@ public class ShapeDto {
     private Double majorRadius;
     private Double minorRadius;
     private Double rotate;
-    private Double [] points;
+    private double [] points;
 }

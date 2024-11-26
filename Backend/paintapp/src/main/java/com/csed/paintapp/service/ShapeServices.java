@@ -9,7 +9,7 @@ public interface ShapeServices {
 
     ShapeDto update (ShapeDto shapeDto);
 
-    ShapeDto copy (Long id);
+    ShapeDto copy (Long id) throws CloneNotSupportedException;
 
 
 
