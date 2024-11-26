@@ -3,10 +3,14 @@ package com.csed.paintapp.controller;
 import com.csed.paintapp.model.DTO.ShapeDto;
 import com.csed.paintapp.service.SaveLoadService.SaveLoadService;
 import com.csed.paintapp.service.ShapeServices;
+import jakarta.xml.bind.JAXBException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/shape")
@@ -51,14 +55,24 @@ public class ShapeController {
         return new ResponseEntity<>(shapeDto1,HttpStatus.OK);
 
     }
-//    @PutMapping("/save/{type}/{path}")
-//    public ResponseEntity<?>save (@PathVariable("type") String type,@PathVariable("path") String path){
-//      boolean saved=saveLoadService.getSaveByType(type).save(path);
-//         if(saved){
-//             return new ResponseEntity<>(HttpStatus.OK);
-//        }
-//         return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//    }
+    @PutMapping("/save/{type}/{path}")
+    public ResponseEntity<?>save (@PathVariable("type") String type,@PathVariable("path") String path){
+        try {
+            saveLoadService.getSaveByType(type).save(path);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PutMapping("/load/{type}/{path}")
+    public ResponseEntity<?> load (@PathVariable("type") String type,@PathVariable("path") String path){
+        try {
+           List<ShapeDto> shapeDtos = saveLoadService.getLoadByType(type).load(path);
+            return new ResponseEntity<>(shapeDtos,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
 
 

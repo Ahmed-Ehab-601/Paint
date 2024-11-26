@@ -33,6 +33,6 @@ public class JsonISave implements ISave {//samaa
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File(path);
         objectMapper.writeValue(file,shapeDtos);
-        
+
     }
 }
