@@ -25,7 +25,7 @@ public class JsonISave implements ISave {//samaa
 
     @Override
     public void save(String path) throws IOException {
-        List<Shape> shapes = (List<Shape>) shapeRepository.findAll();
+        Iterable<Shape> shapes = shapeRepository.findAll();
         List<ShapeDto>shapeDtos= new ArrayList<>();
         for(Shape shape : shapes){
             shapeDtos.add(shape.getDTO());
