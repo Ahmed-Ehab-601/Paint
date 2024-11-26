@@ -1,6 +1,7 @@
 package com.csed.paintapp.model;
 
 import com.csed.paintapp.model.DTO.ShapeDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,6 +38,7 @@ public abstract class Shape implements Cloneable{
         this.rotate = shapeDTO.getRotate();
 
     }
+
     public ShapeDto getDTO(){
        return ShapeDto.builder()
                .id(id)

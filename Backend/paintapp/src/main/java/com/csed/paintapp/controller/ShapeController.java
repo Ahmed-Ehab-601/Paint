@@ -20,7 +20,7 @@ public class ShapeController {
          return new ResponseEntity<>(cratedShape,HttpStatus.OK);
 
      }
-     @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
          shapeServices.delete(id);
          return new ResponseEntity<>(HttpStatus.OK);
@@ -37,9 +37,11 @@ public class ShapeController {
      }
     @PutMapping("/copy/{id}")
     public ResponseEntity<ShapeDto> copy(@PathVariable("id") Long id,@RequestBody ShapeDto shapeDto) throws CloneNotSupportedException {
-
-        return new ResponseEntity<>(shapeServices.copy(id),HttpStatus.OK);
-
+        try{
+            return new ResponseEntity<>(shapeServices.copy(id),HttpStatus.OK);
+        }catch (CloneNotSupportedException e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 
