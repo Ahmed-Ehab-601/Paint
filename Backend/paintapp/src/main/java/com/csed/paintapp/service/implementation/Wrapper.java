@@ -15,5 +15,4 @@ import java.util.List;
 @XmlRootElement
 public class Wrapper {
     private List<ShapeDto> shapes;
-
 }
