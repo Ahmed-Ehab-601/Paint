@@ -19,7 +19,7 @@ public class XmlISave implements ISave { // ahmed
     @Autowired
     private ShapeRepository shapeRepository;
     @Override
-    public boolean save(String path) throws JAXBException {
+    public void save(String path) throws JAXBException {
 
         File file = new File(path);
         Iterable<Shape> shapes = shapeRepository.findAll();
@@ -33,7 +33,7 @@ public class XmlISave implements ISave { // ahmed
         JAXBContext context = JAXBContext.newInstance(Wrapper.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.marshal(wrapper,file);
-        return true;
+
 
     }
 }

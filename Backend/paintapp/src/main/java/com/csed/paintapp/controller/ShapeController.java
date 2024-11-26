@@ -51,14 +51,14 @@ public class ShapeController {
         return new ResponseEntity<>(shapeDto1,HttpStatus.OK);
 
     }
-    @PutMapping("/save/{type}/{path}")
-    public ResponseEntity<?>save (@PathVariable("type") String type,@PathVariable("path") String path){
-      boolean saved=saveLoadService.getSaveByType(type).save(path);
-         if(saved){
-             return new ResponseEntity<>(HttpStatus.OK);
-        }
-         return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
+//    @PutMapping("/save/{type}/{path}")
+//    public ResponseEntity<?>save (@PathVariable("type") String type,@PathVariable("path") String path){
+//      boolean saved=saveLoadService.getSaveByType(type).save(path);
+//         if(saved){
+//             return new ResponseEntity<>(HttpStatus.OK);
+//        }
+//         return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//    }
 
 
 

@@ -7,5 +7,5 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ILoad {
-    List<ShapeDto> load (String path) throws JAXBException;
+    List<ShapeDto> load (String path) throws JAXBException,IOException;
 }

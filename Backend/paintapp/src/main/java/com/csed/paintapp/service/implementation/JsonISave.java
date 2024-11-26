@@ -24,7 +24,7 @@ public class JsonISave implements ISave {//samaa
     private ShapeFactory shapeFactory;
 
     @Override
-    public boolean save(String path) throws IOException {
+    public void save(String path) throws IOException {
         List<Shape> shapes = (List<Shape>) shapeRepository.findAll();
         List<ShapeDto>shapeDtos= new ArrayList<>();
         for(Shape shape : shapes){
@@ -33,6 +33,6 @@ public class JsonISave implements ISave {//samaa
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File(path);
         objectMapper.writeValue(file,shapeDtos);
-         return true;
+        
     }
 }
