@@ -1,8 +1,8 @@
 package com.csed.paintapp.service.implementation;
 
-import com.csed.paintapp.service.SaveService;
+import com.csed.paintapp.ISave;
 
-public class JsonSave implements SaveService {// samaa
+public class XmlISave implements ISave { // ahmed
     @Override
     public boolean save(String path) {
         return false;

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ShapeDto {
+
     private String type;
     private Double x;
     private Double y;

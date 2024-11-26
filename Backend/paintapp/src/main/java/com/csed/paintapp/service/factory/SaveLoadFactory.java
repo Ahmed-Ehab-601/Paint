@@ -1,31 +1,28 @@
 package com.csed.paintapp.service.factory;
 
-import com.csed.paintapp.service.LoadService;
-import com.csed.paintapp.service.SaveService;
-import com.csed.paintapp.service.implementation.JsonLoad;
-import com.csed.paintapp.service.implementation.JsonSave;
-import com.csed.paintapp.service.implementation.XmlLoad;
-import com.csed.paintapp.service.implementation.XmlSave;
+import com.csed.paintapp.ILoad;
+import com.csed.paintapp.ISave;
+import com.csed.paintapp.service.implementation.JsonILoad;
+import com.csed.paintapp.service.implementation.JsonISave;
+import com.csed.paintapp.service.implementation.XmlILoad;
+import com.csed.paintapp.service.implementation.XmlISave;
 
 public class SaveLoadFactory {
 
-
-
-
-    public SaveService getSaveDelegate(String saveType){
+    public ISave getSaveDelegate(String saveType){
 
         switch (saveType){
-            case "xml" : return new XmlSave();
-            case "json": return new JsonSave();
+            case "xml" : return new XmlISave();
+            case "json": return new JsonISave();
             default: return null;
         }
 
     }
-    public LoadService getLoadDelegate(String loadType){
+    public ILoad getLoadDelegate(String loadType){
 
         switch (loadType){
-            case "xml" : return new XmlLoad();
-            case "json": return new JsonLoad();
+            case "xml" : return new XmlILoad();
+            case "json": return new JsonILoad();
             default: return null;
         }
 
