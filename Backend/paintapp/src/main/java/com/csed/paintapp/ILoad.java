@@ -1,10 +1,9 @@
-package com.csed.paintapp.service;
+package com.csed.paintapp;
 
 import com.csed.paintapp.model.DTO.ShapeDto;
 
 import java.util.List;
 
-public interface LoadService {
-
+public interface ILoad {
     List<ShapeDto> load (String path);
 }

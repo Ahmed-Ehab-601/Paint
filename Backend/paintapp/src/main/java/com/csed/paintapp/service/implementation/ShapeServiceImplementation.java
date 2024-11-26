@@ -20,7 +20,11 @@ public class ShapeServiceImplementation implements ShapeServices {
     @Override
     public ShapeDto create(ShapeDto shapeDTO) {
         shapeDTO.setId(null);
-        Shape shapeCreated= shapeRepository.save(shapeFactory.getShape(shapeDTO));
+        Shape shape=shapeFactory.getShape(shapeDTO);
+        if(shape==null){
+            return null;
+        }
+        Shape shapeCreated= shapeRepository.save(shape);
         return shapeCreated.getDTO();
     }
 
