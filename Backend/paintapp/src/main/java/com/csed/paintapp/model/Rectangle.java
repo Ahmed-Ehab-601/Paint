@@ -11,8 +11,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Rectangle extends Shape{
-    private double width;
-    private double height;
+    private Double width;
+    private Double height;
 
     public Rectangle(ShapeDto shapeDTO){
         super(shapeDTO);

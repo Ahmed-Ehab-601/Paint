@@ -1,6 +1,7 @@
 package com.csed.paintapp.controller;
 
 import com.csed.paintapp.model.DTO.ShapeDto;
+import com.csed.paintapp.model.Shape;
 import com.csed.paintapp.service.ShapeServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,21 +17,25 @@ public class ShapeController {
      @PostMapping("/create")
      public ResponseEntity<ShapeDto> create(@RequestBody ShapeDto shapeDTO){
          ShapeDto cratedShape =  shapeServices.create(shapeDTO);
-         return new ResponseEntity<>(cratedShape,HttpStatus.CREATED);
+         return new ResponseEntity<>(cratedShape,HttpStatus.OK);
 
      }
      @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
          shapeServices.delete(id);
-         return new ResponseEntity<>(HttpStatus.ACCEPTED);
+         return new ResponseEntity<>(HttpStatus.OK);
      }
-     @PutMapping("/{id}")
-     public ResponseEntity<ShapeDto> update(@PathVariable("id") Long id,@RequestBody ShapeDto shapeDto){
-
-         return new ResponseEntity<>(shapeServices.update(shapeDto),HttpStatus.OK);
+     @PutMapping("/update/{id}")
+     public ResponseEntity<ShapeDto> update(@PathVariable Long id,@RequestBody ShapeDto shapeDto){
+         shapeDto.setId(id);
+         ShapeDto UpdatedShapeDto = shapeServices.update(shapeDto);
+         if(UpdatedShapeDto == null){
+         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+         }
+         return new ResponseEntity<>(UpdatedShapeDto,HttpStatus.OK);
 
      }
-    @PutMapping("copy/{id}")
+    @PutMapping("/copy/{id}")
     public ResponseEntity<ShapeDto> copy(@PathVariable("id") Long id,@RequestBody ShapeDto shapeDto) throws CloneNotSupportedException {
 
         return new ResponseEntity<>(shapeServices.copy(id),HttpStatus.OK);

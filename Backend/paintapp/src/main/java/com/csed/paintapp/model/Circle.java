@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 public class Circle extends Shape {
-    private double radius;
+    private Double radius;
 
     public Circle(ShapeDto shapeDTO) {
         super(shapeDTO);

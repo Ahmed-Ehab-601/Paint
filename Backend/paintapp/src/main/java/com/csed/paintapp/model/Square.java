@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Square extends Shape{
-    private double width;
+    private Double width;
 
     public Square(ShapeDto shapeDTO){
         super(shapeDTO);

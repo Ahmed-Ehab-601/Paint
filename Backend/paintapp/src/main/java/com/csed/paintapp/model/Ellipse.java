@@ -13,8 +13,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 public class Ellipse extends Shape {
-    private double majorRadius;
-    private double minorRadius;
+    private Double majorRadius;
+    private Double minorRadius;
     public Ellipse(ShapeDto shapeDTO) {
         super(shapeDTO);
         this.majorRadius = shapeDTO.getRadius();

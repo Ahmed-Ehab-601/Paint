@@ -14,6 +14,8 @@ public class ShapeDto {
     private String type;
     private Double x;
     private Double y;
+    private Double scaleX;
+    private Double scaleY;
     private String fillColor;
     private String borderColor;
     private Long id;

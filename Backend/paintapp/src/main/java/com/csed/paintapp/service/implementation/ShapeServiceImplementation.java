@@ -19,8 +19,8 @@ public class ShapeServiceImplementation implements ShapeServices {
     private ShapeFactory shapeFactory;
     @Override
     public ShapeDto create(ShapeDto shapeDTO) {
+        shapeDTO.setId(null);
         Shape shapeCreated= shapeRepository.save(shapeFactory.getShape(shapeDTO));
-
         return shapeCreated.getDTO();
     }
 
@@ -31,9 +31,13 @@ public class ShapeServiceImplementation implements ShapeServices {
 
     @Override
     public ShapeDto update(ShapeDto shapeDto) {
-      Shape shapeUpdated= shapeFactory.getShape(shapeDto);
-      shapeRepository.save(shapeUpdated);
-      return shapeUpdated.getDTO();
+    Optional<Shape> shapeExist = shapeRepository.findById(shapeDto.getId());
+        if (shapeExist.isPresent() && shapeExist.get().getDTO().getType().equals(shapeDto.getType()) ) {
+            Shape shapeUpdated= shapeFactory.getShape(shapeDto);
+            shapeRepository.save(shapeUpdated);
+            return shapeUpdated.getDTO();
+        }
+        return null;
     }
 
     @Override
@@ -46,6 +50,7 @@ public class ShapeServiceImplementation implements ShapeServices {
             Shape copy = originalShape.clone();
             copy.setX(originalShape.getX() + 7);
             copy.setY(originalShape.getY() + 7);
+            copy.setId(null);
             Shape savedCopy = shapeRepository.save(copy);
 
             return savedCopy.getDTO();
