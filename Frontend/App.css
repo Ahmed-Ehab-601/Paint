@@ -1,0 +1,191 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #00000088; 
+}
+
+.windowpaper {
+  position: absolute;
+  border-radius: 10px;
+  padding: 10px;
+  z-index: 1;
+}
+.bar_onside{
+  position: fixed;
+  top:100px;
+  left: 850px;
+  height: 250px;
+  width: 50px;
+  border-radius: 10px;
+  display: flex;
+  box-sizing: border-box;
+  gap: 20px; 
+  flex-direction: column;
+  padding: 10px;
+  background-color: rgb(113, 79, 145);
+  z-index: 2;
+}
+
+.bar_onbottom{
+  position: fixed;
+  top: 450px;       
+  left: 250px;  
+  height: 50px;
+  width: 390px;
+  border-radius: 10px;
+  display: flex;
+  box-sizing: border-box;
+  gap: 25px; 
+  flex-direction: row;
+  padding: 10px;
+  background-color: rgb(113, 79, 145);
+  z-index: 2;
+}
+
+button.icon {
+  width: 30px; 
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #b27bca; 
+  border: 2px solid #ccc; 
+  padding: 5px;
+  cursor: pointer;
+  outline: none;
+  z-index: 2;
+ 
+}
+button.icon:hover {
+  background-color: #d1a5dd; 
+  transform: scale(1.1); 
+}
+
+button.icon:active {
+  background-color: #d0d0d0; 
+}
+
+button.icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+button.color{
+  
+  width: 30px; 
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  left: 60px;
+  border: 2px solid #ccc; 
+  padding: 5px;
+  cursor: pointer;
+  outline: none;
+  z-index: 2;
+}
+.menu-options {
+  
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+  background-color: rgb(113, 79, 145);
+  border-radius: 10px;
+  width: 250px;
+  position: absolute;
+  top: 30px;
+  left: 50px;
+  z-index: 2;
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 2;
+}
+
+.option label {
+  font-size: 14px;
+  color: #fff;
+}
+
+.option input {
+  width: 100%;
+}
+
+.option span {
+  font-size: 14px;
+  color: #fff;
+}
+button.border{
+  
+  width: 30px; 
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #ccc; 
+  padding: 5px;
+  cursor: pointer;
+  outline: none;
+  left: 30px;
+  z-Index: 10;
+}
+.baronleft{
+  position: fixed;
+  top: 10px;       
+  left: 20px;  
+  height: 150px;
+  width: 50px;
+  border-radius: 10px;
+  display: flex;
+  box-sizing: border-box;
+  gap: 20px; 
+  flex-direction: column;
+  padding: 10px;
+  background-color: rgb(113, 79, 145);
+  z-index: 2;
+}
+button.copybutton{
+  top: 60px;
+  width: 30px; 
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #ccc; 
+  padding: 5px;
+  cursor: pointer;
+  outline: none;
+  background-color: #b27bca; 
+  z-index: 1;
+}
+button.copybutton:hover {
+  background-color: #d1a5dd; 
+  transform: scale(1.1); 
+}
+
+button.copybutton:active {
+  background-color: #d0d0d0; 
+}
+
+button.copybutton img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+}
