@@ -1,6 +1,7 @@
 package com.csed.paintapp.service.saveLoadService;
 
 import com.csed.paintapp.model.DTO.ShapeDto;
+import com.csed.paintapp.model.Shape;
 import com.csed.paintapp.repository.ShapeRepository;
 import com.csed.paintapp.service.factory.ShapeFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -28,8 +29,11 @@ public class JsonILoad implements ILoad { // ahmed
         File file = new File(path);
         ObjectMapper objectMapper = new ObjectMapper();
         List<ShapeDto> shapes = objectMapper.readValue(file, new TypeReference<>() {});
+        shapeRepository.deleteAll();
         for(ShapeDto shapeDto : shapes){
-            shapeRepository.save(shapeFactory.getShape(shapeDto));
+            shapeDto.setId(null);
+            Shape shape = shapeRepository.save(shapeFactory.getShape(shapeDto));
+            shapeDto.setId(shape.getId());
         }
         return shapes;
     }

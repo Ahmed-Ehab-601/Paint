@@ -1,6 +1,7 @@
 package com.csed.paintapp.service.saveLoadService;
 
 import com.csed.paintapp.model.DTO.ShapeDto;
+import com.csed.paintapp.model.Shape;
 import com.csed.paintapp.repository.ShapeRepository;
 import com.csed.paintapp.service.factory.ShapeFactory;
 import jakarta.xml.bind.JAXBContext;
@@ -30,8 +31,11 @@ public class XmlILoad implements ILoad { // samaa
         File file = new File(path);
         Wrapper wrapperLoaded=(Wrapper) unmarshaller.unmarshal(file);
         List<ShapeDto>shapeDtos =wrapperLoaded.getShapes();
+        shapeRepository.deleteAll();
         for(ShapeDto shapeDto : shapeDtos){
-            shapeRepository.save(shapeFactory.getShape(shapeDto));
+            shapeDto.setId(null);
+            Shape shape = shapeRepository.save(shapeFactory.getShape(shapeDto));
+            shapeDto.setId(shape.getId());
         }
         return shapeDtos;
     }
