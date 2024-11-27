@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/shape")
@@ -53,19 +54,19 @@ public class ShapeController {
         return new ResponseEntity<>(shapeDto1,HttpStatus.OK);
 
     }
-    @PutMapping("/save/{type}/{path}")
-    public ResponseEntity<?>save (@PathVariable("type") String type,@PathVariable("path") String path){
+    @PutMapping("/save")
+    public ResponseEntity<?>save (@RequestBody Map<String,String> requestBody){
         try {
-            saveLoadService.getSaveByType(type).save(path);
+            saveLoadService.getSaveByType(requestBody.get("type")).save(requestBody.get("path"));
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    @PutMapping("/load/{type}/{path}")
-    public ResponseEntity<?> load (@PathVariable("type") String type,@PathVariable("path") String path){
+    @PutMapping("/load")
+    public ResponseEntity<?> load (@RequestBody Map<String,String> requestBody){
         try {
-           List<ShapeDto> shapeDtos = saveLoadService.getLoadByType(type).load(path);
+           List<ShapeDto> shapeDtos = saveLoadService.getLoadByType(requestBody.get("type")).load(requestBody.get("path"));
             return new ResponseEntity<>(shapeDtos,HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

@@ -24,11 +24,13 @@ public class JsonISave implements ISave {//samaa
 
     @Override
     public void save(String path) throws IOException {
-        Iterable<Shape> shapes = shapeRepository.findAll();
+     // Iterable<Shape> shapes = shapeRepository.findAll();
+        ShapeDto shapeDto = new ShapeDto("Circle",2.0,3.0,null,"hjk",null,null,null,null,null,null,null,null,null);
         List<ShapeDto>shapeDtos= new ArrayList<>();
-        for(Shape shape : shapes){
-            shapeDtos.add(shape.getDTO());
-        }
+//        for(Shape shape : shapes){
+//            shapeDtos.add(shape.getDTO());
+//        }
+        shapeDtos.add(shapeDto);
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File(path);
         objectMapper.writeValue(file,shapeDtos);
