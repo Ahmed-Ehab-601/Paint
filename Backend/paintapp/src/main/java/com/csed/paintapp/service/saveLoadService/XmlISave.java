@@ -7,13 +7,20 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
+@Service
 public class XmlISave implements ISave { // ahmed
-    @Autowired
-    private ShapeRepository shapeRepository;
+
+    private final ShapeRepository shapeRepository;
+
+    public XmlISave(ShapeRepository shapeRepository) {
+        this.shapeRepository = shapeRepository;
+    }
+
     @Override
     public void save(String path) throws JAXBException {
         File file = new File(path);

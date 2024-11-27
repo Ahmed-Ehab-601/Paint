@@ -5,8 +5,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SaveLoadService {
-    @Autowired
-    private SaveLoadFactory saveLoadFactory;
+
+    private final SaveLoadFactory saveLoadFactory;
+
+    public SaveLoadService(SaveLoadFactory saveLoadFactory) {
+        this.saveLoadFactory = saveLoadFactory;
+    }
+
     public ISave getSaveByType(String type){
      return saveLoadFactory.getSaveDelegate(type);
    }

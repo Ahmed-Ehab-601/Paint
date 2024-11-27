@@ -26,7 +26,9 @@ public class ShapeDto {
     private Double width;
     private Double height;
     private Double radius;
+    @JsonProperty("radiusX")
     private Double majorRadius;
+    @JsonProperty("radiusY")
     private Double minorRadius;
     private Double rotate;
     private double [] points;

@@ -21,7 +21,7 @@ public class JsonShapeTest {
     @Test
     public void test1() throws IOException {
 
-        ShapeDto shapeDto = new ShapeDto("Circle",2.0,3.0,4.6,6.9,null,null,null,null,null,null,null,null,null,null,null);
+        ShapeDto shapeDto = new ShapeDto("Circle",2.0,3.0,null,null,null,null,null,null,null,null,null,null,null);
 
         Shape circle = new Circle(shapeDto);
         Shape rect = new Rectangle(3.5,8.0);

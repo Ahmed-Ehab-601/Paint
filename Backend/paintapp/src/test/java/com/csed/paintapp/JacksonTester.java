@@ -31,8 +31,6 @@ public class JacksonTester {
                 .y(22.0)
                 .borderColor("red")
                 .borderSize(12.3)
-                .scaleX(1.2)
-                .scaleY(1.2)
                 .build();
 
         Shape circle = shapeFactory.getShape(s);

@@ -12,10 +12,15 @@ import java.util.Optional;
 @Service
 public class ShapeServiceImplementation implements ShapeServices {
 
-    @Autowired
-    private ShapeRepository shapeRepository;
-    @Autowired
-    private ShapeFactory shapeFactory;
+
+    private final ShapeRepository shapeRepository;
+    private final ShapeFactory shapeFactory;
+
+    public ShapeServiceImplementation(ShapeRepository shapeRepository, ShapeFactory shapeFactory) {
+        this.shapeRepository = shapeRepository;
+        this.shapeFactory = shapeFactory;
+    }
+
     @Override
     public ShapeDto create(ShapeDto shapeDTO) {
         shapeDTO.setId(null);

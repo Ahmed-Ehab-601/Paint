@@ -7,15 +7,22 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.List;
-
+@Service
 public class XmlILoad implements ILoad { // samaa
-    @Autowired
-    private ShapeFactory shapeFactory;
-    @Autowired
-    private ShapeRepository shapeRepository;
+
+    private final ShapeFactory shapeFactory;
+    private final ShapeRepository shapeRepository;
+
+    public XmlILoad(ShapeRepository shapeRepository,ShapeFactory shapeFactory) {
+        this.shapeFactory = shapeFactory;
+        this.shapeRepository = shapeRepository;
+    }
+
+
     @Override
     public List<ShapeDto> load(String path) throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(Wrapper.class);

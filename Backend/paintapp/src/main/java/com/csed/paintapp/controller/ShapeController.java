@@ -3,7 +3,6 @@ package com.csed.paintapp.controller;
 import com.csed.paintapp.model.DTO.ShapeDto;
 import com.csed.paintapp.service.saveLoadService.SaveLoadService;
 import com.csed.paintapp.service.shapeService.ShapeServices;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +13,16 @@ import java.util.Map;
 @RestController
 @RequestMapping("/shape")
 public class ShapeController {
-     @Autowired
-     private ShapeServices shapeServices;
-     @Autowired
-     private SaveLoadService saveLoadService;
 
-     @PostMapping("/create")
+     private final ShapeServices shapeServices;
+     private final SaveLoadService saveLoadService;
+
+    public ShapeController(ShapeServices shapeServices, SaveLoadService saveLoadService) {
+        this.shapeServices = shapeServices;
+        this.saveLoadService = saveLoadService;
+    }
+
+    @PostMapping("/create")
      public ResponseEntity<ShapeDto> create(@RequestBody ShapeDto shapeDTO){
          ShapeDto createdShape =  shapeServices.create(shapeDTO);
          if(createdShape==null){

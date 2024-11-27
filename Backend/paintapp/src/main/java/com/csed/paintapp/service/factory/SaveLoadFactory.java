@@ -1,32 +1,39 @@
 package com.csed.paintapp.service.factory;
 
-import com.csed.paintapp.service.saveLoadService.ILoad;
-import com.csed.paintapp.service.saveLoadService.ISave;
-import com.csed.paintapp.service.saveLoadService.JsonILoad;
-import com.csed.paintapp.service.saveLoadService.JsonISave;
-import com.csed.paintapp.service.saveLoadService.XmlILoad;
-import com.csed.paintapp.service.saveLoadService.XmlISave;
+import com.csed.paintapp.service.saveLoadService.*;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SaveLoadFactory {
 
+    private final JsonISave jsonISave;
+    private final JsonILoad jsonILoad;
+    private final XmlISave xmlISave;
+    private final XmlILoad xmlILoad;
+
+    public SaveLoadFactory(JsonISave jsonISave, JsonILoad jsonILoad, XmlISave xmlISave, XmlILoad xmlILoad) {
+        this.jsonISave = jsonISave;
+        this.jsonILoad = jsonILoad;
+        this.xmlISave = xmlISave;
+        this.xmlILoad = xmlILoad;
+    }
+
     public ISave getSaveDelegate(String saveType){
 
-        switch (saveType){
-            case "xml" : return new XmlISave();
-            case "json": return new JsonISave();
-            default: return null;
-        }
+        return switch (saveType) {
+            case "xml" -> xmlISave;
+            case "json" -> jsonISave;
+            default -> null;
+        };
 
     }
     public ILoad getLoadDelegate(String loadType){
 
-        switch (loadType){
-            case "xml" : return new XmlILoad();
-            case "json": return new JsonILoad();
-            default: return null;
-        }
+        return switch (loadType) {
+            case "xml" -> xmlILoad;
+            case "json" -> jsonILoad;
+            default -> null;
+        };
 
     }
 
