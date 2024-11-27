@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.xml.bind.annotation.XmlRootElement;
 
 @Data
 @AllArgsConstructor
@@ -15,15 +14,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "shapes")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@XmlRootElement
 public abstract class Shape implements Cloneable{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_id_seq")
     private Long id;
     private Double x;
     private Double y;
-    private Double scaleX;
-    private Double scaleY;
     private Double borderSize;
     private String borderColor;
     private String fillColor;
@@ -33,8 +29,6 @@ public abstract class Shape implements Cloneable{
         this.id = shapeDTO.getId();
         this.x = shapeDTO.getX();
         this.y = shapeDTO.getY();
-        this.scaleX = shapeDTO.getScaleX();
-        this.scaleY = shapeDTO.getScaleY();
         this.borderSize = shapeDTO.getBorderSize();
         this.borderColor = shapeDTO.getBorderColor();
         this.fillColor = shapeDTO.getFillColor();
@@ -47,8 +41,6 @@ public abstract class Shape implements Cloneable{
                .id(id)
                .x(x)
                .y(y)
-               .scaleX(scaleX)
-               .scaleY(scaleY)
                .borderSize(borderSize)
                .borderColor(borderColor)
                .fillColor(fillColor)

@@ -1,9 +1,9 @@
-package com.csed.paintapp.service.SaveLoadService;
-import com.csed.paintapp.ILoad;
-import com.csed.paintapp.ISave;
+package com.csed.paintapp.service.saveLoadService;
 import com.csed.paintapp.service.factory.SaveLoadFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SaveLoadService {
     @Autowired
     private SaveLoadFactory saveLoadFactory;

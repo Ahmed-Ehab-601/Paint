@@ -3,7 +3,6 @@ package com.csed.paintapp;
 import com.csed.paintapp.model.DTO.ShapeDto;
 import com.csed.paintapp.model.Shape;
 import com.csed.paintapp.repository.ShapeRepository;
-import com.csed.paintapp.service.ShapeServices;
 import com.csed.paintapp.service.factory.ShapeFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +15,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.File;
-import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 

@@ -1,9 +1,8 @@
-package com.csed.paintapp.service.implementation;
+package com.csed.paintapp.service.shapeService;
 
 import com.csed.paintapp.model.DTO.ShapeDto;
 import com.csed.paintapp.model.Shape;
 import com.csed.paintapp.repository.ShapeRepository;
-import com.csed.paintapp.service.ShapeServices;
 import com.csed.paintapp.service.factory.ShapeFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,13 +34,8 @@ public class ShapeServiceImplementation implements ShapeServices {
 
     @Override
     public ShapeDto update(ShapeDto shapeDto) {
-    Optional<Shape> shapeExist = shapeRepository.findById(shapeDto.getId());
-        if (shapeExist.isPresent() && shapeExist.get().getDTO().getType().equals(shapeDto.getType()) ) {
-            Shape shapeUpdated= shapeFactory.getShape(shapeDto);
-            shapeRepository.save(shapeUpdated);
-            return shapeUpdated.getDTO();
-        }
-        return null;
+        Shape shapeUpdated = shapeFactory.getShape(shapeDto);
+        return shapeRepository.save(shapeUpdated).getDTO();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.csed.paintapp;
+package com.csed.paintapp.service.saveLoadService;
 
 import com.csed.paintapp.model.DTO.ShapeDto;
 import jakarta.xml.bind.JAXBException;

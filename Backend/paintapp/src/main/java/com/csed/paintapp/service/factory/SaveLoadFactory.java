@@ -1,12 +1,14 @@
 package com.csed.paintapp.service.factory;
 
-import com.csed.paintapp.ILoad;
-import com.csed.paintapp.ISave;
-import com.csed.paintapp.service.implementation.JsonILoad;
-import com.csed.paintapp.service.implementation.JsonISave;
-import com.csed.paintapp.service.implementation.XmlILoad;
-import com.csed.paintapp.service.implementation.XmlISave;
+import com.csed.paintapp.service.saveLoadService.ILoad;
+import com.csed.paintapp.service.saveLoadService.ISave;
+import com.csed.paintapp.service.saveLoadService.JsonILoad;
+import com.csed.paintapp.service.saveLoadService.JsonISave;
+import com.csed.paintapp.service.saveLoadService.XmlILoad;
+import com.csed.paintapp.service.saveLoadService.XmlISave;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SaveLoadFactory {
 
     public ISave getSaveDelegate(String saveType){

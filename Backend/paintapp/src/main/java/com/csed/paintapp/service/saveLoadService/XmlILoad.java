@@ -1,6 +1,5 @@
-package com.csed.paintapp.service.implementation;
+package com.csed.paintapp.service.saveLoadService;
 
-import com.csed.paintapp.ILoad;
 import com.csed.paintapp.model.DTO.ShapeDto;
 import com.csed.paintapp.repository.ShapeRepository;
 import com.csed.paintapp.service.factory.ShapeFactory;
@@ -10,7 +9,6 @@ import jakarta.xml.bind.Unmarshaller;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class XmlILoad implements ILoad { // samaa

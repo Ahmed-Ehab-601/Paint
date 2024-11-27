@@ -1,6 +1,5 @@
-package com.csed.paintapp.service.implementation;
+package com.csed.paintapp.service.saveLoadService;
 
-import com.csed.paintapp.ISave;
 import com.csed.paintapp.model.DTO.ShapeDto;
 import com.csed.paintapp.model.Shape;
 import com.csed.paintapp.repository.ShapeRepository;

@@ -1,6 +1,7 @@
 package com.csed.paintapp.model.DTO;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,12 +16,13 @@ public class ShapeDto {
     private String type;
     private Double x;
     private Double y;
-    private Double scaleX;
-    private Double scaleY;
+    @JsonProperty("fill")
     private String fillColor;
+    @JsonProperty("stroke")
     private String borderColor;
     private Long id;
-    private Double  borderSize;
+    @JsonProperty("strokeWidth")
+    private Double borderSize;
     private Double width;
     private Double height;
     private Double radius;

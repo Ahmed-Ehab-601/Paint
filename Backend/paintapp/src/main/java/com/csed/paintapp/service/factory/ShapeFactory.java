@@ -2,9 +2,10 @@ package com.csed.paintapp.service.factory;
 
 import com.csed.paintapp.model.*;
 import com.csed.paintapp.model.DTO.ShapeDto;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 public class ShapeFactory {
     public Shape getShape(ShapeDto shapeDTO){
         switch (shapeDTO.getType()){
