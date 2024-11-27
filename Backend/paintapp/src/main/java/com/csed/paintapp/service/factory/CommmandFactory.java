@@ -11,16 +11,20 @@ import org.springframework.stereotype.Service;
 @Component
 public class CommmandFactory {
 private final ShapeRepository shapeRepository;
+private final ShapeFactory shapeFactory;
 
-    public CommmandFactory(ShapeRepository shapeRepository) {
+
+
+    public CommmandFactory(ShapeRepository shapeRepository, ShapeFactory shapeFactory) {
         this.shapeRepository = shapeRepository;
+        this.shapeFactory = shapeFactory;
     }
 
     public Command getCommand(String type){
         return switch (type) {
-            case "delete" -> new DeleteCommand(shapeRepository);
-            case "edit" -> new EditCommand(shapeRepository);
-            case "create" -> new CreateCommad(shapeRepository);
+            case "delete" -> new DeleteCommand(shapeRepository,shapeFactory);
+            case "edit" -> new EditCommand(shapeRepository,shapeFactory);
+            case "create" -> new CreateCommad(shapeRepository,shapeFactory);
             default -> null;
         };
     }

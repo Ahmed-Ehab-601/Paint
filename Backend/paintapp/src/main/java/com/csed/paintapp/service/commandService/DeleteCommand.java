@@ -2,17 +2,26 @@ package com.csed.paintapp.service.commandService;
 
 import com.csed.paintapp.model.DTO.CommandDTO;
 import com.csed.paintapp.model.DTO.ShapeDto;
+import com.csed.paintapp.model.Shape;
 import com.csed.paintapp.repository.ShapeRepository;
+import com.csed.paintapp.service.factory.ShapeFactory;
 
 public class DeleteCommand extends Command {
     private final ShapeRepository shapeRepository;
+    private final ShapeFactory shapeFactory;
 
-    public DeleteCommand(ShapeRepository shapeRepository) {
+    public DeleteCommand(ShapeRepository shapeRepository, ShapeFactory shapeFactory) {
         this.shapeRepository = shapeRepository;
+        this.shapeFactory = shapeFactory;
     }
+
+
 
     @Override
     public CommandDTO undo() {
+        shapeDto.setId(null);
+
+
         return null;
     }
 

@@ -32,4 +32,18 @@ public class ShapeDto {
     private Double minorRadius;
     private Double rotate;
     private double [] points;
+
+    public void setDto(){
+        radius = 10.0;
+        minorRadius = 10.0;
+        majorRadius = 15.0;
+        width = 17.9;
+        height =12.2;
+        points = new double[2];
+        points[0] = 1.0;
+        points[1] = 4.3;
+        rotate = 0.0;
+
+    }
+
 }
