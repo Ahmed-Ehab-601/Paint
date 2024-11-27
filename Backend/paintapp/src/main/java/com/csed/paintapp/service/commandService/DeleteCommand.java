@@ -6,6 +6,8 @@ import com.csed.paintapp.model.Shape;
 import com.csed.paintapp.repository.ShapeRepository;
 import com.csed.paintapp.service.factory.ShapeFactory;
 
+import java.util.Optional;
+
 public class DeleteCommand extends Command {
     private final ShapeRepository shapeRepository;
     private final ShapeFactory shapeFactory;
@@ -20,18 +22,28 @@ public class DeleteCommand extends Command {
     @Override
     public CommandDTO undo() {
         shapeDto.setId(null);
+        Shape shape = shapeRepository.save(shapeFactory.getShape(shapeDto));
+        shapeDto = shape.getDTO();
+        id = shape.getId();
+        return new CommandDTO("create",shapeDto);
 
-
-        return null;
     }
 
     @Override
     public CommandDTO redo() {
-        return null;
+        shapeRepository.deleteById(id);
+        return new CommandDTO("delete",shapeDto);
+
     }
 
     @Override
-    public ShapeDto execute() {
+    public ShapeDto execute(ShapeDto shapeDto) {
+        Optional<Shape> shape = shapeRepository.findById(id);
+        if(shape.isPresent()){
+            this.shapeDto = shape.get().getDTO();
+            shapeRepository.deleteById(id);
+        }
         return null;
+
     }
 }

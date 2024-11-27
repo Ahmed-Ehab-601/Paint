@@ -1,19 +1,36 @@
 package com.csed.paintapp.service.commandService;
 
 import com.csed.paintapp.model.DTO.CommandDTO;
-import org.hibernate.internal.util.collections.Stack;
 
+import org.springframework.stereotype.Service;
+
+import java.util.Stack;
+
+@Service
 public class UndoRedoService {
-    private Stack<Command>undoStack ;
-    private Stack<Command>redoStack ;
+    private final Stack<Command> undoStack  = new Stack<Command>();
+    private final Stack<Command> redoStack = new Stack<Command>() ;
     public CommandDTO undo(){
-        return null;
+        if (undoStack.isEmpty()) {
+           return null;
+        }
+
+        Command command= undoStack.pop();
+         CommandDTO res= command.undo();
+         redoStack.push(command);
+         return res;
     }
     public CommandDTO redo(){
-        return null;
+        if(redoStack.isEmpty()){
+            return null;
+        }
+        Command command= redoStack.pop();
+        CommandDTO res= command.redo();
+        undoStack.push(command);
+        return res;
     }
-    public void pushUndo(){
-
+    public void pushUndo(Command command){
+        undoStack.push(command);
     }
 
 

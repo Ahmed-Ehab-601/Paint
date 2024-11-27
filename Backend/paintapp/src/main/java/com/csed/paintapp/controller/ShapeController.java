@@ -1,6 +1,7 @@
 package com.csed.paintapp.controller;
 
 import com.csed.paintapp.model.DTO.ShapeDto;
+import com.csed.paintapp.service.commandService.UndoRedoService;
 import com.csed.paintapp.service.saveLoadService.SaveLoadService;
 import com.csed.paintapp.service.shapeService.ShapeServices;
 import org.springframework.http.HttpStatus;
@@ -16,11 +17,14 @@ public class ShapeController {
 
      private final ShapeServices shapeServices;
      private final SaveLoadService saveLoadService;
+     private final UndoRedoService undoRedoService;
 
-    public ShapeController(ShapeServices shapeServices, SaveLoadService saveLoadService) {
+    public ShapeController(ShapeServices shapeServices, SaveLoadService saveLoadService, UndoRedoService undoRedoService) {
         this.shapeServices = shapeServices;
         this.saveLoadService = saveLoadService;
+        this.undoRedoService = undoRedoService;
     }
+
 
     @PostMapping("/create")
      public ResponseEntity<ShapeDto> create(@RequestBody ShapeDto shapeDTO){
@@ -71,6 +75,24 @@ public class ShapeController {
         try {
            List<ShapeDto> shapeDtos = saveLoadService.getLoadByType(requestBody.get("type")).load(requestBody.get("path"));
             return new ResponseEntity<>(shapeDtos,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/undo")
+    public ResponseEntity<?> undo (){
+        try {
+            return new ResponseEntity<>(undoRedoService.undo(),HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("/redo")
+    public ResponseEntity<?> redo (){
+        try {
+            return new ResponseEntity<>(undoRedoService.redo(),HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

@@ -3,6 +3,9 @@ package com.csed.paintapp.service.shapeService;
 import com.csed.paintapp.model.DTO.ShapeDto;
 import com.csed.paintapp.model.Shape;
 import com.csed.paintapp.repository.ShapeRepository;
+import com.csed.paintapp.service.commandService.Command;
+import com.csed.paintapp.service.commandService.UndoRedoService;
+import com.csed.paintapp.service.factory.CommmandFactory;
 import com.csed.paintapp.service.factory.ShapeFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,33 +18,43 @@ public class ShapeServiceImplementation implements ShapeServices {
 
     private final ShapeRepository shapeRepository;
     private final ShapeFactory shapeFactory;
+    private final CommmandFactory  commmandFactory;
 
-    public ShapeServiceImplementation(ShapeRepository shapeRepository, ShapeFactory shapeFactory) {
+    private final UndoRedoService undoRedoService;
+
+    public ShapeServiceImplementation(ShapeRepository shapeRepository, ShapeFactory shapeFactory, CommmandFactory commmandFactory,UndoRedoService undoRedoService) {
         this.shapeRepository = shapeRepository;
         this.shapeFactory = shapeFactory;
+        this.commmandFactory = commmandFactory;
+        this.undoRedoService = undoRedoService;;
     }
+
+
 
     @Override
     public ShapeDto create(ShapeDto shapeDTO) {
 
-        shapeDTO.setId(null);
-        Shape shape=shapeFactory.getShape(shapeDTO);
-        if(shape==null){
-            return null;
-        }
-        Shape shapeCreated= shapeRepository.save(shape);
-        return shapeCreated.getDTO();
+        Command command = commmandFactory.getCommand("create");
+        ShapeDto shapeCreated =  command.execute(shapeDTO);
+        undoRedoService.pushUndo(command);
+        return shapeCreated;
     }
 
     @Override
     public void delete(Long id) {
-        shapeRepository.deleteById(id);
+        Command command = commmandFactory.getCommand("delete");
+        command.setId(id);
+        command.execute(null);
+        undoRedoService.pushUndo(command);
     }
 
     @Override
     public ShapeDto update(ShapeDto shapeDto) {
-        Shape shapeUpdated = shapeFactory.getShape(shapeDto);
-        return shapeRepository.save(shapeUpdated).getDTO();
+
+        Command command = commmandFactory.getCommand("edit");
+        ShapeDto shapeCreated =  command.execute(shapeDto);
+        undoRedoService.pushUndo(command);
+        return shapeCreated;
     }
 
     @Override
@@ -55,9 +68,10 @@ public class ShapeServiceImplementation implements ShapeServices {
             copy.setX(originalShape.getX() + 7);
             copy.setY(originalShape.getY() + 7);
             copy.setId(null);
-            Shape savedCopy = shapeRepository.save(copy);
-
-            return savedCopy.getDTO();
+            Command command = commmandFactory.getCommand("create");
+            ShapeDto shapeCreated =  command.execute(copy.getDTO());
+            undoRedoService.pushUndo(command);
+            return shapeCreated;
         }
         return null;
     }

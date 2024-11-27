@@ -33,7 +33,7 @@ public class ShapeDto {
     private Double rotate;
     private double [] points;
 
-    public void setDto(){
+    public void setDefaultValue (){
         radius = 10.0;
         minorRadius = 10.0;
         majorRadius = 15.0;
@@ -43,6 +43,16 @@ public class ShapeDto {
         points[0] = 1.0;
         points[1] = 4.3;
         rotate = 0.0;
+        if(type.equals("Square")){
+            width = height;
+        }
+        if(type.equals("Triangle")){
+            points = new double[3];
+            points[0] = 1.0;
+            points[1] = 4.3;
+            points[2] = 67.9;
+
+        }
 
     }
 
