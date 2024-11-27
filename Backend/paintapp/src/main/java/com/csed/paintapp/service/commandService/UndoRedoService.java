@@ -24,12 +24,13 @@ public class UndoRedoService {
         if(redoStack.isEmpty()){
             return null;
         }
-        Command command= redoStack.pop();
+        Command command = redoStack.pop();
         CommandDTO res= command.redo();
         undoStack.push(command);
         return res;
     }
     public void pushUndo(Command command){
+        redoStack.clear();
         undoStack.push(command);
     }
 

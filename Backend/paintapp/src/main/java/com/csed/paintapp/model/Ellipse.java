@@ -17,8 +17,8 @@ public class Ellipse extends Shape {
     private Double minorRadius;
     public Ellipse(ShapeDto shapeDTO) {
         super(shapeDTO);
-        this.majorRadius = shapeDTO.getRadius();
-        this.minorRadius = shapeDTO.getRadius();
+        this.majorRadius = shapeDTO.getMajorRadius();
+        this.minorRadius = shapeDTO.getMinorRadius();
 
     }
 

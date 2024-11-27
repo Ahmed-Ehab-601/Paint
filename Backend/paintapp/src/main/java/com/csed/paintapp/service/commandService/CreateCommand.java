@@ -40,9 +40,9 @@ public class CreateCommand extends Command {
     @Override
     public ShapeDto execute(ShapeDto shapeDto) {
        shapeDto.setId(null); // set id null to make db generate it
-        shapeDto.setDefaultValue();
-       Shape shapeCreated  = shapeRepository.save(shapeFactory.getShape(shapeDto)); // save shape to db
-       shapeDto = shapeCreated.getDTO();
+       Shape shapeCreated  = shapeRepository.save(shapeFactory.getShape(shapeDto)); // save shpe
+       shapeDto.setId(shapeCreated.getId());
+       setId(shapeCreated.getId());
        setShapeDto(shapeDto);
        return shapeDto;
 
