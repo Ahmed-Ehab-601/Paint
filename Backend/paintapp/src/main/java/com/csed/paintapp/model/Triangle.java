@@ -26,6 +26,7 @@ public class Triangle extends Shape{
         ShapeDto shapeDTO = super.getDTO();
         shapeDTO.setType(this.getClass().getName());
         shapeDTO.setPoints(points);
+        shapeDTO.setType("triangle");
         return shapeDTO;
     }
 

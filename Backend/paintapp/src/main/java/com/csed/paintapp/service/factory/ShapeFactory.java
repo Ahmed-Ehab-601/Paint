@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 public class ShapeFactory {
     public Shape getShape(ShapeDto shapeDTO){
         return switch (shapeDTO.getType()) {
-            case "Circle" -> new Circle(shapeDTO);
-            case "Rectangle" -> new Rectangle(shapeDTO);
-            case "Triangle" -> new Triangle(shapeDTO);
-            case "Line" -> new Line(shapeDTO);
-            case "Ellipse" -> new Ellipse(shapeDTO);
-            case "Square" -> new Square(shapeDTO);
+            case "circle" -> new Circle(shapeDTO);
+            case "rectangle" -> new Rectangle(shapeDTO);
+            case "triangle" -> new Triangle(shapeDTO);
+            case "line" -> new Line(shapeDTO);
+            case "ellipse" -> new Ellipse(shapeDTO);
+            case "square" -> new Square(shapeDTO);
             default -> null;
         };
 

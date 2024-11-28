@@ -20,7 +20,7 @@ public class Circle extends Shape {
     @Override
     public ShapeDto getDTO() {
         ShapeDto shapeDTO  = super.getDTO();
-        shapeDTO .setType("Circle");
+        shapeDTO .setType("circle");
         shapeDTO .setRadius(this.radius);
         return shapeDTO;
     }

@@ -25,7 +25,7 @@ public class Ellipse extends Shape {
     @Override
     public ShapeDto getDTO() {
         ShapeDto shapeDTO = super.getDTO();
-        shapeDTO .setType("Ellipse");
+        shapeDTO .setType("ellipse");
         shapeDTO .setMajorRadius(this.majorRadius);
         shapeDTO .setMinorRadius(this.minorRadius);
         return shapeDTO ;

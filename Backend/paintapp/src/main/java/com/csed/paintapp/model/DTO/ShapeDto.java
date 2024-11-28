@@ -37,15 +37,16 @@ public class ShapeDto {
     public void setDefaultValue (){
         double basesize = 76.0;
         radius = basesize/2;
-        minorRadius = basesize/1.5;
-        majorRadius = basesize/1.5;
+        borderSize = 3.0;
+        minorRadius = basesize/ 1.5;
+        majorRadius = basesize;
         width = basesize;
         height = basesize*1.5;
         rotate = 0.0;
-        if(type.equals("Square")){
+        if(type.equals("square")){
             width = Double.valueOf(height);
         }
-        if(type.equals("Triangle")){
+        if(type.equals("triangle")){
             points = new double[6];
             points[0] = 0;
             points[1] = -basesize/2;

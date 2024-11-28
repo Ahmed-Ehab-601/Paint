@@ -24,7 +24,7 @@ public class Rectangle extends Shape{
     @Override
     public ShapeDto getDTO(){
         ShapeDto shapeDTO = super.getDTO();
-        shapeDTO.setType("Rectangle");
+        shapeDTO.setType("rectangle");
         shapeDTO.setWidth(width);
         shapeDTO.setHeight(height);
         return shapeDTO;

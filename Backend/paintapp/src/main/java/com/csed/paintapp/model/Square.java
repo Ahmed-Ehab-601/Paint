@@ -26,7 +26,7 @@ public class Square extends Shape{
     @Override
     public ShapeDto getDTO(){
         ShapeDto shapeDTO = super.getDTO();
-        shapeDTO.setType("Square");
+        shapeDTO.setType("square");
         shapeDTO.setWidth(width);
         return shapeDTO;
     }

@@ -121,7 +121,7 @@ const App = ({ type, stroke, fill }) => {
     }
     setShapes(updatedShapes);
     try {
-      const response = await axios.put(`http://localhost:8080/shapes/edit/${id}`, updatedShape);
+      const response = await axios.put(`http://localhost:8080/shape/edit/${id}`, updatedShape);
   
       if (response.status === 200) {
         console.log("Shape updated successfully in the database.");

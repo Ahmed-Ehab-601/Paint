@@ -23,7 +23,7 @@ public class Line extends Shape {
     @Override
     public ShapeDto getDTO() {
         ShapeDto shapeDTO  = super.getDTO();
-        shapeDTO.setType("Line");
+        shapeDTO.setType("line");
         shapeDTO.setPoints(points); // Deep copy the points list
         return shapeDTO;
     }

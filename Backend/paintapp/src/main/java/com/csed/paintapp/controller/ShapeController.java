@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/shape")
-@CrossOrigin(origins = "http://localhost:5174")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ShapeController {
 
      private final ShapeServices shapeServices;
@@ -41,9 +41,9 @@ public class ShapeController {
          shapeServices.delete(id);
          return new ResponseEntity<>(HttpStatus.OK);
      }
-     @PutMapping("/update/{id}")
+     @PutMapping("/edit/{id}")
      public ResponseEntity<ShapeDto> update(@PathVariable Long id,@RequestBody ShapeDto shapeDto){
-         //shapeDto.setId(id);
+         shapeDto.setId(id);
          ShapeDto UpdatedShapeDto = shapeServices.update(shapeDto);
          if(UpdatedShapeDto == null){
          return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
