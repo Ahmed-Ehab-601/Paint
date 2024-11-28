@@ -9,6 +9,27 @@ html, body {
   background-color: #00000088; 
 }
 
+
+.save-option {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  z-index: 2;
+}
+
+.save-menu {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+  background-color: rgb(113, 79, 145);
+  border-radius: 10px;
+  width: 250px;
+  position: absolute;
+  top: 30px;
+  right: 50px;  /* Open the save menu on the left */
+  z-index: 2;
+}
 .windowpaper {
   height: 100%;
   width:100%;
