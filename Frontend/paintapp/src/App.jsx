@@ -12,7 +12,6 @@ const App = ({ type, stroke, fill }) => {
 
   const [linePoints, setLinePoints] = useState([]);
   const [mousePosition, setMousePosition] = useState(null);
-  const [copiedShape, setCopiedShape] = useState(null);
 
   // Create shape function with API call
   const addShape = async (type, x, y, fill, stroke, points) => {
@@ -142,10 +141,151 @@ const App = ({ type, stroke, fill }) => {
   const deleteShape = async () => {
     if (selectedId != null) {
       setShapes((prevShapes) => prevShapes.filter((shape) => shape.id !== selectedId));
-      
+      try {
+        const response = await axios.delete(`http://localhost:8080/${selectedId}`);
+        if (response.status === 200) {
+          console.log("deletion confirmed for shapeId" + selectedId)
+        } else {
+          console.error("Failed to delete shape: ", response);
+        }
+      } catch (error) {
+        if (error.response) {
+          console.error("Error response from server:", error.response);
+        } else if (error.request) {
+          console.error("Error with request:", error.request);
+        } else {
+          console.error("Error in setting up request:", error.message);
+        }
+      }
       setSelectedId(null);
     }
   }
+
+  const copyShape = async () => {
+    if (selectedId != null) {
+      try {
+        const response = await axios.put(`http://localhost:8080/copy/${selectedId}`);
+        if (response.status === 200) {
+          const copiedShape = response.data;
+          setShapes((prevShapes) => [...prevShapes, copiedShape]);
+          console.log("copying confirmed for shapeId" + selectedId)
+        } else {
+          console.error("Failed to copy shape: ", response, " bad request");
+        }
+      } catch (error) {
+        if (error.response) {
+          console.error("Error response from server:", error.response);
+        } else if (error.request) {
+          console.error("Error with request:", error.request);
+        } else {
+          console.error("Error in setting up request:", error.message);
+        }
+      }
+    }
+  }
+
+  const undo = async () => {
+    try {
+      const response = await axios.put(`http://localhost:8080/shape/undo`);
+      if (response.status === 200) {
+        const { type, shapeDTO } = response.data;
+  
+        switch (type) {
+          case "edit":
+            {
+              // Update the shape with the new data from shapeDTO
+              const updatedShapes = shapes.map((shape) =>
+                shape.id === shapeDTO.id ? shapeDTO : shape
+              );
+              setShapes(updatedShapes); // Update the state with the modified array
+            }
+            break;
+  
+          case "create":
+            {
+              // Add the new shape to the array with its new id
+              setShapes((prevShapes) => [...prevShapes, shapeDTO]);
+            }
+            break;
+  
+          case "delete":
+            {
+              // Remove the shape using the given shapeDTO id
+              const updatedShapes = shapes.filter((shape) => shape.id !== shapeDTO.id);
+              setShapes(updatedShapes); // Update the state after deletion
+            }
+            break;
+  
+          default:
+            break;
+        }
+  
+        console.log(`Undo operation successful for shapeId ${selectedId}`);
+      } else {
+        console.error("Failed to perform undo operation: ", response, " bad request");
+      }
+    } catch (error) {
+      if (error.response) {
+        console.error("Error response from server:", error.response);
+      } else if (error.request) {
+        console.error("Error with request:", error.request);
+      } else {
+        console.error("Error in setting up request:", error.message);
+      }
+    }
+  };
+
+  const redo = async () => {
+    try {
+      const response = await axios.put(`http://localhost:8080/shape/redo/`);
+      if (response.status === 200) {
+        const { type, shapeDTO } = response.data;
+  
+        switch (type) {
+          case "edit":
+            {
+              // Update the shape with the new data from shapeDTO
+              const updatedShapes = shapes.map((shape) =>
+                shape.id === shapeDTO.id ? shapeDTO : shape
+              );
+              setShapes(updatedShapes); // Update the state with the modified array
+            }
+            break;
+  
+          case "create":
+            {
+              // Add the new shape to the array with its new id
+              setShapes((prevShapes) => [...prevShapes, shapeDTO]);
+            }
+            break;
+  
+          case "delete":
+            {
+              // Remove the shape using the given shapeDTO id
+              const updatedShapes = shapes.filter((shape) => shape.id !== shapeDTO.id);
+              setShapes(updatedShapes); // Update the state after deletion
+            }
+            break;
+  
+          default:
+            break;
+        }
+  
+        console.log(`Undo operation successful for shapeId ${selectedId}`);
+      } else {
+        console.error("Failed to perform undo operation: ", response, " bad request");
+      }
+    } catch (error) {
+      if (error.response) {
+        console.error("Error response from server:", error.response);
+      } else if (error.request) {
+        console.error("Error with request:", error.request);
+      } else {
+        console.error("Error in setting up request:", error.message);
+      }
+    }
+  };
+
 
   function FullScreenStage({ shapeToAdd, handleCanvasClick, handleMouseMove }) {
     const [dimensions, setDimensions] = useState({
