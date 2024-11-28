@@ -30,7 +30,7 @@ function Paper() {
 
   const [directoryChosen, setDirectoryChosen] = useState(false); // State to track if directory is chosen
   const [selectedFilePath, setSelectedFilePath] = useState(""); // Store selected file path
-  
+  const [action,setAction]=useState("")
   const handleColorChange = (e) => {
     setColor(e.target.value); // Set brush color
   };
@@ -50,9 +50,10 @@ function Paper() {
   
     // Construct file data object
     const data =
-      selectedFilePath+ "\\"+// Send the selected file path to the backend
-       filename+"."+
-      fileFormat
+      {
+        type : fileFormat,
+        path : selectedFilePath+ "//"+filename+"."+fileFormat
+      }
     ;
     console.log(data);
   
@@ -63,7 +64,7 @@ function Paper() {
         },
       });
   
-      if (response.data && response.data.path) {
+      if (response.status == 200) {
         alert("File saved successfully: " + response.data.path);
       } else {
         alert("Save successful but no path returned.");
@@ -103,12 +104,17 @@ function Paper() {
   
   const sendFile = async (path) => {
     try {
+      const x = path.split(".")[1];
+      console.log(path)
+      console.log(x)
       const response = await axios.put("http://localhost:8080/shape/load", {
-        filePath: path, // Send the full file path to the backend
+        path : "/Users/ahmedehab/"+path, // Send the full file path to the backend
+        type : x
       });
   
-      if (response.data && Array.isArray(response.data.shapes)) {
-        setshape(response.data.shapes); // Update the shapes state with the response array
+      if (response.status == 200) {
+        console.log(response.data)
+        setshape(response.data); // Update the shapes state with the response array
         alert("File loaded successfully from path: " + path);
       } else {
         alert("Unexpected response format from backend.");
@@ -132,6 +138,10 @@ function Paper() {
     if (shapeType !== "") setShapeType("");
   }, [shapeType]);
 
+  useEffect(() => {
+    if (action !== "") setAction("");
+  }, [action]);
+
   return (
     <div
       className="windowpaper"
@@ -146,10 +156,10 @@ function Paper() {
     >
       {/* Side Bar */}
       <div className="bar_onside">
-        <button className="icon">
+        <button className="icon" onClick={()=>setAction("undo")}>
           <img src={undoicon} alt="undo" />
         </button>
-        <button className="icon">
+        <button className="icon" onClick={()=>setAction("redo")}>
           <img src={redoicon} alt="redo" />
         </button>
        
@@ -202,7 +212,7 @@ function Paper() {
           />
           <img src={uploadicon} alt="upload" />
         </button>
-        <button className="copybutton">
+        <button className="copybutton" onClick={()=>setAction("copy")}>
           <img src={copyicon} alt="copy" />
         </button>
       </div>
@@ -305,7 +315,11 @@ function Paper() {
       </div>
 
       {/* App Component */}
+<<<<<<< Updated upstream
       <App type={shapeType} fill={color} stroke={borderColor} action={action} />
+=======
+      <App type={shapeType} fill={color} stroke={borderColor} action={action}/>
+>>>>>>> Stashed changes
     </div>
   );
 }
