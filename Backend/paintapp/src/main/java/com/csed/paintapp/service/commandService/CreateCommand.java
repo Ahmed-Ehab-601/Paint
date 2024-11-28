@@ -20,20 +20,20 @@ public class CreateCommand extends Command {
             shapeRepository.deleteById(this.id);
             CommandDTO commandDTO =new CommandDTO();
             commandDTO.setType("delete");
-            commandDTO.setShapeDto(this.shapeDto);
+            commandDTO.setShapeDto(this.oldShapeDto);
             return commandDTO;
 
     }
 
     @Override
     public CommandDTO redo() {
-        this.shapeDto.setId(null);
-        Shape shape= shapeRepository.save(shapeFactory.getShape(this.shapeDto));
-        this.shapeDto= shape.getDTO();
+        this.oldShapeDto.setId(null);
+        Shape shape= shapeRepository.save(shapeFactory.getShape(this.oldShapeDto));
+        this.oldShapeDto.setId(shape.getId());
         this.id = shape.getId();
         CommandDTO commandDTO =new CommandDTO();
         commandDTO.setType("create");
-        commandDTO.setShapeDto(shapeDto);
+        commandDTO.setShapeDto(oldShapeDto);
         return commandDTO;
     }
 
@@ -44,7 +44,7 @@ public class CreateCommand extends Command {
        Shape shapeCreated  = shapeRepository.save(shapeFactory.getShape(shapeDto)); // save shpe
        shapeDto.setId(shapeCreated.getId());
        setId(shapeCreated.getId());
-       setShapeDto(shapeDto);
+       setOldShapeDto(shapeDto);
        return shapeDto;
 
     }

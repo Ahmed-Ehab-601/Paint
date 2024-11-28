@@ -21,18 +21,18 @@ public class DeleteCommand extends Command {
 
     @Override
     public CommandDTO undo() {
-        shapeDto.setId(null);
-        Shape shape = shapeRepository.save(shapeFactory.getShape(shapeDto));
-        shapeDto = shape.getDTO();
+        oldShapeDto.setId(null);
+        Shape shape = shapeRepository.save(shapeFactory.getShape(oldShapeDto));
+        oldShapeDto = shape.getDTO();
         id = shape.getId();
-        return new CommandDTO("create",shapeDto);
+        return new CommandDTO("create", oldShapeDto);
 
     }
 
     @Override
     public CommandDTO redo() {
         shapeRepository.deleteById(id);
-        return new CommandDTO("delete",shapeDto);
+        return new CommandDTO("delete", oldShapeDto);
 
     }
 
@@ -40,7 +40,7 @@ public class DeleteCommand extends Command {
     public ShapeDto execute(ShapeDto shapeDto) {
         Optional<Shape> shape = shapeRepository.findById(id);
         if(shape.isPresent()){
-            this.shapeDto = shape.get().getDTO();
+            this.oldShapeDto = shape.get().getDTO();
             shapeRepository.deleteById(id);
         }
         return null;
