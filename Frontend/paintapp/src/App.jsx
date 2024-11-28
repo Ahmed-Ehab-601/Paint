@@ -1,35 +1,108 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from "react";
+import { Stage, Layer } from "react-konva";
+import Shape from "./shapes";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = ({ type ,stroke,fill}) => {
+  const [shapes, setShapes] = useState([]);
+  const [selectedId, setSelectedId] = useState(null);
+  const [shapeToAdd, setShapeToAdd] = useState(null);
+
+  const addShape = (type, x, y,fill,stroke) => {
+    const id = shapes.length + 1;
+    const baseSize = 75;
+
+    const newShape = {
+      id: id.toString(),
+      type,
+      x,
+      y,
+      fill:fill,
+      stroke: stroke,
+      strokeWidth: 2,
+      rotation: 0,
+      
+      radius: baseSize / 2,
+      width: baseSize,
+      height: baseSize * 1.5,
+      radiusX: baseSize,
+      radiusY: baseSize / 1.5,
+      points: [
+        0, -baseSize / 2,
+        baseSize / 2, baseSize / 2,
+        -baseSize / 2, baseSize / 2,
+      ],
+    };
+
+    setShapes([...shapes, newShape]);
+  };
+
+  const handleCanvasClick = (e) => {
+    const stage = e.target.getStage();
+
+    // If clicked on the stage (not a shape), deselect all shapes
+    if (e.target === stage) {
+      setSelectedId(null);
+    }
+
+    // Add new shape if shapeToAdd is selected
+    if (shapeToAdd) {
+      const pointerPosition = stage.getPointerPosition();
+      if (pointerPosition) {
+        const { x, y } = pointerPosition;
+        addShape(shapeToAdd, x, y,fill,stroke);
+      }
+      setShapeToAdd(null); // Reset shapeToAdd after adding the shape
+    }
+  };
+
+  const handleShapeSelect = (shapeId) => {
+    setSelectedId(shapeId);
+
+    setShapes((prevShapes) => {
+      const selectedShape = prevShapes.find((shape) => shape.id === shapeId);
+      if (!selectedShape) return prevShapes;
+      const updatedShapes = prevShapes.filter((shape) => shape.id !== shapeId);
+      return [...updatedShapes, selectedShape];
+    });
+  };
+
+  useEffect(() => {
+    if (type!="") {
+      setShapeToAdd(type);
+    }
+  }, [type]);
+
+  const updateShape = (id, newAttrs) => {
+    const updatedShapes = shapes.map((shape) =>
+      shape.id === id ? newAttrs : shape
+    );
+    setShapes(updatedShapes);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+      <Stage
+        width={window.innerWidth}
+        height={window.innerHeight }
+        style={{ border: "1px solid red", position: "absolute", top: -10, left: -10, zIndex: 0 }}
+        onMouseDown={handleCanvasClick}
+        onTouchStart={handleCanvasClick}
+      >
+        <Layer>
+          {shapes.map((shape) => (
+            <Shape
+              key={shape.id}
+              shape={shape}
+              isSelected={shape.id === selectedId}
+              onSelect={() => handleShapeSelect(shape.id)}
+              onChange={(newAttrs) => updateShape(shape.id, newAttrs)}
+            />
+          ))}
+        </Layer>
+      </Stage>
+     
+    </div>
+  );
+};
 
-export default App
+export default App;
