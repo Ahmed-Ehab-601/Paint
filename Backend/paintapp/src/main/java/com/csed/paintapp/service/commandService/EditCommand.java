@@ -19,10 +19,10 @@ public class EditCommand extends Command {
 
     @Override
     public CommandDTO undo() throws CloneNotSupportedException {
-        Optional<Shape> shapeExist = shapeRepository.findById(shapeDto.getId());
+        Optional<Shape> shapeExist = shapeRepository.findById(oldShapeDto.getId());
         Shape OldShape = shapeExist.get().clone();
-        Shape savedShape = shapeRepository.save(shapeFactory.getShape(this.shapeDto));
-        this.shapeDto = OldShape.getDTO();
+        Shape savedShape = shapeRepository.save(shapeFactory.getShape(this.oldShapeDto));
+        this.oldShapeDto = OldShape.getDTO();
         return new CommandDTO("edit",savedShape.getDTO() );
     }
 
@@ -35,10 +35,10 @@ public class EditCommand extends Command {
     public ShapeDto execute(ShapeDto newShapeDto) {
         Optional<Shape> shape = shapeRepository.findById(newShapeDto.getId());
         if(shape.isPresent()){
-            this.shapeDto = shape.get().getDTO();
+            this.oldShapeDto = shape.get().getDTO();
             Shape shapeUpdated = shapeFactory.getShape(newShapeDto);
             id = shapeUpdated.getId();
-            this.shapeDto.setId(id);
+            this.oldShapeDto.setId(id);
             return shapeRepository.save(shapeUpdated).getDTO();
         }
         return null;
