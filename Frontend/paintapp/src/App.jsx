@@ -1,39 +1,48 @@
 import React, { useState, useEffect } from "react";
 import { Stage, Layer, Line } from "react-konva"; // Added Line for preview rendering
-import Shape from "./shapes"; // You should define the Shape component separately
+import axios from "axios"; // Import axios for HTTP requests
+import Shape from "./shapes"; // Define Shape component separately
+
+const baseURL = "http://localhost:8080/shape"
 
 const App = ({ type, stroke, fill }) => {
   const [shapes, setShapes] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [shapeToAdd, setShapeToAdd] = useState(null);
-  
+
   const [linePoints, setLinePoints] = useState([]);
   const [mousePosition, setMousePosition] = useState(null);
+  const [copiedShape, setCopiedShape] = useState(null);
 
-  const addShape = (type, x, y, fill, stroke, points) => {
-    const id = shapes.length + 1;
-    const baseSize = 75;
-
-    const newShape = {
-      id: id.toString(),
+  // Create shape function with API call
+  const addShape = async (type, x, y, fill, stroke, points) => {
+    const shapeDetails = {
       type,
       x,
       y,
       fill,
       stroke,
-      strokeWidth: 2,
-      rotation: 0,
-      radius: baseSize / 2,
-      width: baseSize,
-      height: baseSize * 1.5,
-      radiusX: baseSize,
-      radiusY: baseSize / 1.5,
-      points: type === "line" ? points : [
-        0, -baseSize / 2, baseSize / 2, baseSize / 2, -baseSize / 2, baseSize / 2,
-      ],
+      points: type === "line" ? points : null,
     };
-
-    setShapes([...shapes, newShape]);
+  
+    try {
+      const response = await axios.post('http://localhost:8080/shape/create', shapeDetails);
+  
+      if (response.status === 200) {
+        const newShape = response.data;
+        setShapes((prevShapes) => [...prevShapes, newShape]);
+      } else {
+        console.error("Failed to add shape: ", response);
+      }
+    } catch (error) {
+      if (error.response) {
+        console.error("Error response from server:", error.response);
+      } else if (error.request) {
+        console.error("Error with request:", error.request);
+      } else {
+        console.error("Error in setting up request:", error.message);
+      }
+    }
   };
 
   const handleMouseMove = (e) => {
@@ -100,12 +109,43 @@ const App = ({ type, stroke, fill }) => {
     }
   }, [type]);
 
-  const updateShape = (id, newAttrs) => {
+  const updateShape = async (id, newAttrs) => {
     const updatedShapes = shapes.map((shape) =>
-      shape.id === id ? newAttrs : shape
+      shape.id === id ? { ...shape, ...newAttrs } : shape
     );
+    const updatedShape = updatedShapes.find((shape) => shape.id === id);
+    if(updatedShape === null)
+    {
+      console.error("error in finding shape in editing");
+      return;
+    }
     setShapes(updatedShapes);
+    try {
+      const response = await axios.put(`http://localhost:8080/shapes/edit/${id}`, updatedShape);
+  
+      if (response.status === 200) {
+        console.log("Shape updated successfully in the database.");
+      } else {
+        console.error("Unexpected response status:", response.status);
+      }
+    } catch (error) {
+      if (error.response) {
+        console.error("Error response from server:", error.response);
+      } else if (error.request) {
+        console.error("Error with request:", error.request);
+      } else {
+        console.error("Error in setting up request:", error.message);
+      }
+    }
   };
+
+  const deleteShape = async () => {
+    if (selectedId != null) {
+      setShapes((prevShapes) => prevShapes.filter((shape) => shape.id !== selectedId));
+      
+      setSelectedId(null);
+    }
+  }
 
   function FullScreenStage({ shapeToAdd, handleCanvasClick, handleMouseMove }) {
     const [dimensions, setDimensions] = useState({
