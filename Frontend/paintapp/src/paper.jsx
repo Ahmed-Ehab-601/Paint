@@ -24,10 +24,10 @@ function Paper() {
   const [borderWidth, setBorderWidth] = useState(8); // Brush width state
   const [opacity, setOpacity] = useState(0.5); // Brush opacity state
   const [borderColor, setBorderColor] = useState("#000000"); // Border color state
-  const [savepath, setsavepath] = useState(""); // Path for save
+  const [savepath, setsavepath] = useState("No path selected"); // Path for save
   const [filename, setFilename] = useState(""); // User-defined filename
   const [fileFormat, setfileFormat] = useState("json"); // File format (json/xml)
-  const [filetoload, setfiletoload] = useState(""); // File to load
+
   const [directoryChosen, setDirectoryChosen] = useState(false); // State to track if directory is chosen
   const [selectedFilePath, setSelectedFilePath] = useState(""); // Store selected file path
   
@@ -36,65 +36,90 @@ function Paper() {
   };
 
   const handleSaveFile = async () => {
+    setSelectedFilePath("C:/Users/S A M A/Documents/testpaintsave");
     if (!filename) {
       alert("Please enter a filename!");
       return;
     }
+    console.log({selectedFilePath});
 
+    if (!selectedFilePath) {
+      alert("Please choose a save directory first!");
+      return;
+    }
+  
     // Construct file data object
-    const data = {
-      path: selectedFilePath, // Send the selected file path to the backend
-      filename: filename,
-      format: fileFormat,
-    };
+    const data =
+      selectedFilePath+ "\\"+// Send the selected file path to the backend
+       filename+"."+
+      fileFormat
+    ;
+    console.log(data);
   
     try {
-      const response = await axios.post("http://localhost:8080/shapes/save", data, {
+      const response = await axios.put("http://localhost:8080/shape/save", data, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      console.log("File save response:", response.data);
-      alert("File saved successfully: " + response.data.path);
+  
+      if (response.data && response.data.path) {
+        alert("File saved successfully: " + response.data.path);
+      } else {
+        alert("Save successful but no path returned.");
+      }
     } catch (error) {
-      console.error("Error saving file:", error.response?.data || error.message);
-      alert("Error saving file.");
+      const errorMessage = error.response?.data?.message || "An error occurred while saving the file.";
+      console.error("Error saving file:", errorMessage);
+      alert(errorMessage);
     }
   };
-
-  const handleDirectoryChange = (e) => {
-    const selectedFiles = e.target.files;
-    if (selectedFiles.length > 0) {
-      const directory = selectedFiles[0].webkitRelativePath.split('/')[0];
-      setsavepath(directory);
-      setSelectedFilePath(directory); // Save the directory path
-      setDirectoryChosen(true); // Directory is now chosen
+  
+  const handleDirectoryChange = async () => {
+    try {
+      // Use the Directory Picker API to let the user select a directory
+      const directoryHandle = await window.showDirectoryPicker();
+      const directoryPath = directoryHandle.name; // Get the directory name
+      setsavepath(directoryPath); // Display directory in UI
+      setSelectedFilePath(directoryPath); // Save for backend
+      setDirectoryChosen(true); // Set flag to indicate directory was selected
+      setsaveMenu(true); // Open save menu once the directory is selected
+    } catch (error) {
+      alert("No directory selected or error occurred.");
     }
   };
+  
 
+  
   const handlefiletoload = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
-      setfiletoload(selectedFile);
-      setsavepath(selectedFile.name); 
-      setSelectedFilePath(selectedFile.webkitRelativePath); 
-      sendFilePathToBackend(selectedFile.webkitRelativePath); 
+      const fullPath = selectedFile.webkitRelativePath || selectedFile.name; // Use full path if available
+      setsavepath(fullPath); // Display or save the file path in the UI
+      setSelectedFilePath(fullPath); // Store the full file path
+      sendFile(fullPath); // Send the file path to the backend for loading
     }
   };
-
-  const sendFilePathToBackend = async (path) => {
+  
+  const sendFile = async (path) => {
     try {
-      const response = await axios.post("http://localhost:8080/shapes/load", {
-        filePath: path, // Send the selected file path to the backend
+      const response = await axios.put("http://localhost:8080/shape/load", {
+        filePath: path, // Send the full file path to the backend
       });
-      console.log("Backend response:", response.data);
-      alert("File loaded successfully from path: " + path);
+  
+      if (response.data && Array.isArray(response.data.shapes)) {
+        setshape(response.data.shapes); // Update the shapes state with the response array
+        alert("File loaded successfully from path: " + path);
+      } else {
+        alert("Unexpected response format from backend.");
+      }
     } catch (error) {
-      console.error("Error loading file:", error.response?.data || error.message);
-      alert("Error loading file.");
+      const errorMessage = error.response?.data?.message || "An error occurred while loading the file.";
+      console.error("Error loading file:", errorMessage);
+      alert(errorMessage);
     }
   };
-
+  
   const handleBorderColorChange = (e) => {
     setBorderColor(e.target.value); // Set border color independently
   };
@@ -128,34 +153,18 @@ function Paper() {
           <img src={redoicon} alt="redo" />
         </button>
        
-        <button onClick={() => {
-          if (!directoryChosen) {
-            alert("Please select a directory to save first.");
-            return;
-          }
-          setsaveMenu(true); // Show save menu only after directory is chosen
-        }} className="icon">
+        <button onClick={()=>setsaveMenu(true)} className="icon">
           <img src={saveicon} alt="save" />
         </button>
-
         {/* Save Menu */}
         {savemenu && (
           <div className="save-menu">
             <div className="saveoption">
               <label>Choose the path and filename</label>
-              <input
-                id="file"
-                type="file"
-                onChange={handleDirectoryChange}
-                webkitdirectory="true" // Explicitly set it as a string
-                style={{
-                  opacity: 0,
-                  position: "absolute",
-                  cursor: "pointer",
-                  zIndex: "10",
-                }}
+              <input type="filepath"
+              value={selectedFilePath}
+              onChange={(e)=> setSelectedFilePath(e.target.value)}
               />
-              <div>{savepath || "No path selected"}</div>
               <label>Enter filename:</label>
               <input
                 type="text"
@@ -200,8 +209,8 @@ function Paper() {
 
       {/* Bottom Bar */}
       <div className="bar_onbottom">
-        <button className="icon">
-          <img src={EraserIcon} alt="eraser" />
+        <button className="icon" onClick={()=> setAction("delete")}>
+          <img src={EraserIcon} alt="eraser"  />
         </button>
         <button className="icon" onClick={() => setShapeType("line")}>
           <img src={lineicon} alt="line" />
