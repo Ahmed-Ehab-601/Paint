@@ -56,8 +56,8 @@ function Paper() {
         top: "50%",
         left: "50%",
         position: "absolute",
-        width: "900px",
-        height: "500px",
+        width: "100%",
+        height: "100%",
         backgroundColor: "white",
         transform: "translate(-50%, -50%)",
       }}

@@ -17,8 +17,8 @@ html, body {
 }
 .bar_onside{
   position: fixed;
-  top:100px;
-  left: 850px;
+  top:300px;
+  left: 1620px;
   height: 250px;
   width: 50px;
   border-radius: 10px;
@@ -33,8 +33,8 @@ html, body {
 
 .bar_onbottom{
   position: fixed;
-  top: 450px;       
-  left: 250px;  
+  top: 700px;       
+  left: 650px;  
   height: 50px;
   width: 390px;
   border-radius: 10px;
@@ -145,7 +145,7 @@ button.border{
 }
 .baronleft{
   position: fixed;
-  top: 10px;       
+  top: 50px;       
   left: 20px;  
   height: 150px;
   width: 50px;

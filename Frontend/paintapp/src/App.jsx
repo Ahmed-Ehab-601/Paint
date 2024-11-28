@@ -82,8 +82,8 @@ const App = ({ type ,stroke,fill}) => {
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
       <Stage
-        width={window.innerWidth - 790}
-        height={window.innerHeight - 300}
+        width={window.innerWidth}
+        height={window.innerHeight }
         style={{ border: "1px solid red", position: "absolute", top: -10, left: -10, zIndex: 0 }}
         onMouseDown={handleCanvasClick}
         onTouchStart={handleCanvasClick}
