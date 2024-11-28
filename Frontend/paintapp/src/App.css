@@ -10,37 +10,41 @@ html, body {
 }
 
 .windowpaper {
-  position: absolute;
+  height: 100%;
+  width:100%;
+  position: fixed;
   border-radius: 10px;
   padding: 10px;
   z-index: 1;
 }
-.bar_onside{
+.bar_onside {
   position: fixed;
-  top:300px;
-  left: 1620px;
+  top: 50%; /* Centers the bar vertically */
+  right: 0; /* Positions the bar on the right */
+  transform: translateY(-50%); /* Ensures the bar is vertically centered */
   height: 250px;
   width: 50px;
   border-radius: 10px;
   display: flex;
   box-sizing: border-box;
-  gap: 20px; 
+  gap: 20px;
   flex-direction: column;
   padding: 10px;
   background-color: rgb(113, 79, 145);
   z-index: 2;
 }
 
-.bar_onbottom{
+.bar_onbottom {
   position: fixed;
-  top: 700px;       
-  left: 650px;  
+  bottom: 0; /* Positions the bar at the bottom of the viewport */
+  left: 50%; /* Centers the bar horizontally */
+  transform: translateX(-50%); /* Adjusts for the width to ensure it's centered */
   height: 50px;
   width: 390px;
   border-radius: 10px;
   display: flex;
   box-sizing: border-box;
-  gap: 25px; 
+  gap: 25px;
   flex-direction: row;
   padding: 10px;
   background-color: rgb(113, 79, 145);
