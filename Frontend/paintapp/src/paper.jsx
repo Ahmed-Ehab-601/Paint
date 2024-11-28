@@ -305,7 +305,7 @@ function Paper() {
       </div>
 
       {/* App Component */}
-      <App type={shapeType} fill={color} stroke={borderColor} />
+      <App type={shapeType} fill={color} stroke={borderColor} action={action} />
     </div>
   );
 }
