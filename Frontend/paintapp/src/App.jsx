@@ -5,7 +5,7 @@ import Shape from "./shapes"; // Define Shape component separately
 
 const baseURL = "http://localhost:8080/shape"
 
-const App = ({ type, stroke, fill }) => {
+const App = ({ type, stroke, fill, action }) => {
   const [shapes, setShapes] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [shapeToAdd, setShapeToAdd] = useState(null);
@@ -45,6 +45,23 @@ const App = ({ type, stroke, fill }) => {
     }
   };
 
+  useEffect(()=> {
+    switch(action){
+      case "delete":
+        deleteShape();
+        break;
+      case "copy":
+        copy();
+        break;
+      case "undo":
+        undo();
+        break;
+      case "redo":
+        redo();
+        break;
+    }
+  },[action])
+  
   const handleMouseMove = (e) => {
     const stage = e.target.getStage();
     const pointerPosition = stage.getPointerPosition();
