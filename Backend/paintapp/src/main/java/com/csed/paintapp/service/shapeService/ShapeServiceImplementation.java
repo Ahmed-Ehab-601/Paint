@@ -4,6 +4,7 @@ import com.csed.paintapp.model.DTO.ShapeDto;
 import com.csed.paintapp.model.Shape;
 import com.csed.paintapp.repository.ShapeRepository;
 import com.csed.paintapp.service.commandService.Command;
+import com.csed.paintapp.service.commandService.EditCommand;
 import com.csed.paintapp.service.commandService.UndoRedoService;
 import com.csed.paintapp.service.factory.CommmandFactory;
 import com.csed.paintapp.service.factory.ShapeFactory;
@@ -55,6 +56,7 @@ public class ShapeServiceImplementation implements ShapeServices {
         ShapeDto shapeCreated =  command.execute(shapeDto);
         undoRedoService.pushUndo(command);
         return shapeCreated;
+
     }
 
     @Override

@@ -15,19 +15,28 @@ public class UndoRedoService {
            return null;
         }
 
-        Command command= undoStack.pop();
-         CommandDTO res= command.undo();
-         redoStack.push(command);
-         return res;
+
+        try {
+            Command command= undoStack.pop();
+            CommandDTO res= command.undo();
+            redoStack.push(command);
+            return res;
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
     }
     public CommandDTO redo(){
         if(redoStack.isEmpty()){
             return null;
         }
-        Command command = redoStack.pop();
-        CommandDTO res= command.redo();
-        undoStack.push(command);
-        return res;
+        try {
+            Command command = redoStack.pop();
+            CommandDTO res= command.redo();
+            undoStack.push(command);
+            return res;
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
     }
     public void pushUndo(Command command){
         redoStack.clear();

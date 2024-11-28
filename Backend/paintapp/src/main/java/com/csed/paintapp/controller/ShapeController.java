@@ -85,7 +85,7 @@ public class ShapeController {
         try {
             return new ResponseEntity<>(undoRedoService.undo(),HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 
@@ -94,7 +94,7 @@ public class ShapeController {
         try {
             return new ResponseEntity<>(undoRedoService.redo(),HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 

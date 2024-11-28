@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public  abstract  class Command {
     protected Long id;
     protected ShapeDto shapeDto;
-    public abstract CommandDTO undo();
-    public abstract CommandDTO redo();
+    public abstract CommandDTO undo() throws CloneNotSupportedException;
+    public abstract CommandDTO redo() throws CloneNotSupportedException;
     public abstract  ShapeDto  execute(ShapeDto shapeDto);
 
 
