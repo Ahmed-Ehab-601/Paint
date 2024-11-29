@@ -39,9 +39,15 @@ public class UndoRedoService {
         }
     }
     public void pushUndo(Command command){
-//        redoStack.clear();
+        redoStack.clear();
         undoStack.push(command);
     }
+
+    public void clearStacks(){
+        redoStack.clear();
+        undoStack.clear();
+    }
+
 
 
 

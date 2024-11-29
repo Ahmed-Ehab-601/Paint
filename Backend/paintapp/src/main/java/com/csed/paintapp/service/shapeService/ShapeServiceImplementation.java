@@ -67,8 +67,8 @@ public class ShapeServiceImplementation implements ShapeServices {
 
             Shape originalShape = shapeExist.get();
             Shape copy = originalShape.clone();
-            copy.setX(originalShape.getX() + 7);
-            copy.setY(originalShape.getY() + 7);
+            copy.setX(originalShape.getX() + 20);
+            copy.setY(originalShape.getY() + 20);
             copy.setId(null);
             Command command = commmandFactory.getCommand("create");
             ShapeDto shapeCreated =  command.execute(copy.getDTO());

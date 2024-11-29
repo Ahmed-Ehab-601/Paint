@@ -31,17 +31,18 @@ public class ShapeDto {
     private Double majorRadius;
     @JsonProperty("radiusY")
     private Double minorRadius;
+    @JsonProperty("rotation")
     private Double rotate;
     private double [] points;
     @JsonIgnore
     public void setDefaultValue (){
-        double basesize = 76.0;
+        double basesize = 100;
         radius = basesize/2;
         borderSize = 3.0;
         minorRadius = basesize/ 1.5;
         majorRadius = basesize;
-        width = basesize;
-        height = basesize*1.5;
+        width = basesize*1.5;
+        height = basesize;
         rotate = 0.0;
         if(type.equals("square")){
             width = Double.valueOf(height);

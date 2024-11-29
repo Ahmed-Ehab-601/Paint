@@ -102,6 +102,7 @@ public class ShapeController {
     @DeleteMapping("/deleteAll")
     public ResponseEntity<?>  deleteAll(){
         shapeServices.deleteAll();
+        undoRedoService.clearStacks();
         return new ResponseEntity<>(HttpStatus.OK);
 
     }

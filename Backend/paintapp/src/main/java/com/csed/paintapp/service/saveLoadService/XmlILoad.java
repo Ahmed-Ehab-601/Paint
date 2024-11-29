@@ -3,6 +3,7 @@ package com.csed.paintapp.service.saveLoadService;
 import com.csed.paintapp.model.DTO.ShapeDto;
 import com.csed.paintapp.model.Shape;
 import com.csed.paintapp.repository.ShapeRepository;
+import com.csed.paintapp.service.commandService.UndoRedoService;
 import com.csed.paintapp.service.factory.ShapeFactory;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -17,10 +18,12 @@ public class XmlILoad implements ILoad { // samaa
 
     private final ShapeFactory shapeFactory;
     private final ShapeRepository shapeRepository;
+    private UndoRedoService undoRedoService;
 
-    public XmlILoad(ShapeRepository shapeRepository,ShapeFactory shapeFactory) {
+    public XmlILoad(ShapeFactory shapeFactory, ShapeRepository shapeRepository, UndoRedoService undoRedoService) {
         this.shapeFactory = shapeFactory;
         this.shapeRepository = shapeRepository;
+        this.undoRedoService = undoRedoService;
     }
 
 
@@ -32,6 +35,7 @@ public class XmlILoad implements ILoad { // samaa
         Wrapper wrapperLoaded=(Wrapper) unmarshaller.unmarshal(file);
         List<ShapeDto>shapeDtos =wrapperLoaded.getShapes();
         shapeRepository.deleteAll();
+        undoRedoService.clearStacks();
         for(ShapeDto shapeDto : shapeDtos){
             shapeDto.setId(null);
             Shape shape = shapeRepository.save(shapeFactory.getShape(shapeDto));
