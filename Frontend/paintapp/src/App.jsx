@@ -5,7 +5,7 @@ import Shape from "./shapes"; // Define Shape component separately
 
 const baseURL = "http://localhost:8080/shape"
 
-const App = ({ type, stroke, fill, action }) => {
+const App = ({ type, stroke, fill, action ,loadedShapes}) => {
   const [shapes, setShapes] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [shapeToAdd, setShapeToAdd] = useState(null);
@@ -117,6 +117,9 @@ const App = ({ type, stroke, fill, action }) => {
       return [...updatedShapes, selectedShape];
     });
   };
+  useEffect(()=> {
+    setShapes(loadedShapes)
+  },[loadedShapes]);
 
   useEffect(() => {
     if (type !== "") {

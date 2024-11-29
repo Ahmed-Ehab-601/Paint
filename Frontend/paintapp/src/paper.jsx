@@ -31,7 +31,8 @@ function Paper() {
   const [loadfile,setloadfile]=useState("");
   const [directoryChosen, setDirectoryChosen] = useState(false); // State to track if directory is chosen
   const [selectedFilePath, setSelectedFilePath] = useState(""); // Store selected file path
-  const [action,setAction]=useState("")
+  const [action,setAction]=useState("");
+  const [loadedShapes,setloadedShapes]=useState([]);
   const handleColorChange = (e) => {
     setColor(e.target.value); // Set brush color
   };
@@ -109,13 +110,13 @@ function Paper() {
       console.log(path)
       console.log(x)
       const response = await axios.put("http://localhost:8080/shape/load", {
-        path : "/Users/ahmedehab/"+path, // Send the full file path to the backend
+        path : path, // Send the full file path to the backend
         type : x
       });
   
       if (response.status == 200) {
         console.log(response.data)
-        setshape(response.data); // Update the shapes state with the response array
+        setloadedShapes(response.data); // Update the shapes state with the response array
         alert("File loaded successfully from path: " + path);
       } else {
         alert("Unexpected response format from backend.");
@@ -325,7 +326,7 @@ function Paper() {
       </div>
 
 
-      <App type={shapeType} fill={color} stroke={borderColor} action={action}/>
+      <App type={shapeType} fill={color} stroke={borderColor} action={action} loadedShapes={loadedShapes}/>
 
     </div>
   );
