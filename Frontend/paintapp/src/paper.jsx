@@ -38,7 +38,7 @@ function Paper() {
   };
 
   const handleSaveFile = async () => {
-    setSelectedFilePath("C:/Users/S A M A/Documents/testpaintsave");
+  ///  setSelectedFilePath(");
     if (!filename) {
       alert("Please enter a filename!");
       return;

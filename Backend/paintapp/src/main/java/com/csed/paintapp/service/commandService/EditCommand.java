@@ -33,6 +33,7 @@ public class EditCommand extends Command {
 
     @Override
     public ShapeDto execute(ShapeDto newShapeDto) {
+
         Optional<Shape> shape = shapeRepository.findById(newShapeDto.getId());
         if(shape.isPresent()){
             this.oldShapeDto = shape.get().getDTO();

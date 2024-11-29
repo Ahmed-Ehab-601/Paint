@@ -21,7 +21,7 @@ public class DeleteCommand extends Command {
 
     @Override
     public CommandDTO undo() {
-        oldShapeDto.setId(null);
+
         Shape shape = shapeRepository.save(shapeFactory.getShape(oldShapeDto));
         oldShapeDto = shape.getDTO();
         id = shape.getId();

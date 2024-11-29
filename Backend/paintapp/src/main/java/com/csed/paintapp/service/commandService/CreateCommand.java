@@ -5,6 +5,8 @@ import com.csed.paintapp.model.DTO.ShapeDto;
 import com.csed.paintapp.model.Shape;
 import com.csed.paintapp.repository.ShapeRepository;
 import com.csed.paintapp.service.factory.ShapeFactory;
+import com.csed.paintapp.service.shapeService.ShapeServiceImplementation;
+import com.csed.paintapp.service.shapeService.ShapeServices;
 import lombok.Data;
 
 @Data
@@ -27,7 +29,7 @@ public class CreateCommand extends Command {
 
     @Override
     public CommandDTO redo() {
-        this.oldShapeDto.setId(null);
+
         Shape shape= shapeRepository.save(shapeFactory.getShape(this.oldShapeDto));
         this.oldShapeDto.setId(shape.getId());
         this.id = shape.getId();
@@ -39,9 +41,11 @@ public class CreateCommand extends Command {
 
     @Override
     public ShapeDto execute(ShapeDto shapeDto) {
-        shapeDto.setId(null); // set id null to make db generate it
-        shapeDto.setDefaultValue();
-       Shape shapeCreated  = shapeRepository.save(shapeFactory.getShape(shapeDto)); // save shpe
+
+
+        shapeDto.setId(ShapeServiceImplementation.ID);
+       Shape shapeCreated  = shapeRepository.save(shapeFactory.getShape(shapeDto));
+       ShapeServiceImplementation.ID++;
        shapeDto.setId(shapeCreated.getId());
        setId(shapeCreated.getId());
        setOldShapeDto(shapeDto);

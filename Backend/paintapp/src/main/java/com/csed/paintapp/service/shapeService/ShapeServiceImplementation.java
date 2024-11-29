@@ -8,11 +8,12 @@ import com.csed.paintapp.service.commandService.EditCommand;
 import com.csed.paintapp.service.commandService.UndoRedoService;
 import com.csed.paintapp.service.factory.CommmandFactory;
 import com.csed.paintapp.service.factory.ShapeFactory;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+@Data
 @Service
 public class ShapeServiceImplementation implements ShapeServices {
 
@@ -22,7 +23,7 @@ public class ShapeServiceImplementation implements ShapeServices {
     private final CommmandFactory  commmandFactory;
 
     private final UndoRedoService undoRedoService;
-
+    public static  Long ID =1L;
     public ShapeServiceImplementation(ShapeRepository shapeRepository, ShapeFactory shapeFactory, CommmandFactory commmandFactory,UndoRedoService undoRedoService) {
         this.shapeRepository = shapeRepository;
         this.shapeFactory = shapeFactory;
@@ -34,7 +35,7 @@ public class ShapeServiceImplementation implements ShapeServices {
 
     @Override
     public ShapeDto create(ShapeDto shapeDTO) {
-
+        shapeDTO.setDefaultValue();
         Command command = commmandFactory.getCommand("create");
         ShapeDto shapeCreated =  command.execute(shapeDTO);
         undoRedoService.pushUndo(command);
