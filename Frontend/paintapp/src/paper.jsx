@@ -15,7 +15,7 @@ import ellipseicon from "./assets/Ellipse2.svg";
 import copyicon from "./assets/copy.svg";
 import menu from "./assets/menu.svg";
 import App from "./App"; // Import App component to pass shapeType
-
+import trash from './assets/trash.svg'
 function Paper() {
   const [shapeType, setShapeType] = useState(null); // Store selected shape type
   const [color, setColor] = useState("#000000"); // Brush color state
@@ -27,10 +27,12 @@ function Paper() {
   const [savepath, setsavepath] = useState("No path selected"); // Path for save
   const [filename, setFilename] = useState(""); // User-defined filename
   const [fileFormat, setfileFormat] = useState("json"); // File format (json/xml)
-
+  const [loadmenu,setloadmenu]=useState(false);
+  const [loadfile,setloadfile]=useState("");
   const [directoryChosen, setDirectoryChosen] = useState(false); // State to track if directory is chosen
   const [selectedFilePath, setSelectedFilePath] = useState(""); // Store selected file path
-  const [action,setAction]=useState("")
+  const [action,setAction]=useState("");
+  const [loadedShapes,setloadedShapes]=useState([]);
   const handleColorChange = (e) => {
     setColor(e.target.value); // Set brush color
   };
@@ -108,13 +110,13 @@ function Paper() {
       console.log(path)
       console.log(x)
       const response = await axios.put("http://localhost:8080/shape/load", {
-        path : "/Users/ahmedehab/"+path, // Send the full file path to the backend
+        path : path, // Send the full file path to the backend
         type : x
       });
   
       if (response.status == 200) {
         console.log(response.data)
-        setshape(response.data); // Update the shapes state with the response array
+        setloadedShapes(response.data); // Update the shapes state with the response array
         alert("File loaded successfully from path: " + path);
       } else {
         alert("Unexpected response format from backend.");
@@ -163,7 +165,7 @@ function Paper() {
           <img src={redoicon} alt="redo" />
         </button>
        
-        <button onClick={()=>setsaveMenu(true)} className="icon">
+        <button onClick={()=>setsaveMenu(!savemenu)} className="icon">
           <img src={saveicon} alt="save" />
         </button>
         {/* Save Menu */}
@@ -198,20 +200,25 @@ function Paper() {
             <button onClick={handleSaveFile}>Save</button>
           </div>
         )}
-        <button className="icon">
-          <input
-            id="file"
-            type="file"
-            onChange={handlefiletoload}
-            style={{
-              opacity: 0,
-              position: "absolute",
-              cursor: "pointer",
-              zIndex: "10",
-            }}
-          />
-          <img src={uploadicon} alt="upload" />
-        </button>
+<button className="icon" onClick={() => setloadmenu(!loadmenu)}>
+  <img src={uploadicon} alt="upload" />
+</button>
+{loadmenu && (
+  <div className="save-menu">
+    <div className="saveoption">
+      <label>Enter or select the file path to load:</label>
+      <input
+        type="text"
+        value={loadfile}
+        onChange={(e) => setloadfile(e.target.value)}
+        placeholder="Enter file path"
+      />
+      
+    </div>
+    <button onClick={() => sendFile(loadfile)}>Load</button>
+  </div>
+)}
+
         <button className="copybutton" onClick={()=>setAction("copy")}>
           <img src={copyicon} alt="copy" />
         </button>
@@ -312,10 +319,15 @@ function Paper() {
             </div>
           </div>
         )}
+        <button className="icon" onClick={()=>{setAction("deleteAll")}}>
+          <img src={trash} ></img>
+        </button>
+
       </div>
 
-      {/* App Component */}
-      <App type={shapeType} fill={color} stroke={borderColor} action={action}/>
+
+      <App type={shapeType} fill={color} stroke={borderColor} action={action} loadedShapes={loadedShapes}/>
+
     </div>
   );
 }
