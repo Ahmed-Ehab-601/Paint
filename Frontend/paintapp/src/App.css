@@ -8,7 +8,19 @@ html, body {
   align-items: center;
   background-color: #00000088; 
 }
-
+.load-menu{
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+  background-color: rgb(113, 79, 145);
+  border-radius: 10px;
+  width: 250px;
+  position: absolute;
+  top: 30px;
+  right: 50px;  /* Open the save menu on the left */
+  z-index: 2;
+}
 
 .save-option {
   display: flex;
@@ -172,7 +184,7 @@ button.border{
   position: fixed;
   top: 50px;       
   left: 20px;  
-  height: 150px;
+  height: 200px;
   width: 50px;
   border-radius: 10px;
   display: flex;
