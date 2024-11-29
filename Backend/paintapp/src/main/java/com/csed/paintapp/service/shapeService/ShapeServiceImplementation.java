@@ -78,6 +78,12 @@ public class ShapeServiceImplementation implements ShapeServices {
         return null;
     }
 
+    public void deleteAll(){
+        shapeRepository.deleteAll();
+
+    }
+
+
 
 
 }

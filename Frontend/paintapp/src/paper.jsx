@@ -315,11 +315,7 @@ function Paper() {
       </div>
 
       {/* App Component */}
-<<<<<<< Updated upstream
-      <App type={shapeType} fill={color} stroke={borderColor} action={action} />
-=======
       <App type={shapeType} fill={color} stroke={borderColor} action={action}/>
->>>>>>> Stashed changes
     </div>
   );
 }

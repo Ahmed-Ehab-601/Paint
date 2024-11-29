@@ -57,6 +57,9 @@ const App = ({ type, stroke, fill, action }) => {
       case "redo":
         redo();
         break;
+      case "deleteAll":
+        deleteAll();
+        break;
     }
   },[action])
 
@@ -158,7 +161,7 @@ const App = ({ type, stroke, fill, action }) => {
     if (selectedId != null) {
       setShapes((prevShapes) => prevShapes.filter((shape) => shape.id !== selectedId));
       try {
-        const response = await axios.delete(`http://localhost:8080/${selectedId}`);
+        const response = await axios.delete(`http://localhost:8080/shape/${selectedId}`);
         if (response.status === 200) {
           console.log("deletion confirmed for shapeId" + selectedId)
         } else {
@@ -180,7 +183,7 @@ const App = ({ type, stroke, fill, action }) => {
   const copyShape = async () => {
     if (selectedId != null) {
       try {
-        const response = await axios.put(`http://localhost:8080/copy/${selectedId}`);
+        const response = await axios.put(`http://localhost:8080/shape/copy/${selectedId}`);
         if (response.status === 200) {
           const copiedShape = response.data;
           setShapes((prevShapes) => [...prevShapes, copiedShape]);
@@ -200,18 +203,38 @@ const App = ({ type, stroke, fill, action }) => {
     }
   }
 
+  const deleteAll = async () => {
+    setShapes([]);
+    try {
+      const response = await axios.delete(`http://localhost:8080/shape/deleteAll`);
+      if (response.status === 200) {
+        console.log("delete all done")
+      } else {
+        console.error("Failed to delete all shape: ", response, " bad request");
+      }
+    } catch (error) {
+      if (error.response) {
+        console.error("Error response from server:", error.response);
+      } else if (error.request) {
+        console.error("Error with request:", error.request);
+      } else {
+        console.error("Error in setting up request:", error.message);
+      }
+    }
+  }
+
   const undo = async () => {
     try {
-      const response = await axios.put(`http://localhost:8080/shape/undo/`);
+      const response = await axios.put(`http://localhost:8080/shape/undo`)
       if (response.status === 200) {
-        const { type, shapeDTO } = response.data;
+        const { type, shapeDto } = response.data;
   
         switch (type) {
           case "edit":
             {
               // Update the shape with the new data from shapeDTO
               const updatedShapes = shapes.map((shape) =>
-                shape.id === shapeDTO.id ? shapeDTO : shape
+                shape.id === shapeDto.id ? shapeDto : shape
               );
               setShapes(updatedShapes); // Update the state with the modified array
             }
@@ -220,14 +243,14 @@ const App = ({ type, stroke, fill, action }) => {
           case "create":
             {
               // Add the new shape to the array with its new id
-              setShapes((prevShapes) => [...prevShapes, shapeDTO]);
+              setShapes((prevShapes) => [...prevShapes, shapeDto]);
             }
             break;
   
           case "delete":
             {
               // Remove the shape using the given shapeDTO id
-              const updatedShapes = shapes.filter((shape) => shape.id !== shapeDTO.id);
+              const updatedShapes = shapes.filter((shape) => shape.id !== shapeDto.id);
               setShapes(updatedShapes); // Update the state after deletion
             }
             break;
@@ -253,16 +276,16 @@ const App = ({ type, stroke, fill, action }) => {
 
   const redo = async () => {
     try {
-      const response = await axios.put(`http://localhost:8080/shape/redo/`);
+      const response = await axios.put(`http://localhost:8080/shape/redo`);
       if (response.status === 200) {
-        const { type, shapeDTO } = response.data;
+        const { type, shapeDto } = response.data;
   
         switch (type) {
           case "edit":
             {
               // Update the shape with the new data from shapeDTO
               const updatedShapes = shapes.map((shape) =>
-                shape.id === shapeDTO.id ? shapeDTO : shape
+                shape.id === shapeDto.id ? shapeDto : shape
               );
               setShapes(updatedShapes); // Update the state with the modified array
             }
@@ -271,14 +294,14 @@ const App = ({ type, stroke, fill, action }) => {
           case "create":
             {
               // Add the new shape to the array with its new id
-              setShapes((prevShapes) => [...prevShapes, shapeDTO]);
+              setShapes((prevShapes) => [...prevShapes, shapeDto]);
             }
             break;
   
           case "delete":
             {
               // Remove the shape using the given shapeDTO id
-              const updatedShapes = shapes.filter((shape) => shape.id !== shapeDTO.id);
+              const updatedShapes = shapes.filter((shape) => shape.id !== shapeDto.id);
               setShapes(updatedShapes); // Update the state after deletion
             }
             break;

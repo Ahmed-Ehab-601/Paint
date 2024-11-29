@@ -99,6 +99,14 @@ public class ShapeController {
         }
     }
 
+    @DeleteMapping("/deleteAll")
+    public ResponseEntity<?>  deleteAll(){
+        shapeServices.deleteAll();
+        return new ResponseEntity<>(HttpStatus.OK);
+
+    }
+
+
 
 
 }

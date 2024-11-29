@@ -11,6 +11,8 @@ public interface ShapeServices {
 
     ShapeDto copy (Long id) throws CloneNotSupportedException;
 
+    void deleteAll();
+
 
 
 
