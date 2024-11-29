@@ -81,6 +81,8 @@ public class ShapeServiceImplementation implements ShapeServices {
 
     public void deleteAll(){
         shapeRepository.deleteAll();
+        undoRedoService.clearStacks();
+        ID = 1L;
 
     }
 

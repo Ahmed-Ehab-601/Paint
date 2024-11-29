@@ -19,35 +19,23 @@ public class CreateCommand extends Command {
     }
     @Override
     public CommandDTO undo() {
-            shapeRepository.deleteById(this.id);
-            CommandDTO commandDTO =new CommandDTO();
-            commandDTO.setType("delete");
-            commandDTO.setShapeDto(this.oldShapeDto);
-            return commandDTO;
-
+            shapeRepository.deleteById(id);
+             return new CommandDTO("delete",oldShapeDto);
     }
 
     @Override
     public CommandDTO redo() {
-
-        Shape shape= shapeRepository.save(shapeFactory.getShape(this.oldShapeDto));
-        this.oldShapeDto.setId(shape.getId());
-        this.id = shape.getId();
-        CommandDTO commandDTO =new CommandDTO();
-        commandDTO.setType("create");
-        commandDTO.setShapeDto(oldShapeDto);
-        return commandDTO;
+        shapeRepository.save(shapeFactory.getShape(oldShapeDto));
+        return new CommandDTO("create",oldShapeDto);
     }
 
     @Override
     public ShapeDto execute(ShapeDto shapeDto) {
 
-
-        shapeDto.setId(ShapeServiceImplementation.ID);
-       Shape shapeCreated  = shapeRepository.save(shapeFactory.getShape(shapeDto));
+       shapeDto.setId(ShapeServiceImplementation.ID);
+       shapeRepository.save(shapeFactory.getShape(shapeDto));
        ShapeServiceImplementation.ID++;
-       shapeDto.setId(shapeCreated.getId());
-       setId(shapeCreated.getId());
+       setId(shapeDto.getId());
        setOldShapeDto(shapeDto);
        return shapeDto;
 

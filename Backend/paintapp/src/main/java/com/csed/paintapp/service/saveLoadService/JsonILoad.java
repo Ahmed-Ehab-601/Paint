@@ -5,6 +5,7 @@ import com.csed.paintapp.model.Shape;
 import com.csed.paintapp.repository.ShapeRepository;
 import com.csed.paintapp.service.commandService.UndoRedoService;
 import com.csed.paintapp.service.factory.ShapeFactory;
+import com.csed.paintapp.service.shapeService.ShapeServiceImplementation;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,8 @@ public class JsonILoad implements ILoad { // ahmed
         undoRedoService.clearStacks();
 
         for(ShapeDto shapeDto : shapes){
-            shapeDto.setId(null);
+            shapeDto.setId(ShapeServiceImplementation.ID);
+            ShapeServiceImplementation.ID++;
             Shape shape = shapeRepository.save(shapeFactory.getShape(shapeDto));
             shapeDto.setId(shape.getId());
         }

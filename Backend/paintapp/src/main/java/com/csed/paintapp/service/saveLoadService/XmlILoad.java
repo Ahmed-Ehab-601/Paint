@@ -5,6 +5,7 @@ import com.csed.paintapp.model.Shape;
 import com.csed.paintapp.repository.ShapeRepository;
 import com.csed.paintapp.service.commandService.UndoRedoService;
 import com.csed.paintapp.service.factory.ShapeFactory;
+import com.csed.paintapp.service.shapeService.ShapeServiceImplementation;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
@@ -37,7 +38,8 @@ public class XmlILoad implements ILoad { // samaa
         shapeRepository.deleteAll();
         undoRedoService.clearStacks();
         for(ShapeDto shapeDto : shapeDtos){
-            shapeDto.setId(null);
+            shapeDto.setId(ShapeServiceImplementation.ID);
+            ShapeServiceImplementation.ID++;
             Shape shape = shapeRepository.save(shapeFactory.getShape(shapeDto));
             shapeDto.setId(shape.getId());
         }

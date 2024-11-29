@@ -54,7 +54,7 @@ function Paper() {
     const data =
       {
         type : fileFormat,
-        path : selectedFilePath+ "//"+filename+"."+fileFormat
+        path : selectedFilePath //+ "//"+filename+"."+fileFormat
       }
     ;
     console.log(data);
@@ -177,13 +177,13 @@ function Paper() {
               value={selectedFilePath}
               onChange={(e)=> setSelectedFilePath(e.target.value)}
               />
-              <label>Enter filename:</label>
+              {/* <label>Enter filename:</label>
               <input
                 type="text"
                 value={filename}
                 onChange={(e) => setFilename(e.target.value)}
                 placeholder="Enter filename"
-              />
+              /> */}
             </div>
 
             <div className="saveoption">
