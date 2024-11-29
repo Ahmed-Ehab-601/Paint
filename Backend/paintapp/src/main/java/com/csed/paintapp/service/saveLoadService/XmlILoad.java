@@ -37,6 +37,7 @@ public class XmlILoad implements ILoad { // samaa
         List<ShapeDto>shapeDtos =wrapperLoaded.getShapes();
         shapeRepository.deleteAll();
         undoRedoService.clearStacks();
+        ShapeServiceImplementation.ID = 1L;
         for(ShapeDto shapeDto : shapeDtos){
             shapeDto.setId(ShapeServiceImplementation.ID);
             ShapeServiceImplementation.ID++;

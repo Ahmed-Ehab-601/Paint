@@ -35,6 +35,7 @@ public class JsonILoad implements ILoad { // ahmed
         List<ShapeDto> shapes = objectMapper.readValue(file, new TypeReference<>() {});
         shapeRepository.deleteAll();
         undoRedoService.clearStacks();
+        ShapeServiceImplementation.ID = 1L;
 
         for(ShapeDto shapeDto : shapes){
             shapeDto.setId(ShapeServiceImplementation.ID);

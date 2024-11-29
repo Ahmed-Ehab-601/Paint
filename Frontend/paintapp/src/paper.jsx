@@ -39,10 +39,10 @@ function Paper() {
 
   const handleSaveFile = async () => {
   ///  setSelectedFilePath(");
-    if (!filename) {
+    /* if (!filename) {
       alert("Please enter a filename!");
       return;
-    }
+    } */
     console.log({selectedFilePath});
 
     if (!selectedFilePath) {
