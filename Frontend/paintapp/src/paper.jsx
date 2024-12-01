@@ -25,7 +25,7 @@ function Paper() {
   const [opacity, setOpacity] = useState(0.5); // Brush opacity state
   const [borderColor, setBorderColor] = useState("#000000"); // Border color state
   const [savepath, setsavepath] = useState("No path selected"); // Path for save
-  const [filename, setFilename] = useState(""); // User-defined filename
+  const [name, setname] = useState(""); // User-defined filename
   const [fileFormat, setfileFormat] = useState("json"); // File format (json/xml)
   const [loadmenu,setloadmenu]=useState(false);
   const [loadfile,setloadfile]=useState("");
@@ -150,23 +150,29 @@ function Paper() {
       style={{
         top: "0",
         left: "0",
-        position: "fixed", // Keep the window fixed
-        width: "100vw", // Full viewport width
-        height: "100vh", // Full viewport height
+        position: "fixed",
+        width: "100vw", 
+        height: "100vh", 
         backgroundColor: "white",
       }}
     >
+      <div className="icon-name">{name}</div>
       {/* Side Bar */}
       <div className="bar_onside">
-        <button className="icon" onClick={()=>setAction("undo")}>
+        <button className="icon" onClick={()=>setAction("undo")} onMouseEnter={() => setname("undo")}
+  onMouseLeave={() => setname("")}>
           <img src={undoicon} alt="undo" />
         </button>
-        <button className="icon" onClick={()=>setAction("redo")}>
+        <button className="icon" onClick={()=>setAction("redo")}onMouseEnter={() => setname("redo")}
+  onMouseLeave={() => setname("")}>
           <img src={redoicon} alt="redo" />
         </button>
+      
+        <button onClick={()=>setsaveMenu(!savemenu)} className="icon" onMouseEnter={() => setname("save")}
+  onMouseLeave={() => setname("")}>
        
-        <button onClick={()=>setsaveMenu(!savemenu)} className="icon">
           <img src={saveicon} alt="save" />
+          
         </button>
         {/* Save Menu */}
         {savemenu && (
@@ -177,13 +183,7 @@ function Paper() {
               value={selectedFilePath}
               onChange={(e)=> setSelectedFilePath(e.target.value)}
               />
-              {/* <label>Enter filename:</label>
-              <input
-                type="text"
-                value={filename}
-                onChange={(e) => setFilename(e.target.value)}
-                placeholder="Enter filename"
-              /> */}
+              
             </div>
 
             <div className="saveoption">
@@ -200,7 +200,8 @@ function Paper() {
             <button onClick={handleSaveFile}>Save</button>
           </div>
         )}
-<button className="icon" onClick={() => setloadmenu(!loadmenu)}>
+<button className="icon" onClick={() => setloadmenu(!loadmenu)} onMouseEnter={() => setname("Load")}
+  onMouseLeave={() => setname("")}>
   <img src={uploadicon} alt="upload" />
 </button>
 {loadmenu && (
@@ -219,40 +220,49 @@ function Paper() {
   </div>
 )}
 
-        <button className="copybutton" onClick={()=>setAction("copy")}>
+        <button className="copybutton" onClick={()=>setAction("copy")}onMouseEnter={() => setname("copy")}
+  onMouseLeave={() => setname("")}>
           <img src={copyicon} alt="copy" />
         </button>
       </div>
 
       {/* Bottom Bar */}
       <div className="bar_onbottom">
-        <button className="icon" onClick={()=> setAction("delete")}>
+        <button className="icon" onClick={()=> setAction("delete")}onMouseEnter={() => setname("delete")}
+  onMouseLeave={() => setname("")}>
           <img src={EraserIcon} alt="eraser"  />
         </button>
-        <button className="icon" onClick={() => setShapeType("line")}>
+        <button className="icon" onClick={() => setShapeType("line")}onMouseEnter={() => setname("line")}
+  onMouseLeave={() => setname("")}>
           <img src={lineicon} alt="line" />
         </button>
         {/* Shape Buttons */}
-        <button className="icon" onClick={() => setShapeType("circle")}>
+        <button className="icon" onClick={() => setShapeType("circle")}onMouseEnter={() => setname("circle")}
+  onMouseLeave={() => setname("")}>
           <img src={CircleIcon} alt="circle" />
         </button>
-        <button className="icon" onClick={() => setShapeType("triangle")}>
+        <button className="icon" onClick={() => setShapeType("triangle")} onMouseEnter={() => setname("triangle")}
+  onMouseLeave={() => setname("")}>
           <img src={triangleIcon} alt="triangle" />
         </button>
-        <button className="icon" onClick={() => setShapeType("rectangle")}>
+        <button className="icon" onClick={() => setShapeType("rectangle")}onMouseEnter={() => setname("rectangle")}
+  onMouseLeave={() => setname("")}>
           <img src={rectIcon} alt="rectangle" />
         </button>
-        <button className="icon" onClick={() => setShapeType("square")}>
+        <button className="icon" onClick={() => setShapeType("square")}onMouseEnter={() => setname("square")}
+  onMouseLeave={() => setname("")}>
           <img src={squareIcon} alt="square" />
         </button>
-        <button className="icon" onClick={() => setShapeType("ellipse")}>
+        <button className="icon" onClick={() => setShapeType("ellipse")}onMouseEnter={() => setname("Ellipse")}
+  onMouseLeave={() => setname("")}>
           <img src={ellipseicon} alt="ellipse" />
         </button>
       </div>
 
       <div className="baronleft">
         {/* Brush Color Button */}
-        <button className="color" style={{ backgroundColor: color }}>
+        <button className="color" style={{ backgroundColor: color }} onMouseEnter={() => setname("shape color")}
+  onMouseLeave={() => setname("")}>
           <input
             id="brush"
             type="color"
@@ -270,7 +280,8 @@ function Paper() {
         </button>
 
         {/* Border Color Button */}
-        <button className="border" style={{ backgroundColor: borderColor }}>
+        <button className="border" style={{ backgroundColor: borderColor }}onMouseEnter={() => setname("border color")}
+  onMouseLeave={() => setname("")}>
           <input
             id="border"
             type="color"
@@ -319,9 +330,13 @@ function Paper() {
             </div>
           </div>
         )}
-        <button className="icon" onClick={()=>{setAction("deleteAll")}}>
+        <button className="icon" onClick={()=>{setAction("deleteAll")}}
+        onMouseEnter={() => setname("delete all")}
+  onMouseLeave={() => setname("")}>
+       
           <img src={trash} ></img>
         </button>
+        
 
       </div>
 
