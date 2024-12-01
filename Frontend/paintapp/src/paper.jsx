@@ -299,9 +299,9 @@ function Paper() {
                 type="range"
                 id="border_width"
                 min="1"
-                max="17"
+                max="25"
                 value={borderWidth}
-                onChange={(e) => setBorderWidth(e.target.value)}
+                onChange={(e) => setBorderWidth(parseInt(e.target.value))}
               />
               <span>{borderWidth}</span>
             </div>
@@ -326,7 +326,7 @@ function Paper() {
       </div>
 
 
-      <App type={shapeType} fill={color} stroke={borderColor} action={action} loadedShapes={loadedShapes}/>
+      <App type={shapeType} fill={color} stroke={borderColor} action={action} loadedShapes={loadedShapes} opacity={opacity} strokeWidth={borderWidth}/>
 
     </div>
   );
