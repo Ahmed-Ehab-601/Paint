@@ -170,7 +170,7 @@ function Paper() {
             <button onClick={handleSaveFile}>Save</button>
           </div>
         )}
-        /*load button  */
+       { /*load button  */}
         <button className="icon" onClick={() => setloadmenu(!loadmenu)} onMouseEnter={() => setname("Load")}
           onMouseLeave={() => setname("")}>
            <img src={uploadicon} alt="upload" />
@@ -199,12 +199,12 @@ function Paper() {
 
     {/* Bottom Bar */}
       <div className="bar_onbottom">
-      /*delete button */
+      {/*delete button */}
         <button className="icon" onClick={()=> setAction("delete")}onMouseEnter={() => setname("delete")}
               onMouseLeave={() => setname("")}>
               <img src={EraserIcon} alt="eraser"  />
         </button>
-        /*line button */
+        {/*line button */}
       
         <button className="icon" onClick={() => setShapeType("line")}onMouseEnter={() => setname("line")}
            onMouseLeave={() => setname("")}>
