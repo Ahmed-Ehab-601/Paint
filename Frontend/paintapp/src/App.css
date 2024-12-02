@@ -43,7 +43,7 @@ html, body {
   
 }
 .saveoption input:active , select:active{
-  background: linear-gradient(purple,pink);
+  background: linear-gradient(rgb(176, 4, 176),pink);
 }
 .saveoption select{
   width:93%
@@ -56,7 +56,7 @@ html, body {
   flex-direction: column;
   padding: 10px;
   gap: 10px;
-  background-color: plum;
+  background-color: rgb(241, 163, 241);
   border-color: rgb(85, 11, 85);
   border-radius: 10px;
   width: 290px;
@@ -87,7 +87,7 @@ html, body {
   gap: 20px;
   flex-direction: column;
   padding: 10px;
-  background-color: plum;
+  background-color: rgb(241, 163, 241);
   z-index: 2;
 }
 
@@ -104,7 +104,7 @@ html, body {
   gap: 25px;
   flex-direction: row;
   padding: 10px;
-  background-color: plum;
+  background-color: rgb(241, 163, 241);
   z-index: 2;
 }
 button.icon {
@@ -125,13 +125,13 @@ button.icon {
 }
 
 button.icon:hover {
-   background: linear-gradient(#d1a5dd,white);
-
+   background: rgb(250, 210, 253);
+ 
   transform: scale(1.1);
 }
 
 button.icon:active {
-  background-color: #d0d0d0;
+  background-color: #db73e2;
 }
 
 button.icon img {
@@ -142,9 +142,9 @@ button.icon img {
 
 
 .icon-name {
-  font-style: italic;
+  
   opacity: 1;
-  background-color: hsla(290, 38%, 80%, 0.507);
+  background-color: hsla(291, 90%, 75%, 0.507);
   color: rgba(0, 0, 0, 0.541);
   text-align: center;
   border-radius: 5px;
@@ -171,7 +171,7 @@ button.color{
   justify-content: center;
   align-items: center;
   left: 60px;
-  border: 2px solid #ccc; 
+  border: 2px solid #f7f5f7; 
   padding: 5px;
   cursor: pointer;
   outline: none;
@@ -202,17 +202,17 @@ button.color{
 
 .option label {
   font-size: 14px;
-  color: #fff;
+  color: #141414;
 }
 
 .option input {
   width: 100%;
-  
+  background-color: rgb(255, 255, 255);
 }
 
 .option span {
   font-size: 14px;
-  color: #fff;
+  color: #0a0a0a;
 }
 button.border{
   
@@ -223,7 +223,7 @@ button.border{
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #ccc; 
+  border: 2px solid #fbf8f8; 
   padding: 5px;
   cursor: pointer;
   outline: none;
@@ -245,47 +245,8 @@ button.border{
   background-color: plum;
   z-index: 2;
 }
-button.copybutton{
-  top: 60px;
-  width: 30px; 
-  height: 30px;
-  border-radius: 50%;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid #ccc; 
-  padding: 5px;
-  cursor: pointer;
-  outline: none;
-  background-color: white; 
-  z-index: 1;
-  transition: 0.2s;
-}
-button.copybutton:hover{
-  background: linear-gradient(#d1a5dd,white);
-  
-}
-button.copybutton:hover {
-  background-color: #d1a5dd; 
-  transform: scale(1.1); 
-}
 
-button.copybutton:active {
-  background-color: #d0d0d0; 
-}
-
-button.copybutton img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-
-}
-#save:hover{
-  background: green;
-
-}
 #save{
-  background:linear-gradient(rgba(128, 128, 128, 0.582),white);
+  background:linear-gradient(rgba(207, 129, 228, 0.582),white);
   color: black;
 }

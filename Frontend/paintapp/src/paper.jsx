@@ -151,14 +151,14 @@ function Paper() {
           <div className="save-menu">
             <div className="saveoption">
               <div>
-              <label style={{display:"block"}}>Enter the path and filename</label>
+              <label style={{display:"block", color:"black"}}>Enter the path and filename</label>
               <input type="filepath"
               value={selectedFilePath}
               onChange={(e)=> setSelectedFilePath(e.target.value)}
               />
               </div>
               <div style={{display:"felx", justifyContent:"space-between"} } >
-              <label style={{marginRight:"10px",display:"block"}}>Choose the format type</label>
+              <label style={{marginRight:"10px",display:"block", color:"black"}}>Choose the format type</label>
               <select 
                 value={fileFormat}
                 onChange={(e) => setfileFormat(e.target.value)}
@@ -181,7 +181,7 @@ function Paper() {
              { loadmenu && (
                <div className="save-menu">
                 <div className="saveoption">
-                <label style={{display:"block"}}>Enter the file path to load:</label>
+                <label style={{display:"block", color:"black"}}>Enter the file path to load:</label>
                 <input
                     type="text"
                      value={loadfile}
@@ -194,7 +194,7 @@ function Paper() {
             </div>
                )}
 {/*copy button */}
-           <button className="copybutton" onClick={()=>setAction("copy")}onMouseEnter={() => setname("copy")}
+           <button className="icon" onClick={()=>setAction("copy")}onMouseEnter={() => setname("copy")}
              onMouseLeave={() => setname("")}>
               <img src={copyicon} alt="copy" />
             </button>
@@ -290,6 +290,7 @@ function Paper() {
                 max="25"
                 value={borderWidth}
                 onChange={(e) => {setBorderWidth(parseInt(e.target.value))}}
+                
               />
               <span>{borderWidth}</span>
             </div>
