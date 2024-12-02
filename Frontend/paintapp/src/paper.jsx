@@ -130,17 +130,17 @@ function Paper() {
       <div className="icon-name">{name}</div>
       {/* Side Bar */}
       <div className="bar_onside">
-/*undo button */
+{/*undo button */}
         <button className="icon" onClick={()=>setAction("undo")} onMouseEnter={() => setname("undo")}
         onMouseLeave={() => setname("")}>
           <img src={undoicon} alt="undo" />
         </button>
- /*redo button */
+ {/*redo button */}
         <button className="icon" onClick={()=>setAction("redo")}onMouseEnter={() => setname("redo")}
         onMouseLeave={() => setname("")}>
           <img src={redoicon} alt="redo" />
         </button>
- /*save button */
+ {/*save button */}
         <button onClick={()=>setsaveMenu(!savemenu)} className="icon" onMouseEnter={() => setname("save")}
           onMouseLeave={() => setname("")}>
           <img src={saveicon} alt="save" />
@@ -190,7 +190,7 @@ function Paper() {
               <button onClick={() => sendFile(loadfile)}>Load</button>
             </div>
                )}
-/*copy button */
+{/*copy button */}
            <button className="copybutton" onClick={()=>setAction("copy")}onMouseEnter={() => setname("copy")}
              onMouseLeave={() => setname("")}>
               <img src={copyicon} alt="copy" />
@@ -305,7 +305,7 @@ function Paper() {
           </div>
         )}
 
-/*delete all button */
+{/*delete all button */}
         <button className="icon" onClick={()=>{setAction("deleteAll")}}
          onMouseEnter={() => setname("delete all")} onMouseLeave={() => setname("")}>
           <img src={trash} ></img>
