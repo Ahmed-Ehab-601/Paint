@@ -1,4 +1,4 @@
-package com.csed.paintapp.service.commandService;
+package com.csed.paintapp.service.Commands;
 
 import com.csed.paintapp.model.DTO.CommandDTO;
 import com.csed.paintapp.model.DTO.ShapeDto;

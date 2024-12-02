@@ -1,7 +1,7 @@
 package com.csed.paintapp.controller;
 
 import com.csed.paintapp.model.DTO.ShapeDto;
-import com.csed.paintapp.service.commandService.UndoRedoService;
+import com.csed.paintapp.service.Commands.UndoRedoService;
 import com.csed.paintapp.service.saveLoadService.SaveLoadService;
 import com.csed.paintapp.service.shapeService.ShapeServices;
 import org.springframework.http.HttpStatus;

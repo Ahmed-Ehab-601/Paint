@@ -3,16 +3,16 @@ package com.csed.paintapp.service.shapeService;
 import com.csed.paintapp.model.DTO.ShapeDto;
 import com.csed.paintapp.model.Shape;
 import com.csed.paintapp.repository.ShapeRepository;
-import com.csed.paintapp.service.commandService.Command;
-import com.csed.paintapp.service.commandService.EditCommand;
-import com.csed.paintapp.service.commandService.UndoRedoService;
+import com.csed.paintapp.service.Commands.Command;
+import com.csed.paintapp.service.Commands.UndoRedoService;
 import com.csed.paintapp.service.factory.CommmandFactory;
 import com.csed.paintapp.service.factory.ShapeFactory;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Random;
+
 @Data
 @Service
 public class ShapeServiceImplementation implements ShapeServices {
@@ -64,11 +64,13 @@ public class ShapeServiceImplementation implements ShapeServices {
 
         Optional<Shape> shapeExist = shapeRepository.findById(id);
         if (shapeExist.isPresent()) {
-
+            Random random = new Random();
+            double randomDoubleX = 20 + (40 - 20) * random.nextDouble();
+            double randomDoubleY = 20 + (40 - 20) * random.nextDouble();
             Shape originalShape = shapeExist.get();
             Shape copy = originalShape.clone();
-            copy.setX(originalShape.getX() + 20);
-            copy.setY(originalShape.getY() + 20);
+            copy.setX(originalShape.getX() + randomDoubleX);
+            copy.setY(originalShape.getY() + randomDoubleY);
             copy.setId(null);
             Command command = commmandFactory.getCommand("create");
             ShapeDto shapeCreated =  command.execute(copy.getDTO());

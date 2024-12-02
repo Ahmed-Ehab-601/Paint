@@ -1,12 +1,10 @@
-package com.csed.paintapp.service.commandService;
+package com.csed.paintapp.service.Commands;
 
 import com.csed.paintapp.model.DTO.CommandDTO;
 import com.csed.paintapp.model.DTO.ShapeDto;
-import com.csed.paintapp.model.Shape;
 import com.csed.paintapp.repository.ShapeRepository;
 import com.csed.paintapp.service.factory.ShapeFactory;
 import com.csed.paintapp.service.shapeService.ShapeServiceImplementation;
-import com.csed.paintapp.service.shapeService.ShapeServices;
 import lombok.Data;
 
 @Data

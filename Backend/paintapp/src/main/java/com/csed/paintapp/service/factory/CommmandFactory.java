@@ -1,12 +1,11 @@
 package com.csed.paintapp.service.factory;
 
 import com.csed.paintapp.repository.ShapeRepository;
-import com.csed.paintapp.service.commandService.Command;
-import com.csed.paintapp.service.commandService.CreateCommand;
-import com.csed.paintapp.service.commandService.DeleteCommand;
-import com.csed.paintapp.service.commandService.EditCommand;
+import com.csed.paintapp.service.Commands.Command;
+import com.csed.paintapp.service.Commands.CreateCommand;
+import com.csed.paintapp.service.Commands.DeleteCommand;
+import com.csed.paintapp.service.Commands.EditCommand;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 public class CommmandFactory {
