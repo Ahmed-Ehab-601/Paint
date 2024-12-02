@@ -23,6 +23,7 @@ public abstract class Shape implements Cloneable{
     private String borderColor;
     private String fillColor;
     private Double rotate;
+    private Double  opacity ;
 
     public Shape(ShapeDto shapeDTO){
         this.id = shapeDTO.getId();
@@ -32,6 +33,7 @@ public abstract class Shape implements Cloneable{
         this.borderColor = shapeDTO.getBorderColor();
         this.fillColor = shapeDTO.getFillColor();
         this.rotate = shapeDTO.getRotate();
+        this.opacity=shapeDTO.getOpacity();
 
     }
 
@@ -44,6 +46,7 @@ public abstract class Shape implements Cloneable{
                .borderColor(borderColor)
                .fillColor(fillColor)
                .rotate(rotate)
+               .opacity(opacity)
                .build();
 
     }

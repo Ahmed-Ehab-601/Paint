@@ -17,6 +17,7 @@ public class ShapeDto {
     private String type;
     private Double x;
     private Double y;
+    private Double opacity;
     @JsonProperty("fill")
     private String fillColor;
     @JsonProperty("stroke")
@@ -38,7 +39,6 @@ public class ShapeDto {
     public void setDefaultValue (){
         double basesize = 100;
         radius = basesize/2;
-        borderSize = 3.0;
         minorRadius = basesize/ 1.5;
         majorRadius = basesize;
         width = basesize*1.5;
