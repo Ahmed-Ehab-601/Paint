@@ -83,30 +83,30 @@ html, body {
   background-color: rgb(113, 79, 145);
   z-index: 2;
 }
+
 button.icon {
-  width: 30px;
+  width: 30px; 
   height: 30px;
   border-radius: 50%;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #b27bca;
-  border: 2px solid #ccc;
+  background-color: #b27bca; 
+  border: 2px solid #ccc; 
   padding: 5px;
   cursor: pointer;
   outline: none;
-  position: relative;
   z-index: 2;
+ 
 }
-
 button.icon:hover {
-  background-color: #d1a5dd;
-  transform: scale(1.1);
+  background-color: #d1a5dd; 
+  transform: scale(1.1); 
 }
 
 button.icon:active {
-  background-color: #d0d0d0;
+  background-color: #d0d0d0; 
 }
 
 button.icon img {
@@ -114,28 +114,6 @@ button.icon img {
   height: 100%;
   object-fit: cover;
 }
-
-
-.icon-name {
-  
-  opacity: 1;
-  background-color: hsl(284, 32%, 88%);
-  color: #d59de6;
-  text-align: center;
-  border-radius: 5px;
-  padding: 5px;
-  position: fixed;
-  top: 10px;  
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  z-index: 3;  
-  transition: opacity 0.3s ease-in-out;
-}
-
-
-
-
 button.color{
   
   width: 30px; 
@@ -204,7 +182,7 @@ button.border{
 }
 .baronleft{
   position: fixed;
-  top: 35%;       
+  top: 50px;       
   left: 20px;  
   height: 200px;
   width: 50px;
