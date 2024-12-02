@@ -21,7 +21,6 @@ public class ShapeServiceImplementation implements ShapeServices {
     private final ShapeRepository shapeRepository;
     private final ShapeFactory shapeFactory;
     private final CommmandFactory  commmandFactory;
-
     private final UndoRedoService undoRedoService;
     public static  Long ID =1L;
     public ShapeServiceImplementation(ShapeRepository shapeRepository, ShapeFactory shapeFactory, CommmandFactory commmandFactory,UndoRedoService undoRedoService) {
