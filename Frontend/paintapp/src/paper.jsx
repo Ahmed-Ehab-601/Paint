@@ -150,25 +150,27 @@ function Paper() {
         {savemenu && (
           <div className="save-menu">
             <div className="saveoption">
-              <label>Choose the path and filename</label>
+              <div>
+              <label style={{display:"block"}}>Enter the path and filename</label>
               <input type="filepath"
               value={selectedFilePath}
               onChange={(e)=> setSelectedFilePath(e.target.value)}
               />
-              
-            </div>
-
-            <div className="saveoption">
-              <label>Choose the format type</label>
-              <select
+              </div>
+              <div style={{display:"felx", justifyContent:"space-between"} } >
+              <label style={{marginRight:"10px",display:"block"}}>Choose the format type</label>
+              <select 
                 value={fileFormat}
                 onChange={(e) => setfileFormat(e.target.value)}
               >
-                <option value="json">JSON</option>
+                <option style={{color:"black"}} value="json">JSON</option>
                 <option value="xml">XML</option>
               </select>
+              </div>
+    
             </div>
-            <button onClick={handleSaveFile}>Save</button>
+          
+            <button  id="save" onClick={handleSaveFile}>Save</button>
           </div>
         )}
        { /*load button  */}
@@ -179,16 +181,16 @@ function Paper() {
              { loadmenu && (
                <div className="save-menu">
                 <div className="saveoption">
-                <label>Enter or select the file path to load:</label>
+                <label style={{display:"block"}}>Enter the file path to load:</label>
                 <input
                     type="text"
                      value={loadfile}
                      onChange={(e) => setloadfile(e.target.value)}
-                    placeholder="Enter file path"
+                  
                  />
       
                 </div>
-              <button onClick={() => sendFile(loadfile)}>Load</button>
+              <button id="save" onClick={() => sendFile(loadfile)}>Load</button>
             </div>
                )}
 {/*copy button */}

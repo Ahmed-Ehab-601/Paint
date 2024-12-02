@@ -1,13 +1,14 @@
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #00000088; 
 }
+
 .load-menu{
   display: flex;
   flex-direction: column;
@@ -22,25 +23,48 @@ html, body {
   z-index: 2;
 }
 
-.save-option {
+.saveoption {
   display: flex;
   flex-direction: column;
   gap: 3px;
   z-index: 2;
+  width: 100%;
+ 
+}
+.save-menu label{
+  font-style: italic;
+}
+.saveoption input,select {
+  width:90%;
+  border-radius: 10px;
+  height:25px;
+  background: white;
+  color: black;
+  
+}
+.saveoption input:active , select:active{
+  background: linear-gradient(purple,pink);
+}
+.saveoption select{
+  width:93%
 }
 
 .save-menu {
+  justify-content: center;
+  align-items: center;
   display: flex;
   flex-direction: column;
   padding: 10px;
   gap: 10px;
-  background-color: rgb(113, 79, 145);
+  background-color: plum;
+  border-color: rgb(85, 11, 85);
   border-radius: 10px;
-  width: 250px;
+  width: 290px;
   position: absolute;
   top: 30px;
   right: 50px;  /* Open the save menu on the left */
   z-index: 2;
+  transition: 0.2s;
 }
 .windowpaper {
   height: 100%;
@@ -63,7 +87,7 @@ html, body {
   gap: 20px;
   flex-direction: column;
   padding: 10px;
-  background-color: rgb(113, 79, 145);
+  background-color: plum;
   z-index: 2;
 }
 
@@ -80,7 +104,7 @@ html, body {
   gap: 25px;
   flex-direction: row;
   padding: 10px;
-  background-color: rgb(113, 79, 145);
+  background-color: plum;
   z-index: 2;
 }
 button.icon {
@@ -91,7 +115,7 @@ button.icon {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #b27bca;
+  background-color:white;
   border: 2px solid #ccc;
   padding: 5px;
   cursor: pointer;
@@ -101,7 +125,8 @@ button.icon {
 }
 
 button.icon:hover {
-  background-color: #d1a5dd;
+   background: linear-gradient(#d1a5dd,white);
+
   transform: scale(1.1);
 }
 
@@ -117,10 +142,10 @@ button.icon img {
 
 
 .icon-name {
-  
+  font-style: italic;
   opacity: 1;
-  background-color: hsl(284, 32%, 88%);
-  color: #d59de6;
+  background-color: hsla(290, 38%, 80%, 0.507);
+  color: rgba(0, 0, 0, 0.541);
   text-align: center;
   border-radius: 5px;
   padding: 5px;
@@ -131,6 +156,7 @@ button.icon img {
   white-space: nowrap;
   z-index: 3;  
   transition: opacity 0.3s ease-in-out;
+ border-radius: 10px;
 }
 
 
@@ -157,13 +183,14 @@ button.color{
   flex-direction: column;
   padding: 10px;
   gap: 10px;
-  background-color: rgb(113, 79, 145);
+  background-color: plum;
   border-radius: 10px;
   width: 250px;
   position: absolute;
   top: 30px;
   left: 50px;
   z-index: 2;
+ 
 }
 
 .option {
@@ -180,6 +207,7 @@ button.color{
 
 .option input {
   width: 100%;
+  
 }
 
 .option span {
@@ -214,7 +242,7 @@ button.border{
   gap: 20px; 
   flex-direction: column;
   padding: 10px;
-  background-color: rgb(113, 79, 145);
+  background-color: plum;
   z-index: 2;
 }
 button.copybutton{
@@ -230,8 +258,13 @@ button.copybutton{
   padding: 5px;
   cursor: pointer;
   outline: none;
-  background-color: #b27bca; 
+  background-color: white; 
   z-index: 1;
+  transition: 0.2s;
+}
+button.copybutton:hover{
+  background: linear-gradient(#d1a5dd,white);
+  
 }
 button.copybutton:hover {
   background-color: #d1a5dd; 
@@ -247,4 +280,12 @@ button.copybutton img {
   height: 100%;
   object-fit: cover;
 
+}
+#save:hover{
+  background: green;
+
+}
+#save{
+  background:linear-gradient(rgba(128, 128, 128, 0.582),white);
+  color: black;
 }
