@@ -43,14 +43,19 @@ const App = ({ type, stroke, fill, action ,loadedShapes, opacity,strokeWidth}) =
       updateShape(selectedId, {stroke});
   },[ stroke])
   
+  const [sw, setsw] = useState(3);
+  const [op, setop] = useState(1);
+  
   useEffect(() => {
-    // console.log(strokeWidth)
+    setsw(strokeWidth)
+    console.log(strokeWidth)
     if(selectedId)
       updateShape(selectedId, {strokeWidth});
   },[ strokeWidth])
 
   useEffect(() => {
     console.log( opacity ,"opacity change")
+    setop(opacity);
     if(selectedId)
       updateShape(selectedId, {opacity});
   },[opacity])
@@ -152,8 +157,8 @@ const App = ({ type, stroke, fill, action ,loadedShapes, opacity,strokeWidth}) =
       fill,
       stroke,
       points: type === "line" ? points : null,
-      opacity,
-      strokeWidth
+      opacity:op,
+      strokeWidth:sw
     };
     console.log(shapeDetails);
     try {
