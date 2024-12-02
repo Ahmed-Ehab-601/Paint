@@ -77,7 +77,7 @@ html, body {
 .bar_onside {
   position: fixed;
   top: 50%; /* Centers the bar vertically */
-  right: 0; /* Positions the bar on the right */
+  right: 30px; /* Positions the bar on the right */
   transform: translateY(-50%); /* Ensures the bar is vertically centered */
   height: 250px;
   width: 50px;
@@ -93,7 +93,7 @@ html, body {
 
 .bar_onbottom {
   position: fixed;
-  bottom: 0; /* Positions the bar at the bottom of the viewport */
+  bottom: 10px; /* Positions the bar at the bottom of the viewport */
   left: 50%; /* Centers the bar horizontally */
   transform: translateX(-50%); /* Adjusts for the width to ensure it's centered */
   height: 50px;
