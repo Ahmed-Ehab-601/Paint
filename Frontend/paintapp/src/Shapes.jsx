@@ -21,6 +21,7 @@ const Shape = ({ shape, isSelected, onSelect, onChange }) => {
     draggable: true,
     fill: shape.fill,
     stroke: shape.stroke,
+    opacity:shape.opacity,
     strokeWidth: shape.strokeWidth,
     rotation: shape.rotation,
     onClick: onSelect,

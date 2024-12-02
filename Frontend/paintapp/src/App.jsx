@@ -5,7 +5,7 @@ import Shape from "./shapes"; // Define Shape component separately
 
 const baseURL = "http://localhost:8080/shape"
 
-const App = ({ type, stroke, fill, action ,loadedShapes}) => {
+const App = ({ type, stroke, fill, action ,loadedShapes, opacity,strokeWidth}) => {
   const [shapes, setShapes] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [shapeToAdd, setShapeToAdd] = useState(null);
@@ -13,36 +13,6 @@ const App = ({ type, stroke, fill, action ,loadedShapes}) => {
   const [linePoints, setLinePoints] = useState([]);
   const [mousePosition, setMousePosition] = useState(null);
 
-  // Create shape function with API call
-  const addShape = async (type, x, y, fill, stroke, points) => {
-    const shapeDetails = {
-      type,
-      x,
-      y,
-      fill,
-      stroke,
-      points: type === "line" ? points : null,
-    };
-  
-    try {
-      const response = await axios.post('http://localhost:8080/shape/create', shapeDetails);
-  
-      if (response.status === 200) {
-        const newShape = response.data;
-        setShapes((prevShapes) => [...prevShapes, newShape]);
-      } else {
-        console.error("Failed to add shape: ", response);
-      }
-    } catch (error) {
-      if (error.response) {
-        console.error("Error response from server:", error.response);
-      } else if (error.request) {
-        console.error("Error with request:", error.request);
-      } else {
-        console.error("Error in setting up request:", error.message);
-      }
-    }
-  };
   useEffect(()=> {
     switch(action){
       case "delete":
@@ -63,63 +33,34 @@ const App = ({ type, stroke, fill, action ,loadedShapes}) => {
     }
   },[action])
 
-  const handleMouseMove = (e) => {
-    const stage = e.target.getStage();
-    const pointerPosition = stage.getPointerPosition();
-    if (!pointerPosition) return;
-
-    setMousePosition({ x: pointerPosition.x, y: pointerPosition.y });
-  };
+  useEffect(()=> {
+    deleteAll();
+  },[]);
 
   useEffect(() => {
-    setLinePoints([]);
-    setMousePosition(null);
-  }, [shapeToAdd]);
+    // console.log(strokeWidth)
+    if(selectedId)
+      updateShape(selectedId, {stroke});
+  },[ stroke])
+  
+  useEffect(() => {
+    // console.log(strokeWidth)
+    if(selectedId)
+      updateShape(selectedId, {strokeWidth});
+  },[ strokeWidth])
 
-  const handleCanvasClick = (e) => {
-    const stage = e.target.getStage();
+  useEffect(() => {
+    console.log( opacity ,"opacity change")
+    if(selectedId)
+      updateShape(selectedId, {opacity});
+  },[opacity])
 
-    if (e.target === stage) {
-      setSelectedId(null);
-    }
+  useEffect(() => {
+    
+    if(selectedId)
+      updateShape(selectedId, {fill});
+  },[fill])
 
-    const pointerPosition = stage.getPointerPosition();
-    if (!pointerPosition) return;
-
-    const { x, y } = pointerPosition;
-
-    if (shapeToAdd === "line") {
-      setLinePoints((prevPoints) => {
-        const updatedPoints = [...prevPoints, x, y];
-
-        if (updatedPoints.length === 4) {
-          addShape("line", 0, 0, fill, stroke, updatedPoints);
-          setMousePosition(null);
-          setShapeToAdd(null);
-          return [];
-        }
-
-        return updatedPoints;
-      });
-      return;
-    }
-
-    if (shapeToAdd) {
-      addShape(shapeToAdd, x, y, fill, stroke);
-      setShapeToAdd(null);
-    }
-  };
-
-  const handleShapeSelect = (shapeId) => {
-    setSelectedId(shapeId);
-
-    setShapes((prevShapes) => {
-      const selectedShape = prevShapes.find((shape) => shape.id === shapeId);
-      if (!selectedShape) return prevShapes;
-      const updatedShapes = prevShapes.filter((shape) => shape.id !== shapeId);
-      return [...updatedShapes, selectedShape];
-    });
-  };
   useEffect(()=> {
     setShapes(loadedShapes)
   },[loadedShapes]);
@@ -129,6 +70,111 @@ const App = ({ type, stroke, fill, action ,loadedShapes}) => {
       setShapeToAdd(type);
     }
   }, [type]);
+
+  useEffect(() => {
+    setLinePoints([]);
+    setMousePosition(null);
+  }, [shapeToAdd]);
+  
+  useEffect(() => {
+    if(linePoints.length === 4)
+    {
+      addShape("line", 0, 0, fill, stroke, linePoints, opacity, strokeWidth);
+      setMousePosition(null); // Reset mouse position if needed
+      setShapeToAdd(null); // Reset shape to add
+      setLinePoints([]); // Reset points for the next line
+    }
+  }, [linePoints])
+
+  // Create shape function with API call
+  
+  
+
+  const handleMouseMove = (e) => {
+    const stage = e.target.getStage();
+    const pointerPosition = stage.getPointerPosition();
+    if (!pointerPosition) return;
+
+    setMousePosition({ x: pointerPosition.x, y: pointerPosition.y });
+  };
+
+  const handleCanvasClick = async (e) => {
+    const stage = e.target.getStage();
+    
+    // Get the mouse down position
+    const pointerPosition = stage.getPointerPosition();
+    if (!pointerPosition) return;
+    const { x, y } = pointerPosition;
+    
+    
+    console.log(shapeToAdd);
+    console.log(x, y);
+
+  
+    // Add the line on mouse click
+    if (shapeToAdd === "line") {
+      setLinePoints([...linePoints, x, y]);
+      console.log(linePoints);
+      return;
+    }
+  // Deselect the shape (send the update that happened to it and deselect it)
+  if (e.target === stage && selectedId !== null) {
+    setSelectedId(null);
+  }
+    // For other shapes
+    if (shapeToAdd && shapeToAdd!== "line") {
+      addShape(shapeToAdd, x, y, fill, stroke, opacity, strokeWidth);
+      setShapeToAdd(null);
+    }
+  };
+
+  const handleShapeSelect = (shapeId) => {
+    setSelectedId(shapeId);
+    console.log("selectedId: ", selectedId);
+
+    //move the selected shape to the top layer
+    setShapes((prevShapes) => {
+      const selectedShape = prevShapes.find((shape) => shape.id === shapeId);
+      if (!selectedShape) return prevShapes;
+      const updatedShapes = prevShapes.filter((shape) => shape.id !== shapeId);
+      return [...updatedShapes, selectedShape];
+    });
+  };
+
+
+
+  const addShape = async (type, x, y, fill, stroke, points, opacity, strokeWidth) => {
+    console.log(strokeWidth)
+    const shapeDetails = {
+      type,
+      x,
+      y,
+      fill,
+      stroke,
+      points: type === "line" ? points : null,
+      opacity,
+      strokeWidth
+    };
+    console.log(shapeDetails);
+    try {
+      const response = await axios.post('http://localhost:8080/shape/create', shapeDetails);
+  
+      if (response.status === 200) {
+        const newShape = response.data;
+        setShapes((prevShapes) => [...prevShapes, newShape]);
+      } else {
+        console.error("Failed to add shape: ", response);
+      }
+    } catch (error) {
+      if (error.response) {
+        console.error("Error response from server:", error.response);
+      } else if (error.request) {
+        console.error("Error with request:", error.request);
+      } else {
+        console.error("Error in setting up request:", error.message);
+      }
+    }
+  };
 
   const updateShape = async (id, newAttrs) => {
     const updatedShapes = shapes.map((shape) =>
@@ -140,6 +186,7 @@ const App = ({ type, stroke, fill, action ,loadedShapes}) => {
       console.error("error in finding shape in editing");
       return;
     }
+    console.log(updatedShape)
     setShapes(updatedShapes);
     try {
       const response = await axios.put(`http://localhost:8080/shape/edit/${id}`, updatedShape);
@@ -328,6 +375,7 @@ const App = ({ type, stroke, fill, action ,loadedShapes}) => {
     }
   };
   
+  
 
   function FullScreenStage({ shapeToAdd, handleCanvasClick, handleMouseMove }) {
     const [dimensions, setDimensions] = useState({
@@ -353,7 +401,6 @@ const App = ({ type, stroke, fill, action ,loadedShapes}) => {
           width={dimensions.width}
           height={dimensions.height}
           style={{
-            border: "1px solid red",
             position: "fixed",
             top: 0,
             left: 0,
@@ -370,15 +417,15 @@ const App = ({ type, stroke, fill, action ,loadedShapes}) => {
                 shape={shape}
                 isSelected={shape.id === selectedId}
                 onSelect={() => handleShapeSelect(shape.id)}
-                onChange={(newAttrs) => updateShape(shape.id, newAttrs)}
+                onChange={(newAttrs) => {updateShape(shape.id, newAttrs)}}
               />
             ))}
 
             {shapeToAdd === "line" && linePoints.length === 2 && mousePosition && (
               <Line
                 points={[...linePoints, mousePosition.x, mousePosition.y]}
-                stroke="black"
-                strokeWidth={2}
+                stroke={stroke}
+                strokeWidth={strokeWidth}
               />
             )}
           </Layer>
