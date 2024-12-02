@@ -24,12 +24,10 @@ function Paper() {
   const [borderWidth, setBorderWidth] = useState(8); // Brush width state
   const [opacity, setOpacity] = useState(0.5); // Brush opacity state
   const [borderColor, setBorderColor] = useState("#000000"); // Border color state
-  const [savepath, setsavepath] = useState("No path selected"); // Path for save
   const [name, setname] = useState(""); // User-defined filename
   const [fileFormat, setfileFormat] = useState("json"); // File format (json/xml)
   const [loadmenu,setloadmenu]=useState(false);
   const [loadfile,setloadfile]=useState("");
-  const [directoryChosen, setDirectoryChosen] = useState(false); // State to track if directory is chosen
   const [selectedFilePath, setSelectedFilePath] = useState(""); // Store selected file path
   const [action,setAction]=useState("");
   const [loadedShapes,setloadedShapes]=useState([]);
@@ -38,11 +36,7 @@ function Paper() {
   };
 
   const handleSaveFile = async () => {
-  ///  setSelectedFilePath(");
-    /* if (!filename) {
-      alert("Please enter a filename!");
-      return;
-    } */
+  
     console.log({selectedFilePath});
 
     if (!selectedFilePath) {
@@ -77,32 +71,9 @@ function Paper() {
       alert(errorMessage);
     }
   };
-  
-  const handleDirectoryChange = async () => {
-    try {
-      // Use the Directory Picker API to let the user select a directory
-      const directoryHandle = await window.showDirectoryPicker();
-      const directoryPath = directoryHandle.name; // Get the directory name
-      setsavepath(directoryPath); // Display directory in UI
-      setSelectedFilePath(directoryPath); // Save for backend
-      setDirectoryChosen(true); // Set flag to indicate directory was selected
-      setsaveMenu(true); // Open save menu once the directory is selected
-    } catch (error) {
-      alert("No directory selected or error occurred.");
-    }
-  };
-  
 
-  
-  const handlefiletoload = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      const fullPath = selectedFile.webkitRelativePath || selectedFile.name; // Use full path if available
-      setsavepath(fullPath); // Display or save the file path in the UI
-      setSelectedFilePath(fullPath); // Store the full file path
-      sendFile(fullPath); // Send the file path to the backend for loading
-    }
-  };
+
+   
   
   const sendFile = async (path) => {
     try {
@@ -129,7 +100,7 @@ function Paper() {
   };
   
   const handleBorderColorChange = (e) => {
-    setBorderColor(e.target.value); // Set border color independently
+    setBorderColor(e.target.value);
   };
 
   const toggleMenu = () => {
@@ -143,7 +114,7 @@ function Paper() {
   useEffect(() => {
     if (action !== "") setAction("");
   }, [action]);
-
+ 
   return (
     <div
       className="windowpaper"
@@ -159,20 +130,20 @@ function Paper() {
       <div className="icon-name">{name}</div>
       {/* Side Bar */}
       <div className="bar_onside">
+/*undo button */
         <button className="icon" onClick={()=>setAction("undo")} onMouseEnter={() => setname("undo")}
-  onMouseLeave={() => setname("")}>
+        onMouseLeave={() => setname("")}>
           <img src={undoicon} alt="undo" />
         </button>
+ /*redo button */
         <button className="icon" onClick={()=>setAction("redo")}onMouseEnter={() => setname("redo")}
-  onMouseLeave={() => setname("")}>
+        onMouseLeave={() => setname("")}>
           <img src={redoicon} alt="redo" />
         </button>
-      
+ /*save button */
         <button onClick={()=>setsaveMenu(!savemenu)} className="icon" onMouseEnter={() => setname("save")}
-  onMouseLeave={() => setname("")}>
-       
+          onMouseLeave={() => setname("")}>
           <img src={saveicon} alt="save" />
-          
         </button>
         {/* Save Menu */}
         {savemenu && (
@@ -196,65 +167,68 @@ function Paper() {
                 <option value="xml">XML</option>
               </select>
             </div>
-
             <button onClick={handleSaveFile}>Save</button>
           </div>
         )}
-<button className="icon" onClick={() => setloadmenu(!loadmenu)} onMouseEnter={() => setname("Load")}
-  onMouseLeave={() => setname("")}>
-  <img src={uploadicon} alt="upload" />
-</button>
-{loadmenu && (
-  <div className="save-menu">
-    <div className="saveoption">
-      <label>Enter or select the file path to load:</label>
-      <input
-        type="text"
-        value={loadfile}
-        onChange={(e) => setloadfile(e.target.value)}
-        placeholder="Enter file path"
-      />
-      
-    </div>
-    <button onClick={() => sendFile(loadfile)}>Load</button>
-  </div>
-)}
-
-        <button className="copybutton" onClick={()=>setAction("copy")}onMouseEnter={() => setname("copy")}
-  onMouseLeave={() => setname("")}>
-          <img src={copyicon} alt="copy" />
+        /*load button  */
+        <button className="icon" onClick={() => setloadmenu(!loadmenu)} onMouseEnter={() => setname("Load")}
+          onMouseLeave={() => setname("")}>
+           <img src={uploadicon} alt="upload" />
         </button>
+             { loadmenu && (
+               <div className="save-menu">
+                <div className="saveoption">
+                <label>Enter or select the file path to load:</label>
+                <input
+                    type="text"
+                     value={loadfile}
+                     onChange={(e) => setloadfile(e.target.value)}
+                    placeholder="Enter file path"
+                 />
+      
+                </div>
+              <button onClick={() => sendFile(loadfile)}>Load</button>
+            </div>
+               )}
+/*copy button */
+           <button className="copybutton" onClick={()=>setAction("copy")}onMouseEnter={() => setname("copy")}
+             onMouseLeave={() => setname("")}>
+              <img src={copyicon} alt="copy" />
+            </button>
       </div>
 
-      {/* Bottom Bar */}
+    {/* Bottom Bar */}
       <div className="bar_onbottom">
+      /*delete button */
         <button className="icon" onClick={()=> setAction("delete")}onMouseEnter={() => setname("delete")}
-  onMouseLeave={() => setname("")}>
-          <img src={EraserIcon} alt="eraser"  />
+              onMouseLeave={() => setname("")}>
+              <img src={EraserIcon} alt="eraser"  />
         </button>
+        /*line button */
+      
         <button className="icon" onClick={() => setShapeType("line")}onMouseEnter={() => setname("line")}
-  onMouseLeave={() => setname("")}>
-          <img src={lineicon} alt="line" />
+           onMouseLeave={() => setname("")}>
+            <img src={lineicon} alt="line" />
         </button>
         {/* Shape Buttons */}
         <button className="icon" onClick={() => setShapeType("circle")}onMouseEnter={() => setname("circle")}
-  onMouseLeave={() => setname("")}>
-          <img src={CircleIcon} alt="circle" />
-        </button>
+              onMouseLeave={() => setname("")}>
+               <img src={CircleIcon} alt="circle" />
+       </button>
         <button className="icon" onClick={() => setShapeType("triangle")} onMouseEnter={() => setname("triangle")}
-  onMouseLeave={() => setname("")}>
-          <img src={triangleIcon} alt="triangle" />
-        </button>
-        <button className="icon" onClick={() => setShapeType("rectangle")}onMouseEnter={() => setname("rectangle")}
-  onMouseLeave={() => setname("")}>
+              onMouseLeave={() => setname("")}>
+           <img src={triangleIcon} alt="triangle" />
+         </button>
+         <button className="icon" onClick={() => setShapeType("rectangle")}onMouseEnter={() => setname("rectangle")}
+             onMouseLeave={() => setname("")}>
           <img src={rectIcon} alt="rectangle" />
         </button>
         <button className="icon" onClick={() => setShapeType("square")}onMouseEnter={() => setname("square")}
-  onMouseLeave={() => setname("")}>
+            onMouseLeave={() => setname("")}>
           <img src={squareIcon} alt="square" />
         </button>
         <button className="icon" onClick={() => setShapeType("ellipse")}onMouseEnter={() => setname("Ellipse")}
-  onMouseLeave={() => setname("")}>
+             onMouseLeave={() => setname("")}>
           <img src={ellipseicon} alt="ellipse" />
         </button>
       </div>
@@ -262,7 +236,7 @@ function Paper() {
       <div className="baronleft">
         {/* Brush Color Button */}
         <button className="color" style={{ backgroundColor: color }} onMouseEnter={() => setname("shape color")}
-  onMouseLeave={() => setname("")}>
+        onMouseLeave={() => setname("")}>
           <input
             id="brush"
             type="color"
@@ -281,7 +255,7 @@ function Paper() {
 
         {/* Border Color Button */}
         <button className="border" style={{ backgroundColor: borderColor }}onMouseEnter={() => setname("border color")}
-  onMouseLeave={() => setname("")}>
+            onMouseLeave={() => setname("")}>
           <input
             id="border"
             type="color"
@@ -330,19 +304,15 @@ function Paper() {
             </div>
           </div>
         )}
+
+/*delete all button */
         <button className="icon" onClick={()=>{setAction("deleteAll")}}
-        onMouseEnter={() => setname("delete all")}
-  onMouseLeave={() => setname("")}>
-       
+         onMouseEnter={() => setname("delete all")} onMouseLeave={() => setname("")}>
           <img src={trash} ></img>
         </button>
-        
-
       </div>
 
-
-      <App type={shapeType} fill={color} stroke={borderColor} action={action} loadedShapes={loadedShapes} opacity={opacity} strokeWidth={borderWidth}/>
-
+<App type={shapeType} fill={color} stroke={borderColor} action={action} loadedShapes={loadedShapes} opacity={opacity} strokeWidth={borderWidth}/>
     </div>
   );
 }
