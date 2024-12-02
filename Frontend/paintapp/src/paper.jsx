@@ -141,11 +141,12 @@ function Paper() {
           <img src={redoicon} alt="redo" />
         </button>
  {/*save button */}
-        <button onClick={()=>setsaveMenu(!savemenu)} className="icon" onMouseEnter={() => setname("save")}
+        <button onClick={()=>{setsaveMenu(!savemenu);setloadmenu(false);}} className="icon" onMouseEnter={() => setname("save")}
           onMouseLeave={() => setname("")}>
           <img src={saveicon} alt="save" />
         </button>
         {/* Save Menu */}
+       
         {savemenu && (
           <div className="save-menu">
             <div className="saveoption">
@@ -171,7 +172,7 @@ function Paper() {
           </div>
         )}
        { /*load button  */}
-        <button className="icon" onClick={() => setloadmenu(!loadmenu)} onMouseEnter={() => setname("Load")}
+        <button className="icon" onClick={() => {setloadmenu(!loadmenu);setsaveMenu(false);}} onMouseEnter={() => setname("Load")}
           onMouseLeave={() => setname("")}>
            <img src={uploadicon} alt="upload" />
         </button>
