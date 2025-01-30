@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios"; // Import axios for HTTP requests
+import { create } from "xmlbuilder2";
 import "./App.css";
 import CircleIcon from "./assets/circle.svg";
 import rectIcon from "./assets/rectangle-panoramic.svg";
@@ -17,6 +18,7 @@ import menu from "./assets/menu.svg";
 import App from "./App"; // Import App component to pass shapeType
 import trash from './assets/trash.svg'
 function Paper() {
+  const [shapes, setShapes] = useState([]);
   const [shapeType, setShapeType] = useState(null); // Store selected shape type
   const [color, setColor] = useState("#000000"); // Brush color state
   const [showMenu, setShowMenu] = useState(false); // State for menu visibility
@@ -31,44 +33,75 @@ function Paper() {
   const [selectedFilePath, setSelectedFilePath] = useState(""); // Store selected file path
   const [action,setAction]=useState("");
   const [loadedShapes,setloadedShapes]=useState([]);
+
   const handleColorChange = (e) => {
     setColor(e.target.value); // Set brush color
   };
 
   const handleSaveFile = async () => {
   
-    console.log({selectedFilePath});
-
-    if (!selectedFilePath) {
-      alert("Please choose a save directory first!");
-      return;
-    }
-  
-    // Construct file data object
-    const data =
-      {
-        type : fileFormat,
-        path : selectedFilePath //+ "//"+filename+"."+fileFormat
-      }
-    ;
-    console.log(data);
-  
     try {
-      const response = await axios.put("http://localhost:8080/shape/save", data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+
+      const fileHandle = await window.showSaveFilePicker({
+        types: [
+          {
+            description: "JSON File",
+            accept: { "application/json": [".json"] },
+          },
+          {
+            description: "XML File",
+            accept: { "application/xml": [".xml"] },
+          },
+        ],
       });
   
-      if (response.status == 200) {
-        alert("File saved successfully: " + response.data.path);
+    
+      const fileExtension = fileHandle.name.split('.').pop().toLowerCase();
+  
+    let data;
+      if (fileExtension === "json") {
+        data =JSON.stringify(shapes);
+      } else if (fileExtension === "xml") {
+        const xml = create({ version: "1.0" })
+        .ele("shapes");
+
+    // Loop through each shape object and add as a separate node
+    
+    shapes.forEach((shape) => {
+      xml.ele("shape")
+          .ele("type").txt(shape.type).up()
+          .ele("x").txt(shape.x).up()
+          .ele("y").txt(shape.y).up()
+          .ele("opacity").txt(shape.opacity).up()
+          .ele("id").txt(shape.id).up()
+          .ele("width").txt(shape.width).up()
+          .ele("height").txt(shape.height).up()
+          .ele("radius").txt(shape.radius).up() 
+          .ele("points").txt(shape.points).up()
+          .ele("fill").txt(shape.fill).up()
+          .ele("stroke").txt(shape.stroke).up() 
+          .ele("strokeWidth").txt(shape.strokeWidth).up()
+          .ele("radiusX").txt(shape.radiusX).up()
+          .ele("radiusY").txt(shape.radiusY).up()
+          .ele("rotation").txt(shape.rotation).up() 
+          ;
+
+  });
+
+      data = xml.end({ prettyPrint: true });
+         console.log(data)
       } else {
-        alert("Save successful but no path returned.");
+        throw new Error("Unsupported file type");
       }
+  
+      
+      const writable = await fileHandle.createWritable();
+      await writable.write(data);
+      await writable.close();
+  
+      console.log("File saved successfully!");
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "An error occurred while saving the file.";
-      console.error("Error saving file:", errorMessage);
-      alert(errorMessage);
+      console.error("Error saving file:", error);
     }
   };
 
@@ -141,13 +174,13 @@ function Paper() {
           <img src={redoicon} alt="redo" />
         </button>
  {/*save button */}
-        <button onClick={()=>{setsaveMenu(!savemenu);setloadmenu(false);}} className="icon" onMouseEnter={() => setname("save")}
+        <button onClick={()=>{setsaveMenu(!savemenu);setloadmenu(false);handleSaveFile()}} className="icon" onMouseEnter={() => setname("save")}
           onMouseLeave={() => setname("")}>
           <img src={saveicon} alt="save" />
         </button>
         {/* Save Menu */}
        
-        {savemenu && (
+        {false && (
           <div className="save-menu">
             <div className="saveoption">
               <div>
@@ -316,7 +349,7 @@ function Paper() {
         </button>
       </div>
 
-<App type={shapeType} fill={color} stroke={borderColor} action={action} loadedShapes={loadedShapes} opacity={opacity} strokeWidth={borderWidth}/>
+<App type={shapeType} fill={color} stroke={borderColor} action={action} loadedShapes={loadedShapes} opacity={opacity} strokeWidth={borderWidth} shapes={shapes} setShapes={setShapes}/>
     </div>
   );
 }
