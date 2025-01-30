@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<shapes>
+  <shape>
+    <type>circle</type>
+    <x>560</x>
+    <y>402</y>
+    <opacity>0.5</opacity>
+    <id>1</id>
+    <width>150</width>
+    <height>100</height>
+    <radius>50</radius>
+    <points/>
+    <fill>#000000</fill>
+    <stroke>#000000</stroke>
+    <strokeWidth>8</strokeWidth>
+    <radiusX>100</radiusX>
+    <radiusY>66.66666666666667</radiusY>
+    <rotation>0</rotation>
+  </shape>
+  <shape>
+    <type>triangle</type>
+    <x>671</x>
+    <y>245</y>
+    <opacity>0.5</opacity>
+    <id>2</id>
+    <width>150</width>
+    <height>100</height>
+    <radius>50</radius>
+    <points>0,-50,50,50,-50,50</points>
+    <fill>#000000</fill>
+    <stroke>#000000</stroke>
+    <strokeWidth>8</strokeWidth>
+    <radiusX>100</radiusX>
+    <radiusY>66.66666666666667</radiusY>
+    <rotation>0</rotation>
+  </shape>
+</shapes>

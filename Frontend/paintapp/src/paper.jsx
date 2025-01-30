@@ -17,6 +17,7 @@ import copyicon from "./assets/copy.svg";
 import menu from "./assets/menu.svg";
 import App from "./App"; // Import App component to pass shapeType
 import trash from './assets/trash.svg'
+import { convert } from "xmlbuilder2";
 function Paper() {
   const [shapes, setShapes] = useState([]);
   const [shapeType, setShapeType] = useState(null); // Store selected shape type
@@ -27,13 +28,13 @@ function Paper() {
   const [opacity, setOpacity] = useState(0.5); // Brush opacity state
   const [borderColor, setBorderColor] = useState("#000000"); // Border color state
   const [name, setname] = useState(""); // User-defined filename
-  const [fileFormat, setfileFormat] = useState("json"); // File format (json/xml)
+  const [fileFormat, setfileFormat] = useState(""); // File format (json/xml)
   const [loadmenu,setloadmenu]=useState(false);
   const [loadfile,setloadfile]=useState("");
   const [selectedFilePath, setSelectedFilePath] = useState(""); // Store selected file path
   const [action,setAction]=useState("");
   const [loadedShapes,setloadedShapes]=useState([]);
-
+  const [data,setData] = useState("");
   const handleColorChange = (e) => {
     setColor(e.target.value); // Set brush color
   };
@@ -64,28 +65,46 @@ function Paper() {
       } else if (fileExtension === "xml") {
         const xml = create({ version: "1.0" })
         .ele("shapes");
-
-    // Loop through each shape object and add as a separate node
     
     shapes.forEach((shape) => {
-      xml.ele("shape")
-          .ele("type").txt(shape.type).up()
-          .ele("x").txt(shape.x).up()
-          .ele("y").txt(shape.y).up()
-          .ele("opacity").txt(shape.opacity).up()
-          .ele("id").txt(shape.id).up()
-          .ele("width").txt(shape.width).up()
-          .ele("height").txt(shape.height).up()
-          .ele("radius").txt(shape.radius).up() 
-          .ele("points").txt(shape.points).up()
-          .ele("fill").txt(shape.fill).up()
-          .ele("stroke").txt(shape.stroke).up() 
-          .ele("strokeWidth").txt(shape.strokeWidth).up()
-          .ele("radiusX").txt(shape.radiusX).up()
-          .ele("radiusY").txt(shape.radiusY).up()
-          .ele("rotation").txt(shape.rotation).up() 
-          ;
-
+      if(shape.points){
+        xml.ele("shape")
+        .ele("type").txt(shape.type).up()
+        .ele("x").txt(shape.x).up()
+        .ele("y").txt(shape.y).up()
+        .ele("opacity").txt(shape.opacity).up()
+        .ele("id").txt(shape.id).up()
+        .ele("width").txt(shape.width).up()
+        .ele("height").txt(shape.height).up()
+        .ele("radius").txt(shape.radius).up() 
+        .ele("points").txt(`[${shape.points.join(",")}]`).up()
+        .ele("fill").txt(shape.fill).up()
+        .ele("stroke").txt(shape.stroke).up() 
+        .ele("strokeWidth").txt(shape.strokeWidth).up()
+        .ele("radiusX").txt(shape.radiusX).up()
+        .ele("radiusY").txt(shape.radiusY).up()
+        .ele("rotation").txt(shape.rotation).up() 
+        ;
+      }
+      else{
+        xml.ele("shape")
+        .ele("type").txt(shape.type).up()
+        .ele("x").txt(shape.x).up()
+        .ele("y").txt(shape.y).up()
+        .ele("opacity").txt(shape.opacity).up()
+        .ele("id").txt(shape.id).up()
+        .ele("width").txt(shape.width).up()
+        .ele("height").txt(shape.height).up()
+        .ele("radius").txt(shape.radius).up() 
+        .ele("fill").txt(shape.fill).up()
+        .ele("stroke").txt(shape.stroke).up() 
+        .ele("strokeWidth").txt(shape.strokeWidth).up()
+        .ele("radiusX").txt(shape.radiusX).up()
+        .ele("radiusY").txt(shape.radiusY).up()
+        .ele("rotation").txt(shape.rotation).up() 
+        ;
+      }
+   
   });
 
       data = xml.end({ prettyPrint: true });
@@ -105,30 +124,57 @@ function Paper() {
     }
   };
 
-
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file.name.endsWith(".json")) {
+      setfileFormat("json")
+    } else if (file.name.endsWith(".xml")) {
+      setfileFormat("xml")
+    }
+    setloadfile(file)
+    console.log(file)
+    
+};
    
   
-  const sendFile = async (path) => {
-    try {
-      const x = path.split(".")[1];
-      console.log(path)
-      console.log(x)
-      const response = await axios.put("http://localhost:8080/shape/load", {
-        path : path, // Send the full file path to the backend
-        type : x
-      });
-  
-      if (response.status == 200) {
-        console.log(response.data)
-        setloadedShapes(response.data); // Update the shapes state with the response array
-        alert("File loaded successfully from path: " + path);
-      } else {
-        alert("Unexpected response format from backend.");
-      }
-    } catch (error) {
-      const errorMessage = error.response?.data?.message || "An error occurred while loading the file.";
-      console.error("Error loading file:", errorMessage);
-      alert(errorMessage);
+  const sendFile = async () => {
+    if(fileFormat === "json"){
+      console.log(loadfile);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+         const data = JSON.parse(event.target.result);
+          console.log(JSON.stringify(data));
+          setData(data)
+          setloadedShapes(data)   
+      };
+      reader.readAsText(loadfile);
+    }
+    else if(fileFormat === "xml"){
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const xmlDoc = convert(event.target.result, { format: "object" });
+        const shapesData = xmlDoc.shapes.shape;
+        const data = Array.isArray(shapesData) ? shapesData : [shapesData];
+        const processedShapes = data.map(shape => {
+          const numericAttributes = ["x", "y", "opacity", "id", "width", "height", "radius", "strokeWidth", "radiusX", "radiusY", "rotation"];
+          numericAttributes.forEach(attr => {
+            if (shape[attr]) {
+              shape[attr] = parseFloat(shape[attr]);
+            }
+          });
+          if (shape.points && shape.points !== "null") {
+            shape.points = JSON.parse(shape.points);  
+          }
+        
+          return shape;
+        });
+        console.log(JSON.stringify(processedShapes))
+        setloadedShapes(processedShapes)
+      };
+      reader.readAsText(loadfile);
+    }else{
+      console.log("choose file to load!!!")
+      return
     }
   };
   
@@ -214,16 +260,14 @@ function Paper() {
              { loadmenu && (
                <div className="save-menu">
                 <div className="saveoption">
-                <label style={{display:"block", color:"black"}}>Enter the file path to load:</label>
                 <input
-                    type="text"
-                     value={loadfile}
-                     onChange={(e) => setloadfile(e.target.value)}
-                  
+                    type="file"
+                    onChange={handleFileUpload}
+                    //accept=".json,.xml"
                  />
       
                 </div>
-              <button id="save" onClick={() => sendFile(loadfile)}>Load</button>
+              <button id="save" onClick={() => sendFile()}>Load</button>
             </div>
                )}
 {/*copy button */}
