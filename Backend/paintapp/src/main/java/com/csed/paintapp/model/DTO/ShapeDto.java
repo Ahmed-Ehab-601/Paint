@@ -17,7 +17,7 @@ public class ShapeDto {
     private String type;
     private Double x;
     private Double y;
-    private Double opacity;
+    private Double opacity=1D;
     @JsonProperty("fill")
     private String fillColor;
     @JsonProperty("stroke")

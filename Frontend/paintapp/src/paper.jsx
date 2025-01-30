@@ -25,7 +25,7 @@ function Paper() {
   const [showMenu, setShowMenu] = useState(false); // State for menu visibility
   const [savemenu, setsaveMenu] = useState(false); // State for save menu visibility
   const [borderWidth, setBorderWidth] = useState(8); // Brush width state
-  const [opacity, setOpacity] = useState(0.5); // Brush opacity state
+  const [opacity, setOpacity] = useState(1); // Brush opacity state
   const [borderColor, setBorderColor] = useState("#000000"); // Border color state
   const [name, setname] = useState(""); // User-defined filename
   const [fileFormat, setfileFormat] = useState(""); // File format (json/xml)
@@ -38,6 +38,8 @@ function Paper() {
   const handleColorChange = (e) => {
     setColor(e.target.value); // Set brush color
   };
+  
+  
 
   const handleSaveFile = async () => {
   
@@ -137,46 +139,79 @@ function Paper() {
 };
    
   
-  const sendFile = async () => {
-    if(fileFormat === "json"){
-      console.log(loadfile);
-      const reader = new FileReader();
-      reader.onload = (event) => {
-         const data = JSON.parse(event.target.result);
-          console.log(JSON.stringify(data));
-          setData(data)
-          setloadedShapes(data)   
-      };
-      reader.readAsText(loadfile);
-    }
-    else if(fileFormat === "xml"){
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const xmlDoc = convert(event.target.result, { format: "object" });
-        const shapesData = xmlDoc.shapes.shape;
-        const data = Array.isArray(shapesData) ? shapesData : [shapesData];
-        const processedShapes = data.map(shape => {
-          const numericAttributes = ["x", "y", "opacity", "id", "width", "height", "radius", "strokeWidth", "radiusX", "radiusY", "rotation"];
-          numericAttributes.forEach(attr => {
-            if (shape[attr]) {
-              shape[attr] = parseFloat(shape[attr]);
-            }
-          });
-          if (shape.points && shape.points !== "null") {
-            shape.points = JSON.parse(shape.points);  
+const sendFile = async () => {
+  if(fileFormat === "json"){
+    console.log(loadfile);
+    const reader = new FileReader();
+    reader.onload =async (event) => {
+       const data = JSON.parse(event.target.result);
+        console.log(JSON.stringify(data));
+        try {
+          const response = await axios.put("http://localhost:8080/shape/load",data);
+          if (response.status == 200) {
+            setloadedShapes(response.data); // Update the shapes state with the response array
+            console.log(response.data);
+            console.log("file loaded successfully")
+          } else {
+            console.log("Unexpected response format from backend.");
           }
-        
-          return shape;
+        } catch (error) {
+          const errorMessage = error.response?.data?.message || "An error occurred while loading the file.";
+          console.error("Error loading file:", errorMessage);
+          console.log(errorMessage);
+        }
+    };
+    reader.readAsText(loadfile);
+  }
+  else if(fileFormat === "xml"){
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const xmlDoc = convert(event.target.result, { format: "object" });
+      const shapesData = xmlDoc.shapes.shape;
+      const data = Array.isArray(shapesData) ? shapesData : [shapesData];
+      const processedShapes = data.map(shape => {
+        const numericAttributes = ["x", "y", "opacity", "id", "width", "height", "radius", "strokeWidth", "radiusX", "radiusY", "rotation"];
+        numericAttributes.forEach(attr => {
+          if (shape[attr]) {
+            shape[attr] = parseFloat(shape[attr]);
+          }
         });
-        console.log(JSON.stringify(processedShapes))
-        setloadedShapes(processedShapes)
-      };
-      reader.readAsText(loadfile);
-    }else{
-      console.log("choose file to load!!!")
-      return
-    }
-  };
+        if (shape.points && shape.points !== "null") {
+          shape.points = JSON.parse(shape.points);
+        }
+
+        return shape;
+      });
+      console.log(JSON.stringify(processedShapes))
+      try {
+     
+        const response = await axios.put("http://localhost:8080/shape/load",processedShapes);
+        if (response.status == 200) {
+          setloadedShapes(response.data); // Update the shapes state with the response array
+          console.log(response.data);
+
+    
+          
+          console.log("file loaded successfully")
+        } else {
+          console.log("Unexpected response format from backend.");
+        }
+      } catch (error) {
+        const errorMessage = error.response?.data?.message || "An error occurred while loading the file.";
+        console.error("Error loading file:", errorMessage);
+        console.log(errorMessage);
+      }
+    };
+    reader.readAsText(loadfile);
+  }else{
+    console.log("choose file to load!!!")
+    return
+  }
+
+   setloadfile("");
+  setfileFormat("");
+  setloadmenu(false);
+};
   
   const handleBorderColorChange = (e) => {
     setBorderColor(e.target.value);
@@ -263,11 +298,12 @@ function Paper() {
                 <input
                     type="file"
                     onChange={handleFileUpload}
+                    
                     //accept=".json,.xml"
                  />
       
                 </div>
-              <button id="save" onClick={() => sendFile()}>Load</button>
+              <button id="save" onClick={() => {sendFile()}}>Load</button>
             </div>
                )}
 {/*copy button */}

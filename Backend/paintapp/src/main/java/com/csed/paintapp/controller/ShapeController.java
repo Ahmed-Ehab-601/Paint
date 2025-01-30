@@ -2,7 +2,7 @@ package com.csed.paintapp.controller;
 
 import com.csed.paintapp.model.DTO.ShapeDto;
 import com.csed.paintapp.service.Commands.UndoRedoService;
-import com.csed.paintapp.service.saveLoadService.SaveLoadService;
+import com.csed.paintapp.service.saveLoadService.LoadService;
 import com.csed.paintapp.service.shapeService.ShapeServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +17,12 @@ import java.util.Map;
 public class ShapeController {
 
      private final ShapeServices shapeServices;
-     private final SaveLoadService saveLoadService;
+     private final LoadService loadService;
      private final UndoRedoService undoRedoService;
 
-    public ShapeController(ShapeServices shapeServices, SaveLoadService saveLoadService, UndoRedoService undoRedoService) {
+    public ShapeController(ShapeServices shapeServices, LoadService loadService, UndoRedoService undoRedoService) {
         this.shapeServices = shapeServices;
-        this.saveLoadService = saveLoadService;
+        this.loadService = loadService;
         this.undoRedoService = undoRedoService;
     }
 
@@ -62,20 +62,12 @@ public class ShapeController {
         return new ResponseEntity<>(shapeDto1,HttpStatus.OK);
 
     }
-    @PutMapping("/save")
-    public ResponseEntity<?>save (@RequestBody Map<String,String> requestBody){
-        try {
-            saveLoadService.getSaveByType(requestBody.get("type")).save(requestBody.get("path"));
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
+
     @PutMapping("/load")
-    public ResponseEntity<?> load (@RequestBody Map<String,String> requestBody){
+    public ResponseEntity<?> load (@RequestBody List<ShapeDto> shapeDtos){
         try {
-           List<ShapeDto> shapeDtos = saveLoadService.getLoadByType(requestBody.get("type")).load(requestBody.get("path"));
-            return new ResponseEntity<>(shapeDtos,HttpStatus.OK);
+          List<ShapeDto> shapes=  loadService.load(shapeDtos);
+            return new ResponseEntity<>(shapes,HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
