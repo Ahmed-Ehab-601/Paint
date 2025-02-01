@@ -5,7 +5,7 @@ import Shape from "./shapes"; // Define Shape component separately
 
 const baseURL = "http://localhost:8080/shape"
 
-const App = ({ type, stroke, fill, action ,loadedShapes, opacity,strokeWidth,shapes,setShapes}) => {
+const App = ({ type, stroke, fill, action ,loadedShapes, opacity,strokeWidth,shapes,setShapes,setColor,setBorderColor,setOpacity,setBorderWidth}) => {
 
   const [selectedId, setSelectedId] = useState(null);
   const [shapeToAdd, setShapeToAdd] = useState(null);
@@ -132,20 +132,26 @@ const App = ({ type, stroke, fill, action ,loadedShapes, opacity,strokeWidth,sha
       setShapeToAdd(null);
     }
   };
-
   const handleShapeSelect = (shapeId) => {
     setSelectedId(shapeId);
-    console.log("selectedId: ", selectedId);
-
-    //move the selected shape to the top layer
+  
     setShapes((prevShapes) => {
       const selectedShape = prevShapes.find((shape) => shape.id === shapeId);
       if (!selectedShape) return prevShapes;
+  
+ 
+      setColor(selectedShape.fill);
+      setBorderColor(selectedShape.stroke);
+      setOpacity(selectedShape.opacity);
+      setBorderWidth(parseInt(selectedShape.strokeWidth));
+      // Move the selected shape to the top layer
       const updatedShapes = prevShapes.filter((shape) => shape.id !== shapeId);
       return [...updatedShapes, selectedShape];
     });
+  
+    console.log("selectedId: ", shapeId);
   };
-
+  
 
 
   const addShape = async (type, x, y, fill, stroke, points, opacity, strokeWidth) => {

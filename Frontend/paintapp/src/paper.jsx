@@ -35,9 +35,13 @@ function Paper() {
   const [action,setAction]=useState("");
   const [loadedShapes,setloadedShapes]=useState([]);
   const [data,setData] = useState("");
+ 
+
   const handleColorChange = (e) => {
     setColor(e.target.value); // Set brush color
   };
+  
+  
   useEffect(() => {
     const handleKeyDown = (event) => {
         if (event.key === "Backspace") {
@@ -267,6 +271,7 @@ const sendFile = async () => {
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
+    setActivePicker(null);
   };
 
   useEffect(() => {
@@ -399,8 +404,12 @@ const sendFile = async () => {
 
       <div className="baronleft">
         {/* Brush Color Button */}
-        <button className="color" style={{ backgroundColor: color }} onMouseEnter={() => setname("shape color")}
+        
+        <button className="color" style={{ backgroundColor: color }} onMouseEnter={() => setname("shape color") }  onClick={() =>{setShowMenu(false)}}
         onMouseLeave={() => setname("")}>
+          {
+            
+          
           <input
             id="brush"
             type="color"
@@ -410,16 +419,19 @@ const sendFile = async () => {
               opacity: 0,
               position: "absolute",
               top: 0,
-              left: 0,
+              left: 10,
               cursor: "pointer",
               zIndex: "2",
             }}
-          />
+          />}
         </button>
 
         {/* Border Color Button */}
         <button className="border" style={{ backgroundColor: borderColor }}onMouseEnter={() => setname("border color")}
-            onMouseLeave={() => setname("")}>
+            onMouseLeave={() => setname("")}
+            onClick={() => {setShowMenu(false)}}
+            >
+           { 
           <input
             id="border"
             type="color"
@@ -431,7 +443,7 @@ const sendFile = async () => {
               cursor: "pointer",
               zIndex: "10",
             }}
-          />
+          />}
         </button>
 
         {/* Menu Button */}
@@ -477,7 +489,7 @@ const sendFile = async () => {
         </button>
       </div>
 
-<App type={shapeType} fill={color} stroke={borderColor} action={action} loadedShapes={loadedShapes} opacity={opacity} strokeWidth={borderWidth} shapes={shapes} setShapes={setShapes}/>
+<App type={shapeType} fill={color} stroke={borderColor} action={action} loadedShapes={loadedShapes} opacity={opacity} strokeWidth={borderWidth} shapes={shapes} setShapes={setShapes} setColor={setColor} setBorderColor={setBorderColor} setOpacity={setOpacity} setBorderWidth={setBorderWidth}/>
     </div>
   );
 }
