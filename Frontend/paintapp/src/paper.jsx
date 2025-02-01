@@ -38,7 +38,55 @@ function Paper() {
   const handleColorChange = (e) => {
     setColor(e.target.value); // Set brush color
   };
-  
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+        if (event.key === "Backspace") {
+            setAction("delete");
+            setname("delete");
+            setTimeout(() => setname(""), 300); 
+        }
+        if ((event.ctrlKey || event.metaKey) && event.key === "s") {
+          event.preventDefault();
+          setname("save")
+          setsaveMenu(!savemenu);setloadmenu(false);handleSaveFile();
+          setTimeout(() => setname(""), 300); 
+        }
+        if ((event.ctrlKey || event.metaKey) && event.key === "l") {
+          event.preventDefault();
+          setname("load")
+          setloadmenu(!loadmenu);setsaveMenu(false);
+          setTimeout(() => setname(""), 300); 
+        }
+        if((event.ctrlKey || event.metaKey) && event.key === "z" && event.shiftKey){
+          event.preventDefault();
+          setAction("redo");
+          setname("redo");
+          setTimeout(() => setname(""), 300); 
+        }
+        else if ((event.ctrlKey || event.metaKey) && event.key === "z") {
+          event.preventDefault();
+          setAction("undo");
+          setname("undo");
+          setTimeout(() => setname(""), 300); 
+          
+        }
+        if ((event.ctrlKey || event.metaKey) && event.key === "c") {
+          event.preventDefault();
+          setAction("copy");
+          setname("copy");
+          setTimeout(() => setname(""), 300); 
+          
+        }
+
+        
+    };
+
+    document.addEventListener("keydown", handleKeyDown, { capture: true });
+    
+    return () => {
+        document.removeEventListener("keydown", handleKeyDown, { capture: true });
+    };
+}, [action, name]);
   
 
   const handleSaveFile = async () => {
@@ -299,7 +347,7 @@ const sendFile = async () => {
                     type="file"
                     onChange={handleFileUpload}
                     
-                    //accept=".json,.xml"
+                    accept=".json,.xml"
                  />
       
                 </div>

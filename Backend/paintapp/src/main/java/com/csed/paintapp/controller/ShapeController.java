@@ -4,8 +4,11 @@ import com.csed.paintapp.model.DTO.ShapeDto;
 import com.csed.paintapp.service.Commands.UndoRedoService;
 import com.csed.paintapp.service.saveLoadService.LoadService;
 import com.csed.paintapp.service.shapeService.ShapeServices;
+import org.hibernate.StaleObjectStateException;
+import org.hibernate.StaleStateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,38 +31,57 @@ public class ShapeController {
 
 
     @PostMapping("/create")
-     public ResponseEntity<ShapeDto> create(@RequestBody ShapeDto shapeDTO){
-         ShapeDto createdShape =  shapeServices.create(shapeDTO);
-         if(createdShape==null){
-             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-         }
-         return new ResponseEntity<>(createdShape,HttpStatus.OK);
+     public ResponseEntity<?> create(@RequestBody ShapeDto shapeDTO){
+        try {
+            ShapeDto createdShape =  shapeServices.create(shapeDTO);
+            if(createdShape==null){
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(createdShape,HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("UnExpected error");
+        }
 
-     }
+    }
      @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
-         shapeServices.delete(id);
-         return new ResponseEntity<>(HttpStatus.OK);
+         try {
+             shapeServices.delete(id);
+             return new ResponseEntity<>(HttpStatus.OK);
+         } catch (Exception e) {
+             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                     .body("UnExpected error");
+         }
      }
      @PutMapping("/edit/{id}")
      public ResponseEntity<ShapeDto> update(@PathVariable Long id,@RequestBody ShapeDto shapeDto){
-         shapeDto.setId(id);
-         ShapeDto UpdatedShapeDto = shapeServices.update(shapeDto);
-         if(UpdatedShapeDto == null){
-         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+         try {
+             shapeDto.setId(id);
+             ShapeDto UpdatedShapeDto = shapeServices.update(shapeDto);
+             if(UpdatedShapeDto == null){
+             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+             }
+             return new ResponseEntity<>(UpdatedShapeDto,HttpStatus.OK);
+         } catch (Exception e) {
+             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
          }
-         return new ResponseEntity<>(UpdatedShapeDto,HttpStatus.OK);
 
      }
     @PutMapping("/copy/{id}")
     public ResponseEntity<?> copy(@PathVariable("id") Long id) throws CloneNotSupportedException {
-      ShapeDto shapeDto1= shapeServices.copy(id);
-        if(shapeDto1==null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("NOT FOUND , PLEASE PROVIDE CORRECT ID!!");
-        }
+        try {
+            ShapeDto shapeDto1= shapeServices.copy(id);
+            if(shapeDto1==null){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("NOT FOUND , PLEASE PROVIDE CORRECT ID!!");
+            }
 
-        return new ResponseEntity<>(shapeDto1,HttpStatus.OK);
+            return new ResponseEntity<>(shapeDto1,HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("UnExpected error");
+        }
 
     }
 
@@ -93,8 +115,13 @@ public class ShapeController {
 
     @DeleteMapping("/deleteAll")
     public ResponseEntity<?>  deleteAll(){
-        shapeServices.deleteAll();
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            shapeServices.deleteAll();
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("UnExpected error");
+        }
 
     }
 
